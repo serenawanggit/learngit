@@ -1,0 +1,30 @@
+@charset "utf-8";
+/* CSS Document */
+/*
+作者：jerry
+时间：2014年3月7日
+备注：教学质量中心管理平台css
+*/
+
+body { font-family: "宋体"; font-size: 12px;  color:#313131;margin:0;padding:0;background:url(../images/login_bg.jpg) no-repeat top center #ffffff;}
+div,ul,li,h1,h2,h3,h4,h5,h6,img,p,dl,dt,dd,ol,th,td{margin: 0px;padding: 0px;}
+li {list-style-type: none;}
+form,input,button,option,textarea,select{ margin: 0px;padding: 0px;}
+a {text-decoration: none;color:#313131; }
+a:hover{text-decoration: underline;}
+a{outline:none;blr:expression(this.onFocus=this.blur());}
+img{ border: 0;}
+
+.login{ margin-top:200px; padding:40px 0; background:url(../images/loginbox.png) repeat;}
+.login .loginbox{ width:1000px; margin:0 auto;}
+.login .loginbox .loginlogo{ background:url(../images/loginlogo.png) no-repeat left center; height:86px; line-height:86px; padding-left:138px; font-size:36px; font-family:"微软雅黑"; color:#434343; margin:0 auto; width:520px;}
+.login .loginbox .logintips{ padding:40px 20px 20px 20px;}
+.login .loginbox .logintips ul li{ float:left;}
+.user{ background:url(../images/user.png) no-repeat left center; padding-left:114px; padding-right:10px; border:none; height:50px; line-height:50px; margin-left:10px; font-size:18px; font-family:"微软雅黑"; color:#666; outline:none;}
+.number{ background:url(../images/number.png) no-repeat left center; padding-left:114px; padding-right:10px; border:none; height:50px; line-height:50px; margin-left:10px; font-size:18px; font-family:"微软雅黑"; color:#666; outline:none;}
+.user_bg{ background:#FFF; -webkit-border-radius: 5px;-moz-border-radius: 5px; border-radius: 5px; margin-right:10px;}
+.buttom_bg{ float:left; height:50px;}
+.buttom_bg a{ background:#3db1d7; -webkit-border-radius: 5px;-moz-border-radius: 5px; border-radius: 5px; height:50px; width:180px; font-size:18px; font-family:"微软雅黑"; float:left; line-height:50px; text-align:center; color:#FFF;}
+.buttom_bg a:hover{ background:#41a0ff;}
+.clear_it{ clear:both; height:1px; overflow:hidden;}
+

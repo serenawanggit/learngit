@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.OdsTTeachStatusMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.ods.OdsTTeachStatus" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="teacher_id" property="teacherId" jdbcType="INTEGER" />
+    <result column="examine_status" property="examineStatus" jdbcType="INTEGER" />
+    <result column="academetime" property="academetime" jdbcType="TIMESTAMP" />
+    <result column="schooltime" property="schooltime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, teacher_id, examine_status, academetime, schooltime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ODS_T_TEACH_STATUS
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ODS_T_TEACH_STATUS
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.ods.OdsTTeachStatus" useGeneratedKeys="true" keyProperty="Id">
+    insert into ODS_T_TEACH_STATUS (Id, teacher_id, examine_status, 
+      academetime, schooltime)
+    values (#{id,jdbcType=INTEGER}, #{teacherId,jdbcType=INTEGER}, #{examineStatus,jdbcType=INTEGER}, 
+      #{academetime,jdbcType=TIMESTAMP}, #{schooltime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.ods.OdsTTeachStatus" useGeneratedKeys="true" keyProperty="Id">
+    insert into ODS_T_TEACH_STATUS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="teacherId != null" >
+        teacher_id,
+      </if>
+      <if test="examineStatus != null" >
+        examine_status,
+      </if>
+      <if test="academetime != null" >
+        academetime,
+      </if>
+      <if test="schooltime != null" >
+        schooltime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="teacherId != null" >
+        #{teacherId,jdbcType=INTEGER},
+      </if>
+      <if test="examineStatus != null" >
+        #{examineStatus,jdbcType=INTEGER},
+      </if>
+      <if test="academetime != null" >
+        #{academetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="schooltime != null" >
+        #{schooltime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.ods.OdsTTeachStatus" >
+    update ODS_T_TEACH_STATUS
+    <set >
+      <if test="teacherId != null" >
+        teacher_id = #{teacherId,jdbcType=INTEGER},
+      </if>
+      <if test="examineStatus != null" >
+        examine_status = #{examineStatus,jdbcType=INTEGER},
+      </if>
+      <if test="academetime != null" >
+        academetime = #{academetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="schooltime != null" >
+        schooltime = #{schooltime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.ods.OdsTTeachStatus" >
+    update ODS_T_TEACH_STATUS
+    set teacher_id = #{teacherId,jdbcType=INTEGER},
+      examine_status = #{examineStatus,jdbcType=INTEGER},
+      academetime = #{academetime,jdbcType=TIMESTAMP},
+      schooltime = #{schooltime,jdbcType=TIMESTAMP}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 根据id修改ods_t_teach -->
+  <update id="updateOdsTTeachById">
+      update ODS_T_TEACH set PROFESSION_NAME=#{0},PROFESSION_ID=#{1} where ID=#{2}
+  </update>
+  
+  <!-- 根据教师id修改教师信息状态为已提交 -->
+  <update id="updateOdsTTeachByTeacherId">
+     	 update ODS_T_TEACH_STATUS set examine_status=1  where teacher_id=#{0};
+  </update>
+   <!-- 根据教师id修改教师信息状态为院级审核或者校级审核 -->
+  <update id="updateTeachByTIdForExamine">
+        update ODS_T_TEACH_STATUS set examine_status=#{0},academetime=GETDATE() where teacher_id=#{1};
+  </update>
+  
+  <!-- 未通过 -->
+  <update id="updateNoPass"> 
+        update ODS_T_TEACH_STATUS set examine_status=0  where teacher_id=#{0};
+  </update>
+</mapper>

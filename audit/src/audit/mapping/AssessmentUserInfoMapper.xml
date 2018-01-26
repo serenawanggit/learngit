@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AssessmentUserInfoMapper" >
+  <sql id="Base_Column_List" >
+    id, date_specialty, assess_self_user, assess_type 
+  </sql>
+  <select id="selectByUserId" resultType="map">
+  select    date_specialty_id, assess_self_user, assess_type,r.rolecategory
+  from assessment_user_info a left join userinfo u on  a.assess_self_user = u.id 
+  left join role r on r.id = u.role  where u.id = #{0} 
+  </select>
+<select id="getRolecategoryByUserId" resultType="map">
+	select g.show_range from userinfo u left join role r on u.role = r.id 
+			left join rolecategory g on g.id = r.rolecategory where u.id = #{0}
+</select>
+
+<select id="getUserNameById" resultType="map">
+select * from userinfo where id = #{0}
+</select>
+
+</mapper>

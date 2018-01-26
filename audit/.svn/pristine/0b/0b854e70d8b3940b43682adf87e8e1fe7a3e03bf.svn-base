@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsMCategoryMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.AsMCategory" >
+    <id column="CATEGORY_ID" property="categoryId" jdbcType="INTEGER" />
+    <result column="CATEGORY_NAME" property="categoryName" jdbcType="NVARCHAR" />
+    <result column="CATEGORY_CODE" property="categoryCode" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CATEGORY_ID, CATEGORY_NAME, CATEGORY_CODE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from AS_M_CATEGORY
+    where CATEGORY_ID = #{categoryId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from AS_M_CATEGORY
+    where CATEGORY_ID = #{categoryId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.AsMCategory" useGeneratedKeys="true" keyProperty="categoryId">
+    insert into AS_M_CATEGORY (CATEGORY_ID, CATEGORY_NAME, CATEGORY_CODE
+      )
+    values (#{categoryId,jdbcType=INTEGER}, #{categoryName,jdbcType=NVARCHAR}, #{categoryCode,jdbcType=NVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.AsMCategory" useGeneratedKeys="true" keyProperty="categoryId">
+    insert into AS_M_CATEGORY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="categoryId != null" >
+        CATEGORY_ID,
+      </if>
+      <if test="categoryName != null" >
+        CATEGORY_NAME,
+      </if>
+      <if test="categoryCode != null" >
+        CATEGORY_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="categoryName != null" >
+        #{categoryName,jdbcType=NVARCHAR},
+      </if>
+      <if test="categoryCode != null" >
+        #{categoryCode,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.AsMCategory" >
+    update AS_M_CATEGORY
+    <set >
+      <if test="categoryName != null" >
+        CATEGORY_NAME = #{categoryName,jdbcType=NVARCHAR},
+      </if>
+      <if test="categoryCode != null" >
+        CATEGORY_CODE = #{categoryCode,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where CATEGORY_ID = #{categoryId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.AsMCategory" >
+    update AS_M_CATEGORY
+    set CATEGORY_NAME = #{categoryName,jdbcType=NVARCHAR},
+      CATEGORY_CODE = #{categoryCode,jdbcType=NVARCHAR}
+    where CATEGORY_ID = #{categoryId,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 我是分割线 -->
+  
+  <select id="getAllCategory" resultMap="BaseResultMap">
+  select <include refid="Base_Column_List" /> from AS_M_CATEGORY
+  </select>
+</mapper>

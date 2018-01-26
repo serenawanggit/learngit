@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsCjSyfwMapper">
+	<resultMap id="BaseResultMap" type="audit.model.AsCjSyfw">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="syfwmc" property="syfwmc" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- 查询所有数据 -->
+	<select id="selectAll_data" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		SELECT id,syfwmc FROM AS_CJ_SYFW
+	</select>
+	
+	<!-- 查询单个 -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		id,syfwmc
+		from AS_CJ_SYFW
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	
+</mapper>

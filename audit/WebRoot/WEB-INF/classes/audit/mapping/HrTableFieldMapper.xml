@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.HrTableFieldMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.hr.HrTableField" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="field_name" property="fieldName" jdbcType="VARCHAR" />
+    <result column="field_data_name" property="fieldDataName" jdbcType="VARCHAR" />
+    <result column="hr_table_id" property="hrTableId" jdbcType="INTEGER" />
+    <result column="field_type" property="fieldType" jdbcType="INTEGER" />
+    <result column="field_length" property="fieldLength" jdbcType="INTEGER" />
+    <result column="measure_id" property="measureId" jdbcType="INTEGER" />
+    <result column="measure_name" property="measureName" jdbcType="VARCHAR" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, field_name, field_data_name, hr_table_id, field_type, field_length, measure_id, 
+    measure_name, position, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from HR_TABLE_FIELD
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from HR_TABLE_FIELD
+    where hr_table_id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.hr.HrTableField" useGeneratedKeys="true" keyProperty="id" >
+    insert into HR_TABLE_FIELD (id, field_name, field_data_name, 
+      hr_table_id, field_type, field_length, 
+      measure_id, measure_name, position, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{fieldName,jdbcType=VARCHAR}, #{fieldDataName,jdbcType=VARCHAR}, 
+      #{hrTableId,jdbcType=INTEGER}, #{fieldType,jdbcType=INTEGER}, #{fieldLength,jdbcType=INTEGER}, 
+      #{measureId,jdbcType=INTEGER}, #{measureName,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.hr.HrTableField" useGeneratedKeys="true" keyProperty="id">
+    insert into HR_TABLE_FIELD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="fieldName != null" >
+        field_name,
+      </if>
+      <if test="fieldDataName != null" >
+        field_data_name,
+      </if>
+      <if test="hrTableId != null" >
+        hr_table_id,
+      </if>
+      <if test="fieldType != null" >
+        field_type,
+      </if>
+      <if test="fieldLength != null" >
+        field_length,
+      </if>
+      <if test="measureId != null" >
+        measure_id,
+      </if>
+      <if test="measureName != null" >
+        measure_name,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="fieldName != null" >
+        #{fieldName,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldDataName != null" >
+        #{fieldDataName,jdbcType=VARCHAR},
+      </if>
+      <if test="hrTableId != null" >
+        #{hrTableId,jdbcType=INTEGER},
+      </if>
+      <if test="fieldType != null" >
+        #{fieldType,jdbcType=INTEGER},
+      </if>
+      <if test="fieldLength != null" >
+        #{fieldLength,jdbcType=INTEGER},
+      </if>
+      <if test="measureId != null" >
+        #{measureId,jdbcType=INTEGER},
+      </if>
+      <if test="measureName != null" >
+        #{measureName,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.hr.HrTableField" >
+    update HR_TABLE_FIELD
+    <set >
+      <if test="fieldName != null" >
+        field_name = #{fieldName,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldDataName != null" >
+        field_data_name = #{fieldDataName,jdbcType=VARCHAR},
+      </if>
+      <if test="hrTableId != null" >
+        hr_table_id = #{hrTableId,jdbcType=INTEGER},
+      </if>
+      <if test="fieldType != null" >
+        field_type = #{fieldType,jdbcType=INTEGER},
+      </if>
+      <if test="fieldLength != null" >
+        field_length = #{fieldLength,jdbcType=INTEGER},
+      </if>
+      <if test="measureId != null" >
+        measure_id = #{measureId,jdbcType=INTEGER},
+      </if>
+      <if test="measureName != null" >
+        measure_name = #{measureName,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.hr.HrTableField" >
+    update HR_TABLE_FIELD
+    set field_name = #{fieldName,jdbcType=VARCHAR},
+      field_data_name = #{fieldDataName,jdbcType=VARCHAR},
+      hr_table_id = #{hrTableId,jdbcType=INTEGER},
+      field_type = #{fieldType,jdbcType=INTEGER},
+      field_length = #{fieldLength,jdbcType=INTEGER},
+      measure_id = #{measureId,jdbcType=INTEGER},
+      measure_name = #{measureName,jdbcType=VARCHAR},
+      position = #{position,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- LLP_分割线   -->
+  <!-- 根据表id查询详细信息 -->
+  <select id="selectByTableId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  	select 
+  		<include refid="Base_Column_List" /> 
+  	from HR_TABLE_FIELD where hr_table_id=#{hrtableid,jdbcType=INTEGER}
+  </select>
+  <!-- 根据数据库字段  更新位置 -->
+  <update id="updatePosition" parameterType="Map">
+  	update HR_TABLE_FIELD
+    <set >
+      <if test="position != null" >
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where field_data_name = #{where,jdbcType=INTEGER}
+  </update>
+  <!-- 判断该表是否存在. -->
+  <select id="searchTab" resultType="java.lang.Integer">
+  		select count(1) from syscolumns where [id]=object_id( ''+#{tabName}+'' )
+  </select>
+  <update id="addField" parameterType="java.lang.String">
+  	${alterSql}
+  </update>
+  <!-- LLP_分割线  end -->
+    
+  <!-- 我是分割线 -->
+  
+  <select id="getAllFieldByTableId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select * from HR_TABLE_FIELD where  hr_table_id = #{tableId,jdbcType=INTEGER}
+  </select>
+</mapper>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="audit.dao.AsZlJdrwkgzbMapper">
+  <resultMap id="BaseResultMap" type="audit.model.quality.AsZlJdrwkgzb">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="KGZBDM" jdbcType="VARCHAR" property="kgzbdm" />
+    <result column="QWZ" jdbcType="INTEGER" property="qwz" />
+    <result column="SF" jdbcType="VARCHAR" property="sf" />
+    <result column="JDRWID" jdbcType="INTEGER" property="jdrwid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, KGZBDM, QWZ, SF, JDRWID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from AS_ZL_JDRWKGZB
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from AS_ZL_JDRWKGZB
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.quality.AsZlJdrwkgzb" useGeneratedKeys="true" keyProperty="ID">
+    insert into AS_ZL_JDRWKGZB (ID, KGZBDM, QWZ, 
+      SF, JDRWID)
+    values (#{id,jdbcType=INTEGER}, #{kgzbdm,jdbcType=VARCHAR}, #{qwz,jdbcType=INTEGER}, 
+      #{sf,jdbcType=VARCHAR}, #{jdrwid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.quality.AsZlJdrwkgzb" useGeneratedKeys="true" keyProperty="ID"> 
+    insert into AS_ZL_JDRWKGZB
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="kgzbdm != null">
+        KGZBDM,
+      </if>
+      <if test="qwz != null">
+        QWZ,
+      </if>
+      <if test="sf != null">
+        SF,
+      </if>
+      <if test="jdrwid != null">
+        JDRWID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="kgzbdm != null">
+        #{kgzbdm,jdbcType=VARCHAR},
+      </if>
+      <if test="qwz != null">
+        #{qwz,jdbcType=INTEGER},
+      </if>
+      <if test="sf != null">
+        #{sf,jdbcType=VARCHAR},
+      </if>
+      <if test="jdrwid != null">
+        #{jdrwid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.quality.AsZlJdrwkgzb">
+    update AS_ZL_JDRWKGZB
+    <set>
+      <if test="kgzbdm != null">
+        KGZBDM = #{kgzbdm,jdbcType=VARCHAR},
+      </if>
+      <if test="qwz != null">
+        QWZ = #{qwz,jdbcType=INTEGER},
+      </if>
+      <if test="sf != null">
+        SF = #{sf,jdbcType=VARCHAR},
+      </if>
+      <if test="jdrwid != null">
+        JDRWID = #{jdrwid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.quality.AsZlJdrwkgzb">
+    update AS_ZL_JDRWKGZB
+    set KGZBDM = #{kgzbdm,jdbcType=VARCHAR},
+      QWZ = #{qwz,jdbcType=INTEGER},
+      SF = #{sf,jdbcType=VARCHAR},
+      JDRWID = #{jdrwid,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 我的分割线 -->
+  
+  <sql id="where_sql_query">
+  	<where>
+  		<if test="data.jdrwid != null">
+  			and JDRWID = #{data.jdrwid,jdbcType=INTEGER}
+  		</if>
+  	</where>
+  </sql>
+  <select id="selectCountByQuery" parameterType="audit.model.quality.query.JdZbQuery" resultType="java.lang.Integer">
+  select count(*) from AS_ZL_JDRWKGZB zb
+inner join AS_ZL_JDRWXX jd on jd.ID = zb.JDRWID
+  <include refid="where_sql_query"></include>
+  </select>
+  
+  <resultMap type="audit.model.quality.vo.JdZbVo" id="BaseResultMapVo" extends="BaseResultMap">
+  <result column="RWFW" jdbcType="INTEGER" property="taskLevel" />
+  <result column="MEASURE_NAME" jdbcType="INTEGER" property="zbName" />
+  </resultMap>
+  
+  <select id="selectByQuery" parameterType="java.util.Map" resultMap="BaseResultMapVo">
+    	SELECT * FROM(
+    SELECT TOP (#{endIndex,jdbcType=INTEGER}) ROW_NUMBER() OVER(ORDER BY zb.id ASC) AS ROWID,
+    zb.ID, KGZBDM, QWZ, SF, JDRWID,jd.RWFW,mm.MEASURE_NAME
+    from AS_ZL_JDRWKGZB zb
+	inner join AS_ZL_JDRWXX jd on jd.ID = zb.JDRWID
+	inner join AS_M_MANAGE mm on mm.MEASURE_ID = zb.KGZBDM
+	 <include refid="where_sql_query"></include> ) AS TEMP1 
+where ROWID > #{startIndex,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByJdRwId" parameterType="java.lang.Integer">
+   delete from AS_ZL_JDRWKGZB
+    where JDRWID = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <select id="getAllZbByJdRwId" parameterType="java.lang.Integer" resultMap="BaseResultMapVo">
+  select * from AS_ZL_JDRWKGZB zb
+	inner join AS_ZL_JDRWXX jd on jd.ID = zb.JDRWID
+	inner join AS_M_MANAGE mm on mm.MEASURE_ID = zb.KGZBDM
+	where JDRWID = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 	private Integer userCount;
+		private Integer organizeCount;
+		private Integer yidabiaobumen; -->
+  <resultMap type="audit.model.quality.vo.AsZljdrwkgbzVo" id="BaseResultMap2Vo" >
+  <result column="ZHI" jdbcType="INTEGER" property="zhi" />
+  <result column="QWZ" jdbcType="INTEGER" property="qwz" />
+  <result column="SF" jdbcType="INTEGER" property="sf" />
+  <result column="KGZBDM" jdbcType="INTEGER" property="kgzbdm" />
+  <result column="SYEAR" jdbcType="INTEGER" property="year" />
+  <result column="userCount" jdbcType="INTEGER" property="userCount" />
+  <result column="organizeCount" jdbcType="INTEGER" property="organizeCount" />
+  <result column="yidabiaobumen" jdbcType="INTEGER" property="yidabiaobumen" />
+  <result column="oname" jdbcType="INTEGER" property="oname" />
+  <result column="WCSJ" jdbcType="TIMESTAMP" property="wcsj" />
+  </resultMap>
+  
+  <!-- 根据阶段id查询 -->
+   <select id="selectAllZbByJdRwJDRWID" parameterType="Map" resultMap="BaseResultMap2Vo">
+        SELECT  rygl.WCSJ,jd.*,org.id as oid,org.name as oname,SYEAR,(select count(*) from AS_ZL_JDRWRYGLB gl where gl.JDRWID = jd.ID ) 
+ 		 as userCount,
+	  	(select count(*) from (select gl.ID from AS_ZL_JDRWRYGLB gl 
+    	inner join AS_ZL_ZLRWBMRY ry on ry.USERID = gl.TBRID
+		where jd.ID = gl.JDRWID group by gl.ID) organizeGroup) as organizeCount
+		,(select count(*) from (select * from AS_ZL_JDRWRYGLB gl where gl.STATUS=1 
+		and gl.JDRWID=jd.ID) a) as yidabiaobumen
+        FROM AS_ZL_JDRWXX jd left join AS_ZL_JDRWRYGLB rygl on jd.ID=rygl.JDRWID 
+        left join userinfo info on info.id=rygl.TBRID
+        left join organization org on org.id=info.organization
+        left join AS_ZL_JDRWKGZB kgb on kgb.JDRWID=jd.ID
+        left join DW_V_LEADERSHIP dwv on kgb.KGZBDM=dwv.ZBID
+        where jd.RWZT not in (4) and kgb.JDRWID=#{zlrwid}
+  </select>
+  
+  
+</mapper>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsAccessScoreScaleRecordMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.assess.AsAccessScoreScaleRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="access_specialty_id" property="accessSpecialtyId" jdbcType="INTEGER" />
+    <result column="scale_id" property="scaleId" jdbcType="INTEGER" />
+    <result column="score" property="score" jdbcType="NUMERIC" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, access_specialty_id, scale_id, score
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from AS_ACCESS_SCORE_SCALE_RECORD
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from AS_ACCESS_SCORE_SCALE_RECORD
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.assess.AsAccessScoreScaleRecord" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ACCESS_SCORE_SCALE_RECORD (id, access_specialty_id, scale_id, 
+      score)
+    values (#{id,jdbcType=INTEGER}, #{accessSpecialtyId,jdbcType=INTEGER}, #{scaleId,jdbcType=INTEGER}, 
+      #{score,jdbcType=NUMERIC})
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.assess.AsAccessScoreScaleRecord" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ACCESS_SCORE_SCALE_RECORD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="accessSpecialtyId != null" >
+        access_specialty_id,
+      </if>
+      <if test="scaleId != null" >
+        scale_id,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="accessSpecialtyId != null" >
+        #{accessSpecialtyId,jdbcType=INTEGER},
+      </if>
+      <if test="scaleId != null" >
+        #{scaleId,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=NUMERIC},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.assess.AsAccessScoreScaleRecord" >
+    update AS_ACCESS_SCORE_SCALE_RECORD
+    <set >
+      <if test="accessSpecialtyId != null" >
+        access_specialty_id = #{accessSpecialtyId,jdbcType=INTEGER},
+      </if>
+      <if test="scaleId != null" >
+        scale_id = #{scaleId,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=NUMERIC},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.assess.AsAccessScoreScaleRecord" >
+    update AS_ACCESS_SCORE_SCALE_RECORD
+    set access_specialty_id = #{accessSpecialtyId,jdbcType=INTEGER},
+      scale_id = #{scaleId,jdbcType=INTEGER},
+      score = #{score,jdbcType=NUMERIC}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 我是分割线 -->
+  
+  <select id="selectByAccessSpecialtyIdAndScale" resultMap="BaseResultMap" parameterType="java.util.Map">
+  select * from AS_ACCESS_SCORE_SCALE_RECORD where access_specialty_id = #{accessSpecialtyId,jdbcType=INTEGER} 
+  and scale_id = #{scaleId,jdbcType=INTEGER}
+  </select>
+</mapper>

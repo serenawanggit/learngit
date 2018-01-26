@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="audit.dao.AsZlJdrwryglbMapper">
+  <resultMap id="BaseResultMap" type="audit.model.quality.AsZlJdrwryglb">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="JDRWID" jdbcType="INTEGER" property="jdrwid" />
+    <result column="TBRID" jdbcType="INTEGER" property="tbrid" />
+    <result column="SHRID" jdbcType="INTEGER" property="shrid" />
+    <result column="STATUS" jdbcType="INTEGER" property="status" />
+    <result column="WCSJ" jdbcType="TIMESTAMP" property="wcsj" />
+    <result column="SHSJ" jdbcType="TIMESTAMP" property="shsj" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, JDRWID, TBRID, SHRID, STATUS, WCSJ, SHSJ
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from AS_ZL_JDRWRYGLB
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from AS_ZL_JDRWRYGLB
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.quality.AsZlJdrwryglb">
+    insert into AS_ZL_JDRWRYGLB (ID, JDRWID, TBRID, 
+      SHRID, STATUS, WCSJ, 
+      SHSJ)
+    values (#{id,jdbcType=INTEGER}, #{jdrwid,jdbcType=INTEGER}, #{tbrid,jdbcType=INTEGER}, 
+      #{shrid,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{wcsj,jdbcType=TIMESTAMP}, 
+      #{shsj,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.quality.AsZlJdrwryglb">
+    insert into AS_ZL_JDRWRYGLB
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="jdrwid != null">
+        JDRWID,
+      </if>
+      <if test="tbrid != null">
+        TBRID,
+      </if>
+      <if test="shrid != null">
+        SHRID,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="wcsj != null">
+        WCSJ,
+      </if>
+      <if test="shsj != null">
+        SHSJ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="jdrwid != null">
+        #{jdrwid,jdbcType=INTEGER},
+      </if>
+      <if test="tbrid != null">
+        #{tbrid,jdbcType=INTEGER},
+      </if>
+      <if test="shrid != null">
+        #{shrid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="wcsj != null">
+        #{wcsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shsj != null">
+        #{shsj,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.quality.AsZlJdrwryglb">
+    update AS_ZL_JDRWRYGLB
+    <set>
+      <if test="jdrwid != null">
+        JDRWID = #{jdrwid,jdbcType=INTEGER},
+      </if>
+      <if test="tbrid != null">
+        TBRID = #{tbrid,jdbcType=INTEGER},
+      </if>
+      <if test="shrid != null">
+        SHRID = #{shrid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="wcsj != null">
+        WCSJ = #{wcsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shsj != null">
+        SHSJ = #{shsj,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.quality.AsZlJdrwryglb">
+    update AS_ZL_JDRWRYGLB
+    set JDRWID = #{jdrwid,jdbcType=INTEGER},
+      TBRID = #{tbrid,jdbcType=INTEGER},
+      SHRID = #{shrid,jdbcType=INTEGER},
+      STATUS = #{status,jdbcType=INTEGER},
+      WCSJ = #{wcsj,jdbcType=TIMESTAMP},
+      SHSJ = #{shsj,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 我的分割线 -->
+  
+  <select id="getChangeCountbyZlRwId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+  select count(*) from AS_ZL_JDRWRYGLB gl 
+  inner join AS_ZL_JDRWXX jd on jd.ID = gl.JDRWID
+  where jd.ZLRWID = #{id,jdbcType=INTEGER} and STATUS != 1
+  </select>
+  
+    <select id="getFastTask" parameterType="java.util.Map" resultType="java.util.Map">
+  	select top 1
+    jd.RWXH,bm.LEVEL,bm.CJBMDM,bm.zyssxyid
+    from AS_ZL_JDRWRYGLB gl
+    inner join AS_ZL_ZLRWBMRY bm on bm.USERID = gl.TBRID
+    inner join AS_ZL_JDRWXX jd on jd.ID = gl.JDRWID  
+    where STATUS = 1 and jd.ZLRWID=#{rwId,jdbcType=INTEGER}
+    <if test="userId != null">
+    and gl.TBRID= #{userId,jdbcType=INTEGER}
+    </if>
+     order by SHSJ desc 
+  </select>
+  
+  <sql id="where_sql_query">
+  	<where>
+  		<if test="data.jdId != null">
+  			and gl.JDRWID = #{data.jdId,jdbcType=INTEGER}
+  		</if>
+  	</where>
+  </sql>
+  
+  <select id="selectCountByQuery" parameterType="audit.model.quality.query.UserQuery" resultType="java.lang.Integer">
+  select count(*) from 
+  AS_ZL_JDRWRYGLB gl
+  inner join userinfo ui on ui.id= gl.TBRID
+  <include refid="where_sql_query"></include>
+  </select>
+  
+  <resultMap type="audit.model.quality.vo.TaskUserVo" id="BaseResultMapVo">
+	  <result column="organizateName" property="organizateName" jdbcType="VARCHAR" />
+	  <result column="specialtyName" property="specialtyName" jdbcType="VARCHAR" />
+	  <result column="name" property="userName" jdbcType="VARCHAR" />
+	  <result column="organization" property="organization" jdbcType="INTEGER" />
+	  <result column="specialty" property="specialty" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <select id="selectByQuery" parameterType="java.util.Map" resultMap="BaseResultMapVo">
+    	SELECT * FROM(
+    SELECT TOP (#{endIndex,jdbcType=INTEGER}) ROW_NUMBER() OVER(ORDER BY gl.ID ASC) AS ROWID,
+    	    gl.ID,og.name as organizateName,ui.showname as name,sp.name as specialtyName 
+        FROM AS_ZL_JDRWRYGLB gl
+        inner join userinfo ui on ui.id= gl.TBRID
+        inner join organization og on og.id = ui.organization
+        left join specialty sp on sp.id = ui.specialty
+        <include refid="where_sql_query"></include>
+	 ) AS TEMP1 
+	 where ROWID > #{startIndex,jdbcType=INTEGER}
+  </select>
+  
+    <delete id="deleteByJdRwId" parameterType="java.lang.Integer">
+    delete from AS_ZL_JDRWRYGLB
+    where JDRWID = #{id,jdbcType=INTEGER}	
+  </delete>
+  
+  <select id="getAllUserByJdRwId" parameterType="java.lang.Integer" resultMap="BaseResultMapVo">
+	           select bm.CJBMDM as organization,* FROM AS_ZL_JDRWRYGLB gl
+        inner join AS_ZL_ZLRWBMRY bm on bm.USERID = gl.TBRID
+        inner join userinfo ui on ui.id =  bm.USERID
+        where gl.JDRWID = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <update id="updateByUserIdAndJdId" parameterType="java.util.Map">
+  update AS_ZL_JDRWRYGLB 
+  set STATUS = 1,WCSJ=getdate()
+  where JDRWID = #{id,jdbcType=INTEGER} and 
+      TBRID = #{userId,jdbcType=INTEGER}
+  </update>
+</mapper>

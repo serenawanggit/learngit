@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AssessmentSpecialtyInfoMapper" >
+  <sql id="Base_Column_List" >
+    id, record_id, is_agree, suggest_score, check_record_id
+  </sql>
+
+<insert id="insertspecialty" >
+    insert into  ASSESSMENT_SPECIALTY_INFO values(#{0},#{1},#{2},#{3},#{4},#{5});
+  </insert>
+   <select id="findSpecialtyInfo" resultType="map"  parameterType="String">
+    <!--  select * from  ASSESSMENT_SPECIALTY_INFO  -->
+      
+   <!--    select a.SPECIALTY_CODE,a.SPECIALTY_NAME,b.TYPE_NAME,a.IS_RZ,a.PG_TYPE from
+       ASSESSMENT_SPECIALTY_INFO a left join  ASSESSMENT_TYPE b on a.IS_ENGINEERING=b.id -->
+       
+<!--        	   select a.ID,a.schoolid,a.SPECIALTY_CODE,a.SPECIALTY_NAME,b.TYPE_NAME,a.IS_RZ,a.PG_TYPE from
+       ASSESSMENT_SPECIALTY_INFO a inner join  ASSESSMENT_TYPE b on a.IS_ENGINEERING=b.id
+       and a.PG_TYPE=#{id}
+       <if test="searchvalue!=null and searchvalue!='' ">  
+        WHERE a.SPECIALTY_NAME LIKE '%'+#{searchvalue}+'%'  
+    </if>   -->
+     select a.ID,c.name,a.SPECIALTY_CODE,a.SPECIALTY_NAME,b.TYPE_NAME,a.IS_RZ,a.PG_TYPE from
+       ASSESSMENT_SPECIALTY_INFO a,Organization c,  ASSESSMENT_TYPE b where a.schoolid=c.id and a.IS_ENGINEERING=b.id
+       and a.PG_TYPE=#{id}
+        <if test="searchvalue!=null and searchvalue!='' ">  
+         and a.SPECIALTY_NAME LIKE '%'+#{searchvalue}+'%'  
+    </if> 
+   </select>
+   
+   <update id="updateSpecialtyInfo">
+       update ASSESSMENT_SPECIALTY_INFO set SPECIALTY_NAME=#{0},SPECIALTY_CODE=#{1},
+       IS_ENGINEERING=#{2},IS_RZ=#{3} where id=#{4}
+   </update>
+   
+   
+   
+   <delete id="delSpecialtyInfo">
+      delete from  ASSESSMENT_SPECIALTY_INFO where id=#{0}
+   </delete>
+
+   
+     <select id="findSpecialtyInfoBySpecialtyNameAndSelfAndAssessor" resultType="audit.model.assess.vo.SpecialtyNameAndSelfAndAssessor"  parameterType="String">
+		SELECT ASSESSMENT_SPECIALTY_INFO.ID,
+	       userinfo.ID AS UID,
+	       userinfo.showname,
+	       ASSESSMENT_SPECIALTY_INFO.SPECIALTY_CODE,
+	       ASSESSMENT_SPECIALTY_INFO.SPECIALTY_NAME,
+	       ASSESSMENT_USER_INFO.ASSESS_SITE_USER,
+	       ASSESSMAENT_DATE_SPECIALTY.ID AS DATE_SPECIALTY_ID,
+	       ASSESSMENT_USER_INFO.ASSESS_TYPE,
+	       ASSESSMENT_USER_INFO.id AS USER_INFO_ID
+		FROM ASSESSMENT_SPECIALTY_INFO
+			LEFT JOIN ASSESSMAENT_DATE_SPECIALTY ON ASSESSMENT_SPECIALTY_INFO.ID=ASSESSMAENT_DATE_SPECIALTY.SPECIALTY_INFO_ID
+			LEFT JOIN ASSESSMENT_USER_INFO ON ASSESSMENT_USER_INFO.DATE_SPECIALTY_ID=ASSESSMAENT_DATE_SPECIALTY.ID
+			LEFT JOIN userinfo ON ASSESSMENT_USER_INFO.ASSESS_SELF_USER =userinfo.id
+		WHERE ASSESSMAENT_DATE_SPECIALTY.ID IS NOT NULL  and ASSESSMENT_SPECIALTY_INFO.PG_TYPE=#{pgid}
+       <if test="searchvalue!=null and searchvalue!='' ">  
+         and SPECIALTY_NAME LIKE '%'+#{searchvalue}+'%'  
+       </if> 
+   </select>
+   
+   <select id="findSpecialtyInfoBySpecialtyId" resultType="map"  parameterType="String">
+		SELECT ASSESSMENT_SPECIALTY_INFO.ID,
+	       userinfo.ID AS UID,
+	       userinfo.showname,
+	       ASSESSMENT_SPECIALTY_INFO.SPECIALTY_CODE,
+	       ASSESSMENT_SPECIALTY_INFO.SPECIALTY_NAME,
+	       ASSESSMENT_USER_INFO.ASSESS_SITE_USER,
+	       ASSESSMAENT_DATE_SPECIALTY.ID AS DATE_SPECIALTY_ID,
+	       ASSESSMENT_USER_INFO.ASSESS_TYPE,
+	       ASSESSMENT_USER_INFO.id AS USER_INFO_ID
+		FROM ASSESSMENT_SPECIALTY_INFO
+			LEFT JOIN ASSESSMAENT_DATE_SPECIALTY ON ASSESSMENT_SPECIALTY_INFO.ID=ASSESSMAENT_DATE_SPECIALTY.SPECIALTY_INFO_ID
+			LEFT JOIN ASSESSMENT_USER_INFO ON ASSESSMENT_USER_INFO.DATE_SPECIALTY_ID=ASSESSMAENT_DATE_SPECIALTY.ID
+			LEFT JOIN userinfo ON ASSESSMENT_USER_INFO.ASSESS_SELF_USER =userinfo.id
+		WHERE  ASSESSMENT_SPECIALTY_INFO.ID=#{id} 
+   </select>
+   
+   <!-- 修改 -->
+   <update id="updateSpecialtyInfoByASSESSMENT_USER_INFO">
+   	   update ASSESSMENT_USER_INFO set ASSESS_SELF_USER=#{0} where id=#{1};
+   </update>
+   <!-- 插入 -->
+   <insert id="insertSpecialtyInfoByASSESSMENT_USER_INFO">
+   	 	insert into ASSESSMENT_USER_INFO (DATE_SPECIALTY_ID,ASSESS_SELF_USER,ASSESS_TYPE) values(#{0},#{1},#{2});
+   </insert>
+   
+   <delete id="deleteSpecialtyInfoByASSESSMENT_USER_INFO">
+   		delete  ASSESSMENT_USER_INFO where  ASSESSMENT_USER_INFO.ID=#{0}
+   </delete>
+   
+   
+   <select id="findUserInfo" resultType="map"  parameterType="audit.model.assess.vo.UserInfoVo">
+	  select userinfo.id,userinfo.showname,o.name 
+       from  userinfo
+       left join organization  o
+       on userinfo.organization=o.id
+	   left join ROLE r
+	   on userinfo.role = r.id
+	   left join rolecategory c
+	   on r.rolecategory = c.id
+	   where  c.show_range = 8
+   		<if test="searchvalue!=null and searchvalue!='' ">  
+        	  and  showname LIKE '%'+#{searchvalue}+'%'
+      	</if>
+      	<if test="searchvalue3!=null and searchvalue3!='' ">  
+        	  and  o.name LIKE '%'+#{searchvalue3}+'%'
+      	</if>    
+   </select>
+   
+   <select id="findUserInfoByType" resultType="map"  parameterType="audit.model.assess.vo.UserInfoVo">
+   		select showname from  ASSESSMENT_USER_INFO
+		inner join  userinfo
+		on ASSESSMENT_USER_INFO.ASSESS_SELF_USER =userinfo.id
+   		<if test="assess_type!=0 and assess_type!='' ">  
+        	where ASSESS_TYPE=#{assess_type}
+      	</if>  
+   </select>
+   
+   <select id="getAllData" resultType="map" >
+   select specialty_name, is_engineering,is_rz,self_assessment_date,comment_date,site_visits,u.showName,o.name from ASSESSMENT_USER_INFO i
+   left join ASSESSMAENT_DATE_SPECIALTY d on i.date_specialty_id = d.id left join ASSESSMENT_SPECIALTY_INFO s 
+   on s.id = d.specialty_info_id left join userinfo u  on u.id = i.assess_self_user left join organization o on o.id = u.organization
+    where i.assess_self_user = #{0} and s.id = #{1}
+   </select>
+   <select id="getAllSpecialty" resultType="map" >	
+	select s.id,specialty_name,specialty_code,s.IS_ENGINEERING as zylxId from ASSESSMENT_USER_INFO i
+   inner join (select * from ASSESSMAENT_DATE_SPECIALTY where SYEAR = #{1}) d on i.date_specialty_id = d.id left join ASSESSMENT_SPECIALTY_INFO s 
+   on s.id = d.specialty_info_id where i.assess_self_user = #{0} and i.ASSESS_TYPE  = 1 and s.PG_TYPE=#{2}
+   </select>
+   <select id="selectById" resultType="map">
+   select *  from ASSESSMENT_SPECIALTY_INFO where id = #{0}
+   </select>
+   
+   <!-- 根据评估类别查询专业 -->
+   <select id="findAllSpecialtyInfo" resultType="map">
+   select *  from ASSESSMENT_SPECIALTY_INFO where PG_TYPE = #{0}
+   </select>
+
+   
+   <insert  id="insertAssessDate">
+     insert into ASSESSMAENT_DATE_SPECIALTY values(#{0},#{1},#{2},#{3},#{4},#{5});
+   </insert>
+   
+   <select id="findSpecialtyAndDate" resultType="map"  parameterType="String">
+        select a.ID, a.SYEAR,a.SELF_ASSESSMENT_DATE,a.COMMENT_DATE,a.SITE_VISITS,b.ID,b.SPECIALTY_CODE,b.SPECIALTY_NAME  from ASSESSMAENT_DATE_SPECIALTY a 
+   inner join ASSESSMENT_SPECIALTY_INFO b on a.SPECIALTY_INFO_ID=b.ID  and b.PG_TYPE=#{pgid}
+       <if test="searchvalue!=null and searchvalue!='' ">  
+        WHERE b.SPECIALTY_NAME LIKE '%'+#{searchvalue}+'%'  </if>
+   </select>
+   
+   <update id="updateSpecialtyAndDateInfo">
+          update ASSESSMAENT_DATE_SPECIALTY set SYEAR=#{0},SELF_ASSESSMENT_DATE=#{1},
+       COMMENT_DATE=#{2},SITE_VISITS=#{3} where id=#{4} 
+       
+   </update>
+   
+	   <select id="loadtitle"  resultType="map">
+	        select * from ASSESSMENT_TYPE where TYPE_PARENT is null
+	   </select>
+   
+      <delete id="delSpecialtyAndDateInfo">
+      delete from  ASSESSMAENT_DATE_SPECIALTY where id=#{0}
+   </delete>
+   
+   <!--查询专业评估 -->
+   <select id="selectTYPE_NAME" resultType="audit.model.assess.vo.TYPE_NAME"  parameterType="String">
+		select id, TYPE_NAME from ASSESSMENT_TYPE  where type_parent =#{id,jdbcType=INTEGER}
+   </select>
+   
+   <!-- 根据专业名查询专业类型id -->
+   <select id="getSpecialtyIdByName" parameterType="String" resultType="map">
+   		 select * from ASSESSMENT_SPECIALTY_INFO where SPECIALTY_NAME  LIKE '%'+#{searchvalue}+'%'
+   </select>
+</mapper>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.HrTableOperationLogMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.hr.HrTableOperationLog" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="operation_year" property="operationYear" jdbcType="VARCHAR" />
+    <result column="hr_table_id" property="hrTableId" jdbcType="INTEGER" />
+    <result column="hr_table_name" property="hrTableName" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="is_success" property="isSuccess" jdbcType="INTEGER" />
+    <result column="rows_number" property="rowsNumber" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_datetime" property="createDatetime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="error_record" property="errorRecord" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, operation_year, hr_table_id, hr_table_name, user_id, user_name, is_success, rows_number, 
+    remark, create_datetime,status,error_record
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from HR_TABLE_OPERATION_LOG
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from HR_TABLE_OPERATION_LOG
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.hr.HrTableOperationLog" useGeneratedKeys="true" keyProperty="id">
+    insert into HR_TABLE_OPERATION_LOG (id, operation_year, hr_table_id, 
+      hr_table_name, user_id, user_name, 
+      is_success, rows_number, remark, 
+      create_datetime)
+    values (#{id,jdbcType=INTEGER}, #{operationYear,jdbcType=VARCHAR}, #{hrTableId,jdbcType=INTEGER}, 
+      #{hrTableName,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
+      #{isSuccess,jdbcType=INTEGER}, #{rowsNumber,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{createDatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.hr.HrTableOperationLog" useGeneratedKeys="true" keyProperty="id">
+    insert into HR_TABLE_OPERATION_LOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="operationYear != null" >
+        operation_year,
+      </if>
+      <if test="hrTableId != null" >
+        hr_table_id,
+      </if>
+      <if test="hrTableName != null" >
+        hr_table_name,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="isSuccess != null" >
+        is_success,
+      </if>
+      <if test="rowsNumber != null" >
+        rows_number,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createDatetime != null" >
+        create_datetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="operationYear != null" >
+        #{operationYear,jdbcType=INTEGER},
+      </if>
+      <if test="hrTableId != null" >
+        #{hrTableId,jdbcType=INTEGER},
+      </if>
+      <if test="hrTableName != null" >
+        #{hrTableName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="isSuccess != null" >
+        #{isSuccess,jdbcType=INTEGER},
+      </if>
+      <if test="rowsNumber != null" >
+        #{rowsNumber,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createDatetime != null" >
+        #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.hr.HrTableOperationLog" >
+    update HR_TABLE_OPERATION_LOG
+    <set >
+      <if test="operationYear != null" >
+        operation_year = #{operationYear,jdbcType=VARCHAR},
+      </if>
+      <if test="hrTableId != null" >
+        hr_table_id = #{hrTableId,jdbcType=INTEGER},
+      </if>
+      <if test="hrTableName != null" >
+        hr_table_name = #{hrTableName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="isSuccess != null" >
+        is_success = #{isSuccess,jdbcType=INTEGER},
+      </if>
+      <if test="rowsNumber != null" >
+        rows_number = #{rowsNumber,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createDatetime != null" >
+        create_datetime = #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.hr.HrTableOperationLog" >
+    update HR_TABLE_OPERATION_LOG
+    set operation_year = #{operationYear,jdbcType=VARCHAR},
+      hr_table_id = #{hrTableId,jdbcType=INTEGER},
+      hr_table_name = #{hrTableName,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      is_success = #{isSuccess,jdbcType=INTEGER},
+      rows_number = #{rowsNumber,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_datetime = #{createDatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 我是分割线 -->
+  
+  <select id="getImportHistory" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select 
+    <include refid="Base_Column_List" />
+    from HR_TABLE_OPERATION_LOG
+    where hr_table_id = #{tableId,jdbcType=INTEGER}
+  </select>
+</mapper>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsAccessExamineScheduleMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.assess.AsAccessExamineSchedule" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="access_specialty_id" property="accessSpecialtyId" jdbcType="INTEGER" />
+    <result column="expert_id" property="expertId" jdbcType="INTEGER" />
+    <result column="schedule_date" property="scheduleDate" jdbcType="TIMESTAMP" />
+    <result column="schedule_time" property="scheduleTime" jdbcType="VARCHAR" />
+    <result column="schedule_task" property="scheduleTask" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, access_specialty_id, expert_id, schedule_date, schedule_time, schedule_task
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from AS_ACCESS_EXAMINE_SCHEDULE
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from AS_ACCESS_EXAMINE_SCHEDULE
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.assess.AsAccessExamineSchedule" >
+    insert into AS_ACCESS_EXAMINE_SCHEDULE (id, access_specialty_id, expert_id, 
+      schedule_date, schedule_time, schedule_task
+      )
+    values (#{id,jdbcType=INTEGER}, #{accessSpecialtyId,jdbcType=INTEGER}, #{expertId,jdbcType=INTEGER}, 
+      #{scheduleDate,jdbcType=TIMESTAMP}, #{scheduleTime,jdbcType=VARCHAR}, #{scheduleTask,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.assess.AsAccessExamineSchedule" >
+    insert into AS_ACCESS_EXAMINE_SCHEDULE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="accessSpecialtyId != null" >
+        access_specialty_id,
+      </if>
+      <if test="expertId != null" >
+        expert_id,
+      </if>
+      <if test="scheduleDate != null" >
+        schedule_date,
+      </if>
+      <if test="scheduleTime != null" >
+        schedule_time,
+      </if>
+      <if test="scheduleTask != null" >
+        schedule_task,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="accessSpecialtyId != null" >
+        #{accessSpecialtyId,jdbcType=INTEGER},
+      </if>
+      <if test="expertId != null" >
+        #{expertId,jdbcType=INTEGER},
+      </if>
+      <if test="scheduleDate != null" >
+        #{scheduleDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scheduleTime != null" >
+        #{scheduleTime,jdbcType=VARCHAR},
+      </if>
+      <if test="scheduleTask != null" >
+        #{scheduleTask,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.assess.AsAccessExamineSchedule" >
+    update AS_ACCESS_EXAMINE_SCHEDULE
+    <set >
+      <if test="accessSpecialtyId != null" >
+        access_specialty_id = #{accessSpecialtyId,jdbcType=INTEGER},
+      </if>
+      <if test="expertId != null" >
+        expert_id = #{expertId,jdbcType=INTEGER},
+      </if>
+      <if test="scheduleDate != null" >
+        schedule_date = #{scheduleDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scheduleTime != null" >
+        schedule_time = #{scheduleTime,jdbcType=VARCHAR},
+      </if>
+      <if test="scheduleTask != null" >
+        schedule_task = #{scheduleTask,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.assess.AsAccessExamineSchedule" >
+    update AS_ACCESS_EXAMINE_SCHEDULE
+    set access_specialty_id = #{accessSpecialtyId,jdbcType=INTEGER},
+      expert_id = #{expertId,jdbcType=INTEGER},
+      schedule_date = #{scheduleDate,jdbcType=TIMESTAMP},
+      schedule_time = #{scheduleTime,jdbcType=VARCHAR},
+      schedule_task = #{scheduleTask,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <insert id="insertScheduleTasks"  parameterType="java.util.List">
+    <!-- <selectKey resultType="_long" keyProperty="id" order="AFTER">
+       select @@IDENTITY as id
+    </selectKey> -->
+    insert into AS_ACCESS_EXAMINE_SCHEDULE
+    (access_specialty_id, expert_id, schedule_date, schedule_time, schedule_task)
+    values
+    <foreach collection="list" item="item" index="index" separator="," >
+    	 (#{item.accessSpecialtyId},#{item.expertId},#{item.scheduleDate},#{item.scheduleTime},#{item.scheduleTask})  
+    </foreach>
+  </insert>
+  <delete id="deleteByPrimaryKeys" parameterType="java.lang.String" >
+    delete from AS_ACCESS_EXAMINE_SCHEDULE
+    where id in
+    <foreach item="idItem" collection="array" open="(" separator="," close=")">
+		#{idItem}
+	</foreach>
+  </delete>
+</mapper>

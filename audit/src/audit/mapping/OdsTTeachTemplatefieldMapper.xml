@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.OdsTTeachTemplatefieldMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.ods.OdsTTeachTemplatefield" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="additional_template_id" property="additionalTemplateId" jdbcType="INTEGER" />
+    <result column="additional_template_field" property="additionalTemplateField" jdbcType="VARCHAR" />
+    <result column="additional_template_fieldname" property="additionalTemplateFieldname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, additional_template_id, additional_template_field, additional_template_fieldname
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ODS_T_TEACH_TEMPLATEFIELD
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ODS_T_TEACH_TEMPLATEFIELD
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.ods.OdsTTeachTemplatefield" useGeneratedKeys="true" keyProperty="Id">
+    insert into ODS_T_TEACH_TEMPLATEFIELD (Id, additional_template_id, additional_template_field, 
+      additional_template_fieldname)
+    values (#{id,jdbcType=INTEGER}, #{additionalTemplateId,jdbcType=INTEGER}, #{additionalTemplateField,jdbcType=VARCHAR}, 
+      #{additionalTemplateFieldname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.ods.OdsTTeachTemplatefield" useGeneratedKeys="true" keyProperty="Id">
+    insert into ODS_T_TEACH_TEMPLATEFIELD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="additionalTemplateId != null" >
+        additional_template_id,
+      </if>
+      <if test="additionalTemplateField != null" >
+        additional_template_field,
+      </if>
+      <if test="additionalTemplateFieldname != null" >
+        additional_template_fieldname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="additionalTemplateId != null" >
+        #{additionalTemplateId,jdbcType=INTEGER},
+      </if>
+      <if test="additionalTemplateField != null" >
+        #{additionalTemplateField,jdbcType=VARCHAR},
+      </if>
+      <if test="additionalTemplateFieldname != null" >
+        #{additionalTemplateFieldname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.ods.OdsTTeachTemplatefield" >
+    update ODS_T_TEACH_TEMPLATEFIELD
+    <set >
+      <if test="additionalTemplateId != null" >
+        additional_template_id = #{additionalTemplateId,jdbcType=INTEGER},
+      </if>
+      <if test="additionalTemplateField != null" >
+        additional_template_field = #{additionalTemplateField,jdbcType=VARCHAR},
+      </if>
+      <if test="additionalTemplateFieldname != null" >
+        additional_template_fieldname = #{additionalTemplateFieldname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.ods.OdsTTeachTemplatefield" >
+    update ODS_T_TEACH_TEMPLATEFIELD
+    set additional_template_id = #{additionalTemplateId,jdbcType=INTEGER},
+      additional_template_field = #{additionalTemplateField,jdbcType=VARCHAR},
+      additional_template_fieldname = #{additionalTemplateFieldname,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

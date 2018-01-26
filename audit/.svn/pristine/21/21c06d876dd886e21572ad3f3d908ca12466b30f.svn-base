@@ -1,0 +1,135 @@
+body{
+	font-family:"Microsoft YaHei";
+	
+}
+/* div{
+	border: 1px solid green;
+} */
+#midle {
+	height: 90%;
+}
+
+#right span{
+	color: #D94E4A;
+	font-weight: bold;
+	font-size: 12px;
+}
+#top{
+	padding-top:9px;
+}
+#top div{
+	margin-left:10px;
+	width: 80%;
+	height: 50%;
+}
+#mid{
+	background-image: url("../img/1.png");
+	background-repeat: no-repeat;
+	background-position: left;
+	width:100%;
+}
+#left{
+	float: left;
+	margin-left:3% ;
+	height: 2px;
+	margin-top: -1.4%;
+	color: #E8ADAC
+}
+#mid>div:nth-child(1){
+	width: 20%;
+	float: left;
+	font-size:16px;
+	font-weight:bolder;
+	color:#C12625;
+	margin-top:6px;
+	margin-bottom:6px;
+	margin-left:6%;
+	text-align: left;
+	padding-left:20px
+}
+
+.tableCom table{
+	width: 100%;
+	height:70%;
+	text-align: center;
+	border-collapse: collapse;
+	color: #848484;
+	border: 1px solid #DCDBDB;
+	margin-top: 5px;
+}
+/* .tableCom>div{
+	width: 40%;
+	font-size:16px;
+	font-weight:bolder;
+	color:#C12625;
+} */
+
+.tableCom table tr:nth-child(1) td{
+	text-align: center;
+	height: 7%;
+	font-weight: 600;
+	font-size:13px;
+	color:black;
+	background-color: #DCDBDB
+}
+.tableCom table td{
+	font-size: 13px;
+}
+.tableCom{
+	margin-top: 2%;
+	height: 98%;
+}
+.tableCom table tr:nth-child(2){
+	height: 93%;
+}
+
+#mid{
+	height: 9%;
+	margin-top:1%;
+}
+#down{
+	height: 90%;
+}
+#down>div div:nth-child(1){
+	width: 28%;
+	font-size: 12px;
+}
+#down>div div:nth-child(2){
+	width: 90%;
+	text-align: left;
+	margin-left: 4%;
+	font-size: 14px;
+	margin-top: 10px;
+	font-weight: bold;
+	color: #6E6E6E;
+}
+#down>div div:nth-child(2) span:nth-child(1){
+	color:#FF5555;
+}
+#down>div div:nth-child(2) span:nth-child(2){
+	color:#2020FF;
+}
+#down>div div:nth-child(2) span:nth-child(3){
+	color:#FF7316;
+}
+#down>div div:nth-child(3){
+	width: 90%;
+	text-align: left;
+	margin-left: 6%;
+	font-size: 13px;
+	margin-top: 10px;
+	font-weight: bold;
+	color: #6E6E6E;
+}
+#down>div div:nth-child(3) ul{
+	list-style-image:url("../img/fiveStar.png");
+	list-style-type:square;
+}
+#down>div div:nth-child(3) ul li{
+	margin-top: 10px
+}
+#download{
+	margin-top: 2%;
+	text-align: right;
+	padding-right: 2%;
+}

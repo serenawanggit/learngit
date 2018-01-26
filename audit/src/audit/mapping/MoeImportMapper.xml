@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.MoeImportMapper" >
+
+   <select id="findMOETable" resultType="java.util.Map">
+   <!-- 教师激励计划sql -->
+       select * from AS_C_TEMPLATE_STANDARD A
+		  LEFT JOIN  AS_C_TEMPLATE B ON A.ID=B.TEMPLATE_ID
+		  left join MOE_REPORT_TABLE c on c.TABLE_ID= a.ID
+		   where  A.CATEGORY_ID=8 and c.tbr=#{0}
+		   <!-- 非教师激励计划 -->
+		  <!--    select * from AS_C_TEMPLATE_STANDARD A
+		  LEFT JOIN  AS_C_TEMPLATE B ON A.ID=B.TEMPLATE_ID
+		  left join MOE_REPORT_TABLE c on c.TABLE_ID= B.CTEMPLATE_ID
+		   where  A.CATEGORY_ID=9 and c.tbr=#{0} -->
+   </select>
+   
+   <select id="findMOETableByAdmin" resultType="java.util.Map">
+    <!-- 非教师激励计划 -->
+     <!--     select * from AS_C_TEMPLATE_STANDARD A
+		  LEFT JOIN  AS_C_TEMPLATE B ON A.ID=B.TEMPLATE_ID	
+		  where b.CATEGORY_ID in (9) and CTEMPLATE_ID is not null -->
+		   <!-- 教师激励计划sql -->
+		    select * from AS_C_TEMPLATE_STANDARD A
+		  LEFT JOIN  AS_C_TEMPLATE B ON A.ID=B.TEMPLATE_ID	
+		  where b.CATEGORY_ID in (8) and CTEMPLATE_ID is not null
+   </select>
+    <!--  -->
+     <select id="findMOETableById" resultType="java.util.Map">
+      select * from AS_C_TEMPLATE_STANDARD where  ID=#{0}
+    </select>
+    
+    <select id="findShowCan" resultType="java.util.Map">
+       select * from MOE_ROLE_USER where UID=#{0}
+    </select>
+    
+    <select id="findUserSubmitState" resultType="java.util.Map">
+       select * from MOE_REPORT_TABLE  where TABLE_ID= #{0} and tbr=#{1} and insert_version=#{2}
+    </select>
+    
+    <!-- 确认上报无误的数据 -->
+    <update id="updateTBZTByid">
+       update MOE_REPORT_TABLE set TBZT=4 where ID=#{0}
+    </update>
+    <!-- 审核人进入看到的数据 -->
+    <select id="findSHRLookData" resultType="java.util.Map">
+       select a.ID,a.TABLE_ID,a.tbr,a.insert_version,b.TEMPLATE_NAME,c.number,c.showname,d.name,a.TBZT,a.SHZT from MOE_REPORT_TABLE as a 
+	    left join AS_C_TEMPLATE_STANDARD b on a.TABLE_ID=b.ID
+	    left join userinfo c on a.tbr=c.id 
+	    left join organization d on d.id=c.organization
+	    where c.organization=#{0}  and a.insert_version=#{1} and a.TABLE_ID=#{2}
+    </select>
+    
+     <select id="findUserByid" resultType="java.util.Map">
+       select * from userinfo  where id=#{0}
+     </select>
+     <!-- 审核未通过 -->
+     <select id="updateNotPass">
+       update MOE_REPORT_TABLE set TBZT=4 ,SHZT=1  where ID=#{0} 
+     </select>
+     
+      <!-- 审核通过 -->
+     <select id="updatePass">
+       update MOE_REPORT_TABLE set TBZT=4 ,SHZT=2  where ID=#{0} 
+     </select>
+     
+     <select id="findRolebyid" resultType="java.util.Map">
+      select * from role where id=#{0}
+     </select>
+     
+     <select id="findtablesql" resultType="java.util.Map">
+         select *from MOE_TABLE_SQL where TANLEID=#{0}
+     </select>
+     	
+     <select id="findField" resultType="java.util.Map">
+         select a.ID,a.TEMPLATE_NAME,a.OBJECT_TABLE,b.OBJECT_FIELD_NAME,b.TEMPLATE_TITLE_NAME from AS_C_TEMPLATE_STANDARD as a
+          left join AS_C_TABLE_MAPPING_STANDARD as b on a.ID=b.TEMPLATE_ID where a.ID=#{0} and b.TEMPLATE_TITLE_NAME=#{1}
+     </select>
+     
+     
+     <select id="findMoeTeacherInfo" resultType="java.util.Map">
+        select * from ODS_MOE_TEACHERS_INFORMATION where insert_version=#{0}
+     </select>
+     
+     <select id="findAllTable" resultType="java.util.Map">
+       select * from AS_C_TEMPLATE_STANDARD A
+		  LEFT JOIN  AS_C_TEMPLATE B ON A.ID=B.TEMPLATE_ID	
+		  where b.CATEGORY_ID in (1,2,3,4,5,6,7) and CTEMPLATE_ID is not null AND B.STATE!=9
+     </select>
+</mapper>

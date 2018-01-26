@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsCjShRenVoMapper">
+	<resultMap id="BaseResultMap" type="audit.model.AsCjShRenVo">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="organization" property="organization" jdbcType="INTEGER" />
+		<result column="showName" property="showName" jdbcType="VARCHAR" />
+		<result column="orgName" property="orgName" jdbcType="VARCHAR" />
+	</resultMap>
+	
+    <select id="selectUsers" parameterType="int"  resultMap="BaseResultMap" >  
+        select u.id, organization, showname, o.name from userinfo u, organization o where u.organization=o.id and  o.id =#{organization} 
+    </select>  
+</mapper>

@@ -1,0 +1,130 @@
+body{
+	font-family:"Microsoft YaHei";
+	
+}
+#midle {
+	height: 10%;
+}
+
+#left {
+	float: left;
+	margin-left:3% ;
+}
+
+#right {
+	float: right;
+	margin-top:6px;
+	margin-right:3%
+}
+#mid{
+	height: 70%;
+	margin-top:1%
+}
+#down table{
+	width: 100%;
+	text-align: center;
+	border-collapse: collapse;
+	color: #848484;
+	border: 1px solid #DCDBDB;
+}
+#down table tr td:nth-child(2){
+	text-align: left;
+}
+#down table tr td:nth-child(1){
+	width: 45%;
+	text-align: left;
+	padding-left:3%;
+}
+#down table tr:nth-child(1) td{
+	text-align: center;
+	height: 30px;
+	font-weight: 600;
+	font-size:13px;
+	color:black;
+	background-color: #DCDBDB
+}
+#down table td{
+	font-size: 13px;
+}
+#right span{
+	color: red;
+	font-weight: bold;
+	font-size: 13px;
+}
+#top_college{
+	padding-top:9px;
+}
+#top_college div{
+	margin-left:10px;
+	width: 80%;
+	height: 50%;
+}
+
+/* ¿Î³ÌÆÀ¹À */
+#top_course{
+	padding-top:9px;
+}
+#top_course div{
+	margin-left:10px;
+	width: 80%;
+	height: 50%;
+}
+
+#downHide form{
+	width: 60%;
+	height: 50%;
+	margin: 0 auto;
+}
+form>div:nth-child(1){
+	height: 15%;
+	text-align: center;
+	height: 30px;
+	font-weight: 600;
+	font-size:13px;
+	color:black;
+	background-color: #DCDBDB;
+	padding-top: 10px;
+}
+form>div:nth-child(2){
+	height: 60%;
+	background-color: #ECECEC;
+	border: 1px solid #ECECEC;
+}
+form>div:nth-child(3){
+	height: 25%;
+	background-color: #E3E3E3
+}
+/* #downHide form div{
+	border:1px solid #458445;
+} */
+form>div:nth-child(2)>div{
+	width: 70%;
+	height: 20%;
+	margin: 10% auto;
+}
+form>div:nth-child(2)>div>div:nth-child(1){
+	width: 80%;
+	height: 85%;
+	float: left;
+	background-color:white;
+}
+
+form>div:nth-child(2)>div>div:nth-child(2) div{
+	margin-top: 5px;
+}
+#opration>div div{
+	width: 30%;
+	height: 70%;
+	float: right;
+	text-align: center;
+	margin-right: 5%;
+	font-size: 12px;
+	font-weight: bold;
+	padding-top:3%;
+}
+#opration>div{
+	width: 50%;
+	height: 50%;
+	float: right;
+	margin: 3% 6%;
+}

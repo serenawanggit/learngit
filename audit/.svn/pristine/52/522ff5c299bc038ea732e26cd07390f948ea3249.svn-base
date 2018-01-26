@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>word.html</title>
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  
+  <body>
+   <p><img style="width:250px;height:100px;" src="http://192.168.1.50:8080/audit/images/word/hlg.png"></p>
+   <p><label style='color:#4F81BD;font-size:36px;font-weight:bold'>2013本科教学质量报告</label></p>
+   <br />
+   <br />
+   <p><img style="width:230px;height:250px;" src="http://192.168.1.50:8080/audit/images/word/logo.png"></p>
+  	<br />
+  	<br />
+   <p><label style="color:#4F81BD;font-size:20px;font-weight:bold">2014年10月</label></p>
+  </body>
+</html>

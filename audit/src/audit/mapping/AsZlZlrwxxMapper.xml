@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsZlZlrwxxMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.quality.AsZlZlrwxx" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="ZLRWMC" property="zlrwmc" jdbcType="NVARCHAR" />
+    <result column="FBSJ" property="fbsj" jdbcType="DATE" />
+    <result column="JZSJ" property="jzsj" jdbcType="DATE" />
+    <result column="RWZT" property="rwzt" jdbcType="INTEGER" />
+    <result column="FBRDM" property="fbrdm" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ZLRWMC, FBSJ, JZSJ, RWZT, FBRDM
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from AS_ZL_ZLRWXX
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from AS_ZL_ZLRWXX
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.quality.AsZlZlrwxx" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ZL_ZLRWXX (ID, ZLRWMC, FBSJ, 
+      JZSJ, RWZT, FBRDM)
+    values (#{id,jdbcType=INTEGER}, #{zlrwmc,jdbcType=NVARCHAR}, #{fbsj,jdbcType=DATE}, 
+      #{jzsj,jdbcType=DATE}, #{rwzt,jdbcType=INTEGER}, #{fbrdm,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.quality.AsZlZlrwxx" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ZL_ZLRWXX
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="zlrwmc != null" >
+        ZLRWMC,
+      </if>
+      <if test="fbsj != null" >
+        FBSJ,
+      </if>
+      <if test="jzsj != null" >
+        JZSJ,
+      </if>
+      <if test="rwzt != null" >
+        RWZT,
+      </if>
+      <if test="fbrdm != null" >
+        FBRDM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="zlrwmc != null" >
+        #{zlrwmc,jdbcType=NVARCHAR},
+      </if>
+      <if test="fbsj != null" >
+        #{fbsj,jdbcType=DATE},
+      </if>
+      <if test="jzsj != null" >
+        #{jzsj,jdbcType=DATE},
+      </if>
+      <if test="rwzt != null" >
+        #{rwzt,jdbcType=INTEGER},
+      </if>
+      <if test="fbrdm != null" >
+        #{fbrdm,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.quality.AsZlZlrwxx" >
+    update AS_ZL_ZLRWXX
+    <set >
+      <if test="zlrwmc != null" >
+        ZLRWMC = #{zlrwmc,jdbcType=NVARCHAR},
+      </if>
+      <if test="fbsj != null" >
+        FBSJ = #{fbsj,jdbcType=DATE},
+      </if>
+      <if test="jzsj != null" >
+        JZSJ = #{jzsj,jdbcType=DATE},
+      </if>
+      <if test="rwzt != null" >
+        RWZT = #{rwzt,jdbcType=INTEGER},
+      </if>
+      <if test="fbrdm != null" >
+        FBRDM = #{fbrdm,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.quality.AsZlZlrwxx" >
+    update AS_ZL_ZLRWXX
+    set ZLRWMC = #{zlrwmc,jdbcType=NVARCHAR},
+      FBSJ = #{fbsj,jdbcType=DATE},
+      JZSJ = #{jzsj,jdbcType=DATE},
+      RWZT = #{rwzt,jdbcType=INTEGER},
+      FBRDM = #{fbrdm,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 我的分割线 -->
+  
+  <sql id="where_query_sql">
+  		<if test="data.userId != null">
+  			inner join AS_ZL_JDRWXX jdb on zl.ID = jdb.ZLRWID
+			left join AS_ZL_JDRWRYGLB glb on glb.JDRWID = jdb.ID 
+  		</if>
+	  <where>
+	  	<if test="data.rwzt != null">
+	  	 and zl.RWZT = #{data.rwzt,jdbcType=INTEGER}
+	  	</if>
+	  	<if test="data.zlrwmc != null">
+	  	 and zl.ZLRWMC LIKE '%'+#{data.zlrwmc,jdbcType=VARCHAR}+'%'
+	  	</if>
+	  	<if test="data.isDelete== 1">
+	  	 and zl.RWZT != 4
+	  	</if>
+	  	<if test="data.id != null">
+	  	 and zl.ID = #{data.id,jdbcType=INTEGER}
+	  	</if>
+	  	<if test="data.userId != null">
+	  	 and glb.TBRID = #{data.userId,jdbcType=INTEGER}
+	  	</if>
+	  </where>
+  </sql>
+  <select id="selectCountByQuery" parameterType="audit.model.quality.query.TaskQuery" resultType="java.lang.Integer">
+  select count(*) from AS_ZL_ZLRWXX zl
+  <include refid="where_query_sql"></include>
+  </select>
+   <resultMap type="audit.model.quality.vo.TaskVo" id="BaseResultMapVo" extends="BaseResultMap">
+    <result column="organizeCount" property="organizeCount" jdbcType="INTEGER" />
+    <result column="jdCount" property="jdCount" jdbcType="INTEGER" />
+    <result column="readyJdCount" property="readyJdCount" jdbcType="INTEGER" />
+  </resultMap>
+  <select id="selectListByQuery" parameterType="java.util.Map" resultMap="BaseResultMapVo">
+     SELECT * FROM(
+	    SELECT TOP (#{endIndex,jdbcType=INTEGER}) ROW_NUMBER() OVER(ORDER BY zl.ID ASC) AS ROWID,
+	    	zl.ID, zl.ZLRWMC, zl.FBSJ, zl.JZSJ, zl.RWZT, zl.FBRDM  
+	    	,(select count(*) from AS_ZL_JDRWXX jd where zl.ID =jd.ZLRWID ) as jdCount
+	        ,(select count(*) from (select ry.CJBMDM from AS_ZL_JDRWRYGLB gl 
+				inner join AS_ZL_JDRWXX jd on jd.ID = gl.JDRWID
+				inner join AS_ZL_ZLRWBMRY ry on ry.USERID = gl.TBRID and jd.RWFW = ry.LEVEL
+	         where jd.ZLRWID = zl.ID group by ry.CJBMDM) organizeGroup) as organizeCount,
+	         (select count(*) from AS_ZL_JDRWXX jd where zl.ID =jd.ZLRWID and jd.RWZT=1) as readyJdCount
+	        FROM AS_ZL_ZLRWXX zl 
+	     <include refid ="where_query_sql"/> 
+	     group by zl.ID, zl.ZLRWMC, zl.FBSJ, zl.JZSJ, zl.RWZT, zl.FBRDM  
+	     ) AS TEMP1
+      where ROWID > #{startIndex,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 查询所有质量任务 -->
+  <select id="selectAllASZLZLRWXX" resultType="audit.model.quality.AsZlZlrwxx" parameterType="java.lang.String">
+  	 select <include refid="Base_Column_List" /> 
+  	 from AS_ZL_ZLRWXX where RWZT not in (4)
+  </select>
+</mapper>

@@ -1,0 +1,232 @@
+@charset "utf-8";
+*{
+	font-family: Microsoft YaHei!important;
+}
+/*专业自评——我的材料库样式表*/
+/*导航*/
+.container {
+	float: right;
+	width: 100%;
+	height: 100%;
+}
+/*导航---begin*/
+.nav{
+	width:100%;
+	height:4em;
+	background-color: #404A58;
+	box-shadow: 0px 1px 3px #000;/*opera或ie9*/
+	-webkit-box-shadow: 0px 1px 3px #000;
+	position: relative;
+}
+.nav ul{
+	float: left;
+	margin-left: 6em;
+	height: 4em;
+	line-height: 4em;
+}
+.nav li {
+	width: 100px;
+	height: 40px;
+	display: inline;
+	font-size: 14px;	
+}
+.nav-li-a a{
+	border-bottom: 2px solid #19C6A1;
+}
+.nav a{
+	float: left;
+	margin-left: 100px;
+	color: #F4F5F5;
+	cursor:pointer;
+	display: block;
+	padding:0px 12px;
+}
+.nav a:link{
+	text-decoration:none;
+}
+.nav a:visited{
+	text-decoration:none;
+}
+.nav a:hover{
+	border-bottom: 2px solid #19C6A1;
+}
+.nav a:active{
+	text-decoration:none;	
+}
+/*----主体内容---begin*/
+.main{
+	width: 88%;
+	height: 66em;
+	margin: 0px auto;
+}
+/*--------------主体-------------上----------上传新建----------begin*/
+.main-top-img{
+	float: left;
+	width: 175px;
+	height: 36px;
+	margin-left: 60px;
+	margin-top: 10px;
+	cursor: pointer;
+}
+.main-top-img img{
+	width: 90%;
+	height: 90%;
+}
+/*--------------主体-------------上----------全部文件----------begin*/
+.main-bottom{
+	width: 98%;
+	min-height: 42em;
+	margin: 1em auto;
+	border: 1px solid #AEAEAE;
+	background-color: #FFFFFF;
+	float: left;
+}
+/*----主体内容---下---标题---begin*/
+.main-bottom-top{
+	width: 100%;
+	height: 3.3em;
+	background-color: #CFCFCF;
+}
+.top-li-one{
+	float: left;
+	width: 65px;
+	height: 33px;
+	line-height: 33px;
+	margin-left: 30px;
+	font-size: 16px;
+}
+
+.top-li-file-path{
+	float: left;
+	height: 33px;
+	line-height: 33px;
+	margin-left: 10px;
+	font-size: 13px;
+}
+
+.top-li-file-path label.dsc{
+	color:red;
+}
+
+.top-li-two{
+	float: right;
+	width: 160px;
+	height: 33px;
+	line-height: 33px;
+	font-size: 14px;
+}
+/*----主体内容---下---下载删除...---begin*/
+.main-bottom-center{
+	width: 97%;
+	height: 5em;
+	margin: 0 auto;
+	border-bottom: 2px solid #CFCDCD;
+}
+.center-li-one{
+	float: left;
+	width: 18px;
+	height: 50px;
+	line-height: 61px;
+	margin-left: 12px;
+}
+.center-li-two{
+	float: left;
+	width: 215px;
+	height: 50px;
+	line-height: 50px;
+	margin-left: 2px;
+	font-size: 14px;
+	letter-spacing: 2px;
+}
+.center-li-three{
+	float: left;
+	width: 70px;
+	height: 50px;
+	line-height: 74px;
+	margin-right: 30px;
+	text-align: center;
+}
+.center-li-four{
+	float: left;
+	width: 90px;
+	height: 50px;
+	line-height: 74px;
+	margin-right: 30px;
+	text-align: center;
+}
+/*----主体内容---下---文件排列---begin*/
+.main-bottom-bottom{
+	width: 100%;
+	float: left;
+}
+.main-bottom-bottom div{
+	
+}
+.bootom-div{
+	width: 127px;
+	height: 122px;
+	float: left;
+}
+.bootom-div-no{
+	width: 94px;
+	height: 96px;
+	margin: 0px auto;
+}
+.bootom-div-weigoubeijing{
+	width: 94px;
+	height: 96px;
+	margin: 0px auto;
+	background-image: url(../../img/majorEvaluation/beijingkuang.png);
+	background-repeat:no-repeat;
+	background-position:center;
+}
+.bootom-div-yigoubeijing{
+	width: 94px;
+	height: 96px;
+	margin: 0px auto;
+	background-image: url(../../img/majorEvaluation/yigoubeijing.png);
+	background-repeat:no-repeat;
+	background-position:center;
+}
+.bootom-div-img{
+	width: 100%;
+}
+
+.bootom-div-img img{
+	display:inline;
+	margin-left: 23px;
+}
+
+.bootom-div-li{
+	width: 127px;
+	margin:0 auto;
+	text-align: center;
+	overflow: hidden;
+}
+.bootom-div-li a{
+	font-size:12px;
+	line-height: 20px;
+	color:black;
+}
+.bootom-div-li a:hover{
+	color:#DBB95B;
+}
+
+/*----尾部---begin*/
+.footer{
+	float: left;
+	width: 100%;
+	height:4em;
+}
+.back{
+	width: 40px;
+	height: 40px;
+	position:fixed; 
+	right:20px;
+	bottom:20px;
+}
+
+.wenjianjia{
+	margin-left: 18px!important;
+	margin-top: 5px;
+}

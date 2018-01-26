@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.HrTableTotalMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.hr.HrTableTotal" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="table_name" property="tableName" jdbcType="VARCHAR" />
+    <result column="table_data_name" property="tableDataName" jdbcType="VARCHAR" />
+    <result column="belong_type" property="belongType" jdbcType="INTEGER" />
+    <result column="is_must" property="isMust" jdbcType="INTEGER" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="is_original" property="isOriginal" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="is_only_one" property="isOnlyOne" jdbcType="INTEGER" />
+    <result column="table_style" property="tableStyle" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, table_name, table_data_name, belong_type, is_must, category_id, is_original, 
+    remark, is_only_one, table_style
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from HR_TABLE_TOTAL
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from HR_TABLE_TOTAL
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.hr.HrTableTotal" useGeneratedKeys="true" keyProperty="id">
+    insert into HR_TABLE_TOTAL (id, table_name, table_data_name, 
+      belong_type, is_must, category_id, 
+      is_original, remark, is_only_one, 
+      table_style)
+    values (#{id,jdbcType=INTEGER}, #{tableName,jdbcType=VARCHAR}, #{tableDataName,jdbcType=VARCHAR}, 
+      #{belongType,jdbcType=INTEGER}, #{isMust,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, 
+      #{isOriginal,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{isOnlyOne,jdbcType=INTEGER}, 
+      #{tableStyle,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.hr.HrTableTotal" useGeneratedKeys="true" keyProperty="id">
+    insert into HR_TABLE_TOTAL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="tableName != null" >
+        table_name,
+      </if>
+      <if test="tableDataName != null" >
+        table_data_name,
+      </if>
+      <if test="belongType != null" >
+        belong_type,
+      </if>
+      <if test="isMust != null" >
+        is_must,
+      </if>
+      <if test="categoryId != null" >
+        category_id,
+      </if>
+      <if test="isOriginal != null" >
+        is_original,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="isOnlyOne != null" >
+        is_only_one,
+      </if>
+      <if test="tableStyle != null" >
+        table_style,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="tableName != null" >
+        #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="tableDataName != null" >
+        #{tableDataName,jdbcType=VARCHAR},
+      </if>
+      <if test="belongType != null" >
+        #{belongType,jdbcType=INTEGER},
+      </if>
+      <if test="isMust != null" >
+        #{isMust,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="isOriginal != null" >
+        #{isOriginal,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isOnlyOne != null" >
+        #{isOnlyOne,jdbcType=INTEGER},
+      </if>
+      <if test="tableStyle != null" >
+        #{tableStyle,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.hr.HrTableTotal" >
+    update HR_TABLE_TOTAL
+    <set >
+      <if test="tableName != null" >
+        table_name = #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="tableDataName != null" >
+        table_data_name = #{tableDataName,jdbcType=VARCHAR},
+      </if>
+      <if test="belongType != null" >
+        belong_type = #{belongType,jdbcType=INTEGER},
+      </if>
+      <if test="isMust != null" >
+        is_must = #{isMust,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null" >
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="isOriginal != null" >
+        is_original = #{isOriginal,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isOnlyOne != null" >
+        is_only_one = #{isOnlyOne,jdbcType=INTEGER},
+      </if>
+      <if test="tableStyle != null" >
+        table_style = #{tableStyle,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.hr.HrTableTotal" >
+    update HR_TABLE_TOTAL
+    set table_name = #{tableName,jdbcType=VARCHAR},
+      table_data_name = #{tableDataName,jdbcType=VARCHAR},
+      belong_type = #{belongType,jdbcType=INTEGER},
+      is_must = #{isMust,jdbcType=INTEGER},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      is_original = #{isOriginal,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      is_only_one = #{isOnlyOne,jdbcType=INTEGER},
+      table_style = #{tableStyle,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- LLP_分割线   -->
+  <!-- 分页查询所有记录 -->
+  <select id="searchAll" resultMap="BaseResultMap" parameterType="Map" >
+  select * from (
+	SELECT ROW_NUMBER() OVER (ORDER BY a.id DESC ) as rownum,id, table_name, table_data_name, belong_type, is_must, category_id, is_original, 
+    remark, is_only_one, table_style FROM HR_TABLE_TOTAL a where  table_name like '%'+#{tabName}+'%'
+	) b where b.rownum >= #{ start,jdbcType=INTEGER } and b.rownum &lt;= #{ pageSize,jdbcType=INTEGER }
+  </select>
+  <!-- 查询总记录条数 -->
+  <select id="searchCount" resultType="java.lang.Integer">
+  		select count(*)from HR_TABLE_TOTAL where table_name like '%'+#{tabName}+'%'
+  </select>
+  <!-- 指标数量 -->
+  <select id="searchZBCount" resultType="java.lang.Integer">
+ 	 select count(*) from as_m_manage
+  </select>
+  <delete id="deleteMore" parameterType="Map" >
+    delete from HR_TABLE_TOTAL
+    where id in(
+    	<foreach collection="id" separator="," item="item">
+    		#{item}
+    	</foreach>
+    ) 
+  </delete>
+  <!-- 根据tableid 更新 table样式 -->
+  <update id="updatetableStyle" parameterType="Map" >
+    update HR_TABLE_TOTAL
+    <set >
+      <if test="tableStyle != null" >
+        table_style = #{tableStyle,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 创建数据库表 -->
+  <insert id="insertDataTable" parameterType="java.lang.String">
+ 	${createSql}
+  </insert>
+   <resultMap id="zbResult" type="audit.model.hr.HRZBResultVo" >
+    <id column="zbid" property="zbid" jdbcType="INTEGER" />
+    <id column="zbname" property="zbname" jdbcType="VARCHAR" />
+    <id column="zbfl" property="zbfl" jdbcType="VARCHAR" />
+    <id column="zkzb" property="zkzb" jdbcType="VARCHAR" />
+    <id column="level" property="level" jdbcType="VARCHAR" />
+    <id column="isSchool" property="isSchool" jdbcType="VARCHAR" />
+    <id column="is_department" property="isDepartment" jdbcType="VARCHAR" />
+    <id column="is_profession" property="isProfession" jdbcType="VARCHAR" />
+    <id column="is_assess" property="isAssess" jdbcType="VARCHAR" />
+    <id column="moethods" property="moethods" jdbcType="VARCHAR" />
+    <id column="ci" property="ci" jdbcType="INTEGER" />
+  </resultMap>
+  <!-- 指标 -->
+  <select id="searchAllZB" resultMap="zbResult" parameterType="Map" >
+	    select * from (
+		select ROW_NUMBER() OVER (ORDER BY a.measure_id DESC ) as rownum,a.measure_id as zbid,isnull(a.measure_name,'') zbname,
+		isnull(b.category_name,'') zbfl,isnull(a.classify,'') zkzb,isnull(a.level,'') 
+		level,a.is_school,a.is_department,a.is_profession,a.is_assess ,a.METHODS AS METHODS ,isnull(a.category_Id,'') ci 
+		from as_m_manage a 
+		left join AS_M_CATEGORY b on a.category_Id=b.category_code ${where}) as zbtab 
+		where zbtab.rownum >= #{ start,jdbcType=INTEGER } and zbtab.rownum &lt;= #{ pageSize,jdbcType=INTEGER } 
+</select>
+  <!-- LLP_分割线 end -->
+  
+     <resultMap id="BaseResultMapVo" type="audit.model.hr.HrTableTotalVo"  extends="BaseResultMap">
+  	<collection property="list" javaType="ArrayList" column="id" select="audit.dao.HrTableFieldMapper.getAllFieldByTableId"></collection>
+  </resultMap>
+  
+  <select id="getTableByCategoryId" parameterType="java.lang.Integer" resultMap="BaseResultMapVo">
+      select 
+    <include refid="Base_Column_List" />
+    from HR_TABLE_TOTAL
+    where category_id = #{categoryId,jdbcType=INTEGER}
+  </select>
+  
+  <insert id="saveData" parameterType="java.lang.String">
+  ${insertSql}
+  </insert>
+  <delete id="deleteData">
+  ${deleteSql}
+  </delete>
+  <select id="selectData" resultType="java.util.Map">
+  ${selectSql}
+  </select>
+  
+  <select id="selectteacher" resultType="java.util.Map">
+     select *  from HR_TEACHERS_INFORMATION
+  </select>
+  
+  <select id="findErrorRecord" resultType="java.lang.Integer">
+      select count(*) from ${_parameter}  where error_log is not null and error_log!=''
+  </select>
+  
+   <update id="updateTableECount" parameterType="Map" >
+    update ${tablename}
+    <set >
+        error_record = #{errorRecord},status = #{status}
+    </set>
+    where id = #{id}
+  </update>
+  
+     <update id="updateTableStatus" parameterType="Map" >
+    update ${tablename}
+    <set >
+       status = #{status}
+    </set>
+    where id = #{id}
+  </update>
+  
+  
+   <select id="findTableData" resultType="java.util.Map">
+     select course_department,curriculum_name,curriculum_num,curriculum_type,class_hour,
+class_num,hebingzhi,
+campus,class_place,
+students_num,student_class,class_teacher,class_teacher_num,
+technical_titles,take_class,teachers_attribute,remarks,
+statistics_time  into  SA1 
+from 
+(select course_department,curriculum_name,curriculum_num,curriculum_type,class_hour,
+class_num,
+case when SUBSTRING(class_section,0,1)='单' or  SUBSTRING(class_section,0,1)='双'
+then class_week+'_'+class_week_num+'_'+class_section
+else class_week+'_'+class_week_num+'_['+class_section+']'
+end as hebingzhi,
+campus,class_place,
+students_num,student_class,class_teacher,class_teacher_num,
+technical_titles,take_class,teachers_attribute,remarks,
+statistics_time
+from HR_SCHEDULE_INFORMATION)t
+
+select course_department,curriculum_name,curriculum_num,curriculum_type,class_hour,
+class_num,hebingzhi,
+campus,class_place,
+students_num,student_class,class_teacher,class_teacher_num,
+technical_titles,take_class,teachers_attribute,remarks,
+statistics_time
+from 
+(
+select DISTINCT course_department,curriculum_name,curriculum_num,curriculum_type,class_hour,
+class_num,hebingzhi,
+campus,class_place,
+students_num,student_class,class_teacher,class_teacher_num,
+technical_titles,take_class,teachers_attribute,remarks,
+statistics_time
+from SA1
+
+)A   OUTER APPLY(
+  SELECT [values]= STUFF(REPLACE(REPLACE(
+  (
+  SELECT hebingzhi FROM SA1 N
+  WHERE curriculum_name = A.curriculum_name and class_num=A.class_num and class_place=A.class_place and class_teacher_num=A.class_teacher_num
+  FOR XML AUTO
+  ), &apos;&lt; N hebingzhi=&quot;&apos;, &apos;,&apos;), &apos;&quot;/ &gt;&apos;, &apos;&apos;), 1, 1, &apos;&apos;)
+)N
+drop table SA1
+  </select>
+</mapper>

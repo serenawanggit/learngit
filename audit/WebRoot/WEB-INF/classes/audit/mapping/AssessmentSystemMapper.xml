@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AssessmentSystemMapper" >
+  <sql id="Base_Column_List" >
+  id, system_name, LEVEL, parent_id, stype ,remark,order_num,syscore,meaning,ratio,level_a,level_c,total
+  </sql>
+    
+<insert id="insertSystemType" parameterType="map">
+insert into ASSESSMENT_SYSTEM_INFO(system_name, LEVEL, parent_id, stype ,remark,order_num)
+values(#{system_name,jdbcType=VARCHAR},#{level,jdbcType=DECIMAL},#{parent_id,jdbcType=DECIMAL}
+,#{stype,jdbcType=DECIMAL},#{remark,jdbcType=VARCHAR},#{num,jdbcType=DECIMAL})
+</insert>
+<select id="getSystemByType"  resultType="map">
+select <include refid="Base_Column_List"></include>
+from ASSESSMENT_SYSTEM_INFO where stype = #{0} and parent_id = 0 and syear=#{1} order by order_num
+</select>
+
+<select id="getSystemSonByType"  resultType="map">
+select <include refid="Base_Column_List"></include>
+from ASSESSMENT_SYSTEM_INFO where stype = #{0}  and parent_id != 0 and syear=#{1} order by order_num
+</select>
+
+<select id="findSystemInfoByStypt" resultType="map">
+select i.ID sysid,i.SYSTEM_NAME,si.SYSTEM_NAME pname,asic.score sysscore,asic.level_a,asic.level_c,asic.ratio,asic.total,r.grade,r.score,r.problem,UPLOAD_FILES,UPLOAD_CONTENT,FILE_ONLINE_URL,ENTER_CONTENT
+ from ASSESSMENT_SYSTEM_INFO i left join ASSESSMENT_SYSTEM_INFO_content asic on asic.sysid=i.ID 
+ left join AS_ASSESS_REPORT r on r.SYSID=i.ID
+ left join ASSESSMENT_SYSTEM_INFO si on i.PARENT_ID=si.ID
+ where i.stype = #{0} and i.syear=#{1} and r.SPECIALTY_ID=#{2}
+</select>
+
+<select id="getSystemThreeByType"  resultType="map">
+select <include refid="Base_Column_List"></include>
+from ASSESSMENT_SYSTEM_INFO where stype = #{0}  and parent_id != 0 and LEVEL=3 order by order_num
+</select>
+
+<delete id="deleteSystemType">
+delete from ASSESSMENT_SYSTEM_INFO where id =#{id,jdbcType=DECIMAL}
+</delete>
+
+  <select id="getSystemById" resultType="map"> 
+<!--   select <include refid="Base_Column_List"></include>
+  ,(select  SYSTEM_NAME from ASSESSMENT_SYSTEM_INFO where ID = (select PARENT_ID from ASSESSMENT_SYSTEM_INFO where ID = #{0})) as pname
+  from ASSESSMENT_SYSTEM_INFO  where id = #{0} -->
+    select id, system_name, LEVEL, parent_id, stype ,remark,order_num,score syscore,meaning,asic.ratio,asic.level_a,asic.level_c,asic.total,asic.syear ,(select  SYSTEM_NAME from ASSESSMENT_SYSTEM_INFO where ID = (select PARENT_ID from ASSESSMENT_SYSTEM_INFO where ID =#{0} )) as pname
+  from ASSESSMENT_SYSTEM_INFO  left join ASSESSMENT_SYSTEM_INFO_content asic on asic.sysid=ASSESSMENT_SYSTEM_INFO.ID  where id =#{0} and asic.syear=#{1}
+  
+  </select> 
+  
+  <!-- 根据templateid查询表头信息(sdt_id) -->
+  <select id="findFieldByTemplateid" parameterType="int" resultType="map">
+  	select FIELD_CNAME,FIELD_ENAME from SHUTCM_DATA_FIELD where SDT_ID=#{1}
+  </select>
+  
+  <!-- 根据id查询专业类型 -->
+  <select id="getAssessmentTypeById" parameterType="int" resultType="map">
+  	select id,TYPE_NAME from ASSESSMENT_TYPE where id=#{1}
+  </select>
+ 
+<update id="updateSystem" parameterType="map">
+update ASSESSMENT_SYSTEM_INFO <set>
+<if test="ratio!=null">
+ratio =#{ratio},
+</if>
+<if test="score!=null">
+syscore =#{score},
+</if>
+<if test="meaning!=null">
+meaning =#{meaning,jdbcType=VARCHAR}
+</if>
+<if test="system_name!=null">
+system_name =#{system_name,jdbcType=VARCHAR},
+</if>
+<if test="level!=null">
+level =#{level,jdbcType=DECIMAL},
+</if>
+<if test="parent_id!=null">
+parent_id =#{parent_id,jdbcType=DECIMAL},
+</if>
+<if test="stype!=null">
+stype =#{stype,jdbcType=DECIMAL},
+</if>
+<if test="num!=null">
+order_num =#{num,jdbcType=VARCHAR},
+</if>
+<if test="remark!=null">
+remark =#{remark,jdbcType=VARCHAR},
+</if>
+<if test="total!=null">
+total =#{total},
+</if>
+<if test="levelC!=null">
+level_c =#{levelC},
+</if>
+<if test="levelA!=null">
+level_a =#{levelA}
+</if>
+</set>
+where id = #{id,jdbcType=DECIMAL}
+</update>
+
+   <insert id="insertTaskInfo" parameterType="map" >
+   
+   insert into assessment_task(tYear,specialty_id,self_assess_zt,self_assess_time,audit_zt,
+  		 audit_time,inter_people_zt,inter_people_time,spot_zt,spot_time,item) values(#{tYear,jdbcType=VARCHAR},
+  		 #{specialty_id,jdbcType=DECIMAL},#{self_assess_zt,jdbcType=DECIMAL},#{self_assess_time,jdbcType=VARCHAR},#{audit_zt,jdbcType=DECIMAL},#{audit_time,jdbcType=VARCHAR},
+  		 #{inter_people_zt,jdbcType=DECIMAL},#{inter_people_time,jdbcType=VARCHAR},#{spot_zt,jdbcType=DECIMAL},
+  		 #{spot_time,jdbcType=VARCHAR},#{item,jdbcType=DECIMAL})
+   </insert>
+   <select id = "selectTask" resultType="map">
+   select id,self_assess_zt,self_assess_time,audit_zt,
+  		 audit_time,inter_people_zt,inter_people_time,spot_zt,spot_time 
+  		 from assessment_task where tYear=#{0} and specialty_id = #{1} and item = #{2}
+   </select>
+   
+   <!-- 审核 -->
+   <select id = "getTaskToShenhe" resultType="map">
+   select id,self_assess_zt,self_assess_time,audit_zt,
+  		 audit_time,inter_people_zt,inter_people_time,spot_zt,spot_time 
+  		 from assessment_task where tYear=#{0} and specialty_id = #{1} and item = #{2}
+  		 <if test="#{3}!=null">
+  		 	and audit_zt=#{3}
+  		 </if>
+   </select>
+   
+   <!-- 网评 -->
+   <select id = "getTaskToWangping" resultType="map">
+   select id,self_assess_zt,self_assess_time,audit_zt,
+  		 audit_time,inter_people_zt,inter_people_time,spot_zt,spot_time 
+  		 from assessment_task where tYear=#{0} and specialty_id = #{1} and item = #{2}
+  		 <if test="#{3}!=null">
+  		 	and inter_people_zt=#{3}
+  		 </if>
+   </select>
+   
+   <!-- <select id = "selectTask" resultType="map">
+   	select id,self_assess_zt,self_assess_time,audit_zt,
+  		 audit_time,inter_people_zt,inter_people_time,spot_zt,spot_time 
+  		 from assessment_task where tYear=#{0} and specialty_id = #{1} and item = #{2}
+   </select> -->
+   
+   <update id="updateTaskInfo" >
+   	update assessment_task set self_assess_zt= #{0} where id = #{1}
+   </update>
+   
+   <update id="updateTaskInfoToWangping" >
+   	update assessment_task set inter_people_zt=#{0},inter_people_time=#{2} where id = #{1}
+   </update>
+   
+   <select id="getOrg" resultType = "map">
+   select id,name,level,utype,parent,code from organization where level = 2 and utype='教学'
+   </select>
+   <select id="selectAllIndexFile" resultType="map">
+   select t.id,p.table_name from AS_ASSESS_INDEX_TABLE t left join SHUTCM_DATA_TEMPLATE p  on p.id = t.templateId where t.syear =#{syear,jdbcType=VARCHAR} and sysid = #{sysid,jdbcType=DECIMAL}
+   and t.type = #{type,jdbcType=DECIMAL}
+   </select>
+   <select id="selectAllIndexFileByPerson" resultType="map">
+   select t.id,p.table_name,k.TBZT,k.SHZT,k.STARTDATE,k.ENDDATE,y.ROOT_ID from AS_ASSESS_INDEX_TABLE t left join SHUTCM_DATA_TEMPLATE p  on p.id = t.templateId 
+ left join (select TBZT,SHZT,i.TEMPLATE_ID,a.STARTDATE,a.ENDDATE from SHUTCM_DATA_TASKINFO i left join SHUTCM_DATA_TASK a on i.TASKID =  a.ID where a.SYEAR = #{syear,jdbcType=VARCHAR} and TBR =#{userId,jdbcType=DECIMAL}) k on k.TEMPLATE_ID = p.ID  
+  left join SHUTCM_DATA_TYPE y on y.ID = p.CATEGORY_ID
+ where t.syear =#{syear,jdbcType=VARCHAR} and sysid = #{sysid,jdbcType=DECIMAL}
+   and t.type =#{type,jdbcType=DECIMAL}
+   </select>
+   <delete id="deleteIndexFile" parameterType="map">
+   delete from AS_ASSESS_INDEX_TABLE where id = #{id}
+   </delete>
+   <insert id="insertIndexFile" parameterType = "java.util.List">
+   insert into AS_ASSESS_INDEX_TABLE(templateId,type,syear,sysid)
+   values<foreach collection="list" separator="," item="item">
+   (#{item.templateId,jdbcType=DECIMAL},#{item.type,jdbcType=DECIMAL},#{item.syear,jdbcType=VARCHAR},#{item.sysid,jdbcType=DECIMAL})
+   </foreach>
+   </insert>
+   <update id="updateIndexFile">
+  
+   </update>
+   
+   <select id="selectFormula"  resultType="map" >
+   	select * from AS_ASSESS_INDEX_FORMULA where syear=#{syear,jdbcType=VARCHAR} and sysid= #{sysid,jdbcType=DECIMAL} order by num asc
+   </select>
+   <select id="selectByIdFormula" resultType="map">
+   select * from AS_ASSESS_INDEX_FORMULA where id= #{id,jdbcType=DECIMAL}
+   </select>
+   <delete id ="deleteFormula" parameterType = "map">
+   delete from AS_ASSESS_INDEX_FORMULA where id = #{id,jdbcType=DECIMAL}
+   
+   </delete>
+   <insert id="insertFormula" parameterType = "map">
+   insert into AS_ASSESS_INDEX_FORMULA(variables,formula,num,syear,sysid) 
+   values(#{variables,jdbcType=VARCHAR},#{formula,jdbcType=VARCHAR},
+   #{num,jdbcType=DECIMAL},#{syear,jdbcType=VARCHAR},#{sysid,jdbcType=DECIMAL})
+   </insert>
+   <update id="updateFormula" parameterType = "map">
+   update AS_ASSESS_INDEX_FORMULA <set>
+   <if test="variables!=null">
+   variables = #{variables,jdbcType=VARCHAR},
+   </if>
+   <if test="formula!=null">
+   formula = #{formula,jdbcType=VARCHAR},
+   </if>
+    <if test="num!=null">
+   num = #{num,jdbcType=VARCHAR},
+   </if>
+   </set>
+   where ID = #{id,jdbcType=DECIMAL}
+   </update>
+   <!-- 根据指标类型和提交时间查询数据表信息 -->
+   <select id="findTemplateAndTaskInfo" resultType="map">
+   	SELECT T.ID TEMPLATEID,TI.ID TASKID,T.TABLE_NAME,TI.TBZT,TI.SHZT,TI.INSERT_VSERSION 
+   	FROM SHUTCM_DATA_TEMPLATE T,SHUTCM_DATA_TASKINFO TI 
+   	WHERE T.ID=TI.TEMPLATE_ID AND TI.INSERT_VSERSION LIKE #{INSERT_VSERSION,jdbcType=VARCHAR} AND TI.TBR=#{TBR,jdbcType=DECIMAL} AND 
+   	T.ID IN (SELECT templateId FROM AS_ASSESS_INDEX_TABLE WHERE sysid=#{sysid,jdbcType=DECIMAL} AND TYPE=#{type,jdbcType=DECIMAL})
+   </select>
+   <!-- 根据指标id查询专业建设报告内容表的信息 -->
+   <select id="getAssessReportBySysid" resultType="map">
+	   	select ID,UPLOAD_FILES,size,grade,score,problem,ENTER_CONTENT from AS_ASSESS_REPORT where SYSID=#{SYSID,jdbcType=DECIMAL} and RYEAR=#{RYEAR,jdbcType=DECIMAL} and USERID=#{USERID,jdbcType=DECIMAL} and SPECIALTY_ID=#{SPECIALTY_ID,jdbcType=DECIMAL}
+   </select>
+   
+
+   <!-- 根据id查询校级数据表的详细信息 -->
+   <select id="getDataTemplateById" parameterType="int" resultType="map">
+	   	select ID,TABLE_NAME,TIME_TYPE,TABLE_SOURCE,REMARK,TABLE_TYPE,IS_BASE,OBJECT_NAME from SHUTCM_DATA_TEMPLATE where ID=#{1}
+   </select>
+   
+   <!-- 查询自评得分表信息 -->
+	<select id="findSelfDataFileBySysid" resultType="map">
+		select ID,FILE_NAME,UPLOAD_TIME from ASSESSMENT_SELF_DATAFILE where SYSID=#{SYSID,jdbcType=DECIMAL} and SELF_USER=#{USERID,jdbcType=VARCHAR} and SPECIALTYID=#{SPECIALTY_ID,jdbcType=VARCHAR}
+	</select>
+	
+	<delete id="deleteSelfDataFileById" parameterType="int">
+		delete from ASSESSMENT_SELF_DATAFILE where ID=#{1}
+	</delete>
+
+  <update id="udpateinsertSystemInfo" parameterType="map">
+  	update ASSESSMENT_SYSTEM_INFO set ratio=#{ratio} where id=#{sysid}
+  </update>
+    
+  <select id="queryAllManage" resultType="map">
+  	select MEASURE_NAME as measureName from As_M_Manage where STATES != 9
+  </select>
+  
+   <select id="queryAllAMC" resultType="map">
+  	select CATEGORY_NAME as categoryName,CATEGORY_CODE as categoryCode from As_M_Category
+  </select>
+  
+   <select id="queryAllManageById" resultType="map" parameterType="map">
+  	select MEASURE_NAME as measureName from As_M_Manage where STATES != 9 and CATEGORY_ID=#{pid}
+  </select>
+  
+  <insert id="insertfiledsum" parameterType="map">
+  	insert into as_asses_filedsum(sysear,sysid,filedsum) values(#{syear},#{sysid},#{filesum})
+  </insert>
+  
+  <select id="selectByIdfiledsum" parameterType="map" resultType="map">
+  	select * from as_asses_filedsum where sysid=#{sysid} and sysear=#{syear}
+  </select>
+  
+  <update id="updateFiledsum" parameterType="map" >
+  	update as_asses_filedsum set filedsum=#{filesum} where sysid=#{sysid} and sysear=#{syear}
+  </update>
+  
+  <delete id="deleteFiledsum" parameterType="map" >
+  delete as_asses_filedsum where sysid=#{sysid} and sysear=#{syear}
+  </delete>
+  
+  <select id="queryAllManageByName" resultType="map" parameterType="map">
+  	select MEASURE_NAME as measureName from As_M_Manage where STATES != 9 and MEASURE_NAME like #{managename}
+  </select>
+  
+  <select id="selectAllTable" parameterType="map" resultType="map">
+  	  select * from AS_ASSESS_INDEX_TABLE  where syear=#{syear} and sysid=#{sysid} and type=#{stype}
+  </select>
+  
+  <delete id="deleteFormalByrealsum" parameterType="map">
+  	 delete AS_ASSESS_INDEX_FORMULA where variables= #{variables} and syear=#{syear} and sysid=#{sysid}
+  </delete>
+  
+  <insert id="updateWangPStruts" parameterType="map">
+  	insert into wangPStruts values(#{specialtyId},#{userid},1)
+  </insert>
+  
+  <select id="findDataTypeToParentName" resultType="map">
+	select ID,TYPE_NAME as typeName from SHUTCM_DATA_TYPE where TYPE_PARENT is null
+  </select>
+  
+  <select id="findDataTypeToChild" resultType="map" parameterType="map">
+  	select ID,TYPE_NAME as typeName from SHUTCM_DATA_TYPE where TYPE_PARENT=#{id}
+  </select>
+  
+  <select id="findAllAssessmentSytem" resultType="map">
+	select ID,SYSTEM_NAME from ASSESSMENT_SYSTEM_INFO 
+  </select>
+  
+  <select id="findThreeSystemByStype" resultType="map" parameterType="int">
+ 	<!-- select si.LEVEL from ASSESSMENT_SYSTEM_INFO si left join ASSESSMENT_TYPE t on si.stype=t.id where t.TYPE_PARENT=#{value} -->
+  	 select LEVEL from ASSESSMENT_SYSTEM_INFO where stype=#{value}
+  </select>
+  
+  <select id="findSystemInfoAndReportByStype" parameterType="map" resultType="map">
+  	<!--  select c.ID sysid,a.SYSTEM_NAME gname,b.SYSTEM_NAME pname,c.SYSTEM_NAME,a.stype,t.TYPE_NAME,t.TYPE_PARENT,r.* from ASSESSMENT_SYSTEM_INFO a left join ASSESSMENT_SYSTEM_INFO b on a.ID=b.PARENT_ID 
+		 left join ASSESSMENT_SYSTEM_INFO c on b.ID=c.PARENT_ID right join ASSESSMENT_TYPE t on a.stype=t.id left join AS_ASSESS_REPORT r on r.SYSID=c.ID
+			 where a.LEVEL=1 and b.LEVEL=2 and t.TYPE_PARENT=#{stype}  and sic.syear=#{syear} and r.SPECIALTY_ID=#{specialtyId} -->
+	select a.ID gid,b.ID pid,a.SYSTEM_NAME gname,b.SYSTEM_NAME pname
+	<if test="tsys==1">
+		,c.ID sysid,c.SYSTEM_NAME
+	</if>
+	 from ASSESSMENT_SYSTEM_INFO a left join ASSESSMENT_SYSTEM_INFO b on a.ID=b.PARENT_ID 
+	 <if test="tsys==1">
+	 	left join ASSESSMENT_SYSTEM_INFO c on b.ID=c.PARENT_ID 
+	 </if>
+	 where a.LEVEL=1 and b.LEVEL=2 and a.stype=#{pgType} and syear=#{syear}
+  </select>
+  
+  <select id="getSytemContentBySyid" parameterType="map" resultType="map">
+	 select * from ASSESSMENT_SYSTEM_INFO_content where sysid=#{sysid}
+  </select>
+  
+  <select id="getReportInfoBySysid" parameterType="map" resultType="map">
+  	 select * from AS_ASSESS_REPORT where SYSID=#{sysid} and USERID=#{userId} and SPECIALTY_ID=#{specialtyId} and RYEAR=#{syear}
+  </select>
+  
+  <select id="getTemplateByTableName" parameterType="map" resultType="map">
+  	select * from SHUTCM_DATA_TEMPLATE where TABLE_NAME like '%'+#{tableName}+'%' and TABLE_SOURCE='教育部数据'
+  </select>
+  
+  <select id="findFieldBySdtId" parameterType="map" resultType="map">
+  	select * from SHUTCM_DATA_FIELD where SDT_ID=#{sdtId}
+  </select>
+  
+  <select id="findTableDataByXY" parameterType="map" resultType="map">
+  	select * from ${tableEname} 
+  	<where>
+  		<if test="fieldValue!=null">
+  			and ${field}=#{fieldValue}
+  		</if>
+  		<if test="reportDate!=null">
+  			and REPORT_DATE=#{reportDate}
+  		</if>
+  	</where>
+  </select>
+  
+  <select id="getUserToRole" parameterType="string" resultType="map">
+  	select * from role where id = (select role from userinfo where id = #{id})
+  </select>
+  
+  <select id="getUserById" parameterType="string" resultType="map">
+  	select * from organization where id = (select organization from userinfo where id=#{value})
+ <!--  	select * from userinfo where id= -->
+  </select>
+  
+  <select id="findTableDataBySY" parameterType="map" resultType="map">
+  	select * from ODS_B2_7BKSYSBQK where FIELD1 in (select FIELD1 from ODS_B1_8_1BKSYCS where FIELD4=#{fieldValue} and REPORT_DATE=#{reportDate})
+  </select>
+  
+  <select id="findTableDataByGH" parameterType="map" resultType="map">
+  	select * from ${tableEname} where ${field} in (select FIELD1 from ODS_B1_6_1JZGJBXX where FIELD7=#{fieldValue} and REPORT_DATE=#{reportDate})
+  </select>
+  
+  <select id="findTableDataByZYDM" parameterType="map" resultType="map">
+  	select * from ${tableEname} where ${field} in (select FIELD1 from ODS_B1_5_1ZYJBQK where FIELD7=#{fieldValue} and REPORT_DATE=#{reportDate} )
+  </select>
+  
+  <select id="findTableDataByKCH" parameterType="map" resultType="map">
+  	select * from ${tableEname} where ${field} in (select FIELD3 from ODS_B5_1_1 where FIELD10=#{fieldValue} and REPORT_DATE=#{reportDate})
+  </select>
+  
+  <select id="findTableDataByXH" parameterType="map" resultType="map">
+  	select * from ${tableEname} where ${field} in (select FIELD1 from ODS_B1_7BKSJBQK where FIELD5 in (select FIELD1 from TEM_B1_5_1ZYJBQK where FIELD7=#{fieldValue} and REPORT_DATE=#{reportDate}))
+  </select>
+  
+  <select id="findTableDataByZYTo1_5" parameterType="map" resultType="map">
+  	SELECT * FROM ${tableEname} WHERE ${field} IN (
+		select FIELD1 FROM ODS_B1_5_1ZYJBQK WHERE FIELD6=#{fieldValue} AND REPORT_DATE=#{reportDate}
+		UNION ALL
+		SELECT FIELD5 FROM ODS_B1_5_2ZYDLQKB
+	)
+  </select>
+  
+  <select id="findTableDataByZYTo1_5And6_2_1" parameterType="map" resultType="map">
+  	SELECT * FROM ODS_B6_2_1BKSZZYQK WHERE FIELD1 IN (
+		select FIELD1 FROM ODS_B1_5_1ZYJBQK WHERE FIELD6=#{fieldValue} AND REPORT_DATE=#{reportDate}
+		UNION ALL
+		SELECT FIELD5 FROM ODS_B1_5_2ZYDLQKB
+	) OR FIELD3 IN (
+		select FIELD1 FROM ODS_B1_5_1ZYJBQK WHERE FIELD6=#{fieldValue} AND REPORT_DATE=#{reportDate}
+		UNION ALL
+		SELECT FIELD5 FROM ODS_B1_5_2ZYDLQKB
+	)
+  </select>
+</mapper>

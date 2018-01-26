@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsAssessAnalysisMapper" >
+  
+  <select id = "getZRJSQKB" statementType="CALLABLE" parameterType="map" resultType = "map">
+  {
+  CALL 
+  <if test="bname=='ZRJSQKB'">
+  ZTFX_ZRJSQKB(#{depart,jdbcType=VARCHAR})
+  </if>
+   <if test="bname=='JSFJSSKKSQK'">
+  ZTFX_JSFJSSKKSQK(#{depart,jdbcType=VARCHAR})
+  </if>
+   <if test="bname=='JSFJSZJSKQK'">
+  ZTFX_JSFJSZJSKQK(#{depart,jdbcType=VARCHAR})
+  </if>
+   <if test="bname=='JSGDNJBKSSKMD'">
+  ZTFX_JSGDNJBKSSKMD(#{depart,jdbcType=VARCHAR})
+  </if>
+   <if test="bname=='JSJBKS'">
+  ZTFX_JSJBKS(#{syear,jdbcType=VARCHAR},#{depart,jdbcType=VARCHAR})
+  </if>
+   <if test="bname=='JSSKKCMD'">
+  ZTFX_JSSKKCMD(#{depart,jdbcType=VARCHAR})
+  </if>
+   <if test="bname=='CDJXRWDZRJSMD'">
+  ZTFX_CDJXRWDZRJSMD(#{depart,jdbcType=VARCHAR})
+  </if>
+   <if test="bname=='KCKSQK'">
+  ZTFX_KCKSQK(#{syear,jdbcType=VARCHAR},#{depart,jdbcType=VARCHAR})
+  </if>
+   <if test="bname=='SKJSMXB'">
+  ZTFX_SKJSMXB(#{depart,jdbcType=VARCHAR})
+  </if>
+    <if test="bname=='SYJSRY'">
+  ZTFX_SYJSRY(#{syear,jdbcType=VARCHAR},#{depart,jdbcType=VARCHAR})
+  </if>  
+   <if test="bname=='WCDJXRWDZRJSMD'">
+  ZTFX_WCDJXRWDZRJSMD(#{depart,jdbcType=VARCHAR})
+  </if> 
+    <if test="bname=='ZRJSMXB'">
+  ZTFX_ZRJSMXB(#{depart,jdbcType=VARCHAR})
+  </if> 
+    
+    <if test="bname=='ZYDTR'">
+  ZTFX_ZYDTR(#{syear,jdbcType=VARCHAR},#{depart,jdbcType=VARCHAR})
+  </if>
+  }
+  </select>
+  <insert id="insertRecPlan" parameterType="map">
+  insert into ASSESSMENT_RETIFICATION_PLAN(SPECIALTYID,write_content,upload_File,upload_url,userId,RYEAR)
+  values(#{specialtyId,jdbcType=DECIMAL},#{write_content,jdbcType=VARCHAR},#{upload_File,jdbcType=VARCHAR}
+  ,#{upload_url,jdbcType=VARCHAR},#{userId,jdbcType=DECIMAL},#{rYear,jdbcType=VARCHAR})
+  </insert>
+  <select id="selectRecPlan" resultType="map" parameterType="map">
+  select ID,upload_File,write_content,upload_url from ASSESSMENT_RETIFICATION_PLAN
+  where SPECIALTYID = #{specialtyId,jdbcType=DECIMAL} and userId = #{userId,jdbcType=DECIMAL} and RYEAR = #{rYear,jdbcType=VARCHAR} 
+  </select>
+  
+  <update id="updateRecPlan" parameterType="map">
+  update  ASSESSMENT_RETIFICATION_PLAN set
+  <if test="upload_File!=null">
+   upload_File = #{upload_File,jdbcType=VARCHAR},
+  </if>
+  <if test="write_content!=null">
+  write_content = #{write_content,jdbcType=VARCHAR}</if>
+  <if test="upload_url!=null">
+  upload_url = #{upload_url,jdbcType=VARCHAR}
+  </if>
+  where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="selectRecPlanById" resultType="map" parameterType="map">
+  select id,specialtyId,upload_url,upload_File from ASSESSMENT_RETIFICATION_PLAN where id = #{id,jdbcType=DECIMAL}
+  </select>
+  <select id="selectRecPlanByShid" resultType="map" parameterType="map">
+  select ID,upload_File,write_content,upload_url from ASSESSMENT_RETIFICATION_PLAN
+    where  userId in (select ASSESS_SELF_USER from ASSESSMENT_USER_INFO where date_specialty_id in (select DATE_SPECIALTY_ID from ASSESSMENT_USER_INFO i where i.ASSESS_SELF_USER = #{userId})
+ and ASSESS_TYPE = 1) and SPECIALTYID = #{specialtyId,jdbcType=DECIMAL}  and RYEAR = #{rYear,jdbcType=VARCHAR}
+  </select>
+  
+</mapper>
+
+

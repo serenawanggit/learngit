@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsDefineTemplateMapper">
+	<resultMap id="BaseResultMap" type="audit.model.DefineTemplate">
+		<id column="CTEMPLATE_ID" property="CTEMPLATE_ID" jdbcType="INTEGER" />
+		<result column="CTEMPLATE_NAME" property="CTEMPLATE_NAME" jdbcType="VARCHAR" />
+		<result column="TEMPLATE_ID" property="TEMPLATE_ID" jdbcType="INTEGER" />
+		<result column="TEMPLATE_NAME" property="TEMPLATE_NAME" jdbcType="VARCHAR" />
+		<result column="CATEGORY_ID" property="CATEGORY_ID" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<!-- 用来定义可重用的sql代码段 -->
+	<sql id="Base_Column_mList">
+		CTEMPLATE_ID,CTEMPLATE_NAME,TEMPLATE_ID,TEMPLATE_NAME,CATEGORY_ID
+	</sql>
+	
+	<select id="selectAll" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		select ctemplate_id,ctemplate_name,template_id,template_name,category_id
+		from as_c_template WHERE STATE != 9 order by ctemplate_name asc
+	</select>
+	
+	<select id="selectTemplateId" useCache="false" flushCache="false" resultMap="BaseResultMap">
+	     select * from AS_C_TEMPLATE  act where act.CTEMPLATE_ID=#{CTEMPLATE_ID}
+	</select>
+</mapper>

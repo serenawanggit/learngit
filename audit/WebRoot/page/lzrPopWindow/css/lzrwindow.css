@@ -1,0 +1,39 @@
+		#lzrwindow{	
+					    width: 230px;
+					    height: 125px;
+					    position: absolute;
+						bottom:50%;
+						left:38%;
+					    display:block;
+						font-family:"Microsoft Yahei";
+					}	
+	   	#lzrwindowHead{
+					border: 1px solid #BFBFBF;
+					background:url('../img/back.png');height:32px;
+		}		
+
+		.lzrwindowTitle{
+					color:#303030;line-height: 30px;
+					margin-left: 3px;
+					font-size:15px;font-weight: bold;
+		}
+		.lzrbtn_close{
+					float: right;
+					display: block;
+					height:26px;
+					width:26px;
+					margin: 3px;
+					background:url('../img/close_in.png') no-repeat center;
+					
+		}
+		#lzrwindowHead a:hover{
+					background:url('../img/close_out.png') no-repeat center;
+		}	
+
+		#lzrwindowContent{
+					border: 1px solid #BFBFBF; 
+					/*height:72%;*/
+					background: #fff;
+					text-align: center;
+					line-height: 76px;
+		}

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.LookreportMapper" >
+  
+   <resultMap id="BaseResultMap" type="audit.model.LookreportData" >
+	    <result column="oneid" property="oneid" jdbcType="INTEGER" />
+	    <result column="onelevel" property="onelevel" jdbcType="INTEGER" />
+	    <result column="onename" property="onename" jdbcType="VARCHAR" />
+	    <result column="twoid" property="twoid" jdbcType="INTEGER" />
+	    <result column="twolevel" property="twolevel" jdbcType="INTEGER" />
+	    <result column="twoname" property="twoname" jdbcType="VARCHAR" />
+	    <result column="threeid" property="threeid" jdbcType="INTEGER" />
+	    <result column="threelevel" property="threelevel" jdbcType="INTEGER" />
+	    <result column="threename" property="threename" jdbcType="VARCHAR" />
+	    <result column="fourid" property="fourid" jdbcType="INTEGER" />
+	    <result column="fourlevel" property="fourlevel" jdbcType="INTEGER" />
+	    <result column="fourname" property="fourname" jdbcType="VARCHAR" />
+	    <result column="fileid" property="fileid" jdbcType="INTEGER" />
+	     <result column="filedparentid" property="filedparentid" jdbcType="INTEGER" />
+	    <result column="filename" property="filename" jdbcType="VARCHAR" />
+	    <result column="downurl" property="downurl" jdbcType="VARCHAR" />
+	    <result column="onlineurl" property="onlineurl" jdbcType="VARCHAR" />
+	     <result column="onlinefilename" property="onlinefilename" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="findLookreportData" resultMap="BaseResultMap">
+  	select b.id as oneid,b.level as onelevel,b.treename as onename,
+	c.id as twoid,c.level as twoleve,c.treename as twoname,
+	d.id as threeid,d.level as threelevel,d.treename as threename,
+	e.id as fourid,e.level as fourlevel,e.treename as fourname,
+	f.id as fileid,f.tree_node_id as filedparentid,f.file_name as filename,f.file_url as downurl,f.file_online_url  as onlineurl,f.file_online_name as onlinefilename
+	from support_material_library_treenode_table a
+	left join support_material_library_treenode_table b on a.id=b.parent
+	left join support_material_library_treenode_table c on c.parent=b.id
+	left join support_material_library_treenode_table d on d.parent=c.id
+	left join support_material_library_treenode_table e on e.parent=d.id
+	left join support_material_library_file f on f.tree_node_id=d.id
+	where b.ID=#{0} order by  e.ID
+      <!-- select b.ID as oneid,b.LEVEL as onelevel,b.TREENAME as onename,
+       c.ID as twoid,c.LEVEL as twolevel,c.TREENAME as twoname,
+       d.ID as threeid,d.LEVEL as threelevel,d.TREENAME as threename,
+       e.ID as fourid,e.LEVEL as fourlevel,e.TREENAME as fourname,
+       f.ID as fileid,f.tree_table_id as filedparentid ,f.FILE_NAME as filename,f.FILE_URL as downurl,f.ONLINE_FILE_URL as onlineurl,
+       f.ONLINE_FILE_NAME as onlinefilename
+	    from SUPPORT_MATERIAL_TREE_TABLE a
+	    left join SUPPORT_MATERIAL_TREE_TABLE b on a.ID=b.PARENT
+	    left join SUPPORT_MATERIAL_TREE_TABLE c on c.PARENT=b.ID
+	    left join SUPPORT_MATERIAL_TREE_TABLE d on d.PARENT=c.ID
+	    left join SUPPORT_MATERIAL_TREE_TABLE e on e.PARENT=d.ID
+	    left join SUPPORT_MATERIAL_TREE_REPORT f on e.ID=f.TREE_TABLE_ID
+	    where b.ID=#{0} and b.LEVEL=2 order by  e.ID -->
+  </select>
+  
+  
+   <select id="findLookzccl" resultType="java.util.Map">
+   select * from support_material_library_file where  ID=#{0}
+    <!--  select * from SUPPORT_MATERIAL_TREE_REPORT where  ID=#{0} -->
+  </select>
+   
+   <update id="updateLookcount">
+      update SUPPORT_MATERIAL_TREE_REPORT set PAGE_VIEW=#{0}  where ID=#{1}
+   </update>
+</mapper>

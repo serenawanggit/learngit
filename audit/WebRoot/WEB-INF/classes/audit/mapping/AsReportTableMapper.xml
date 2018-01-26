@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsReportTableMapper">
+	<resultMap id="BaseResultMap" type="audit.model.ReportTable">
+		<id column="reportid" property="reportid" jdbcType="VARCHAR" />
+		<result column="reportName" property="reportName" jdbcType="VARCHAR" />
+		<result column="reportUrl" property="reportUrl" jdbcType="VARCHAR" />
+		<result column="reportContent" property="reportContent" jdbcType="VARCHAR" />
+		<result column="object_table" property="object_table" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- 查询所有数据 -->
+	<select id="selectAll" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		select reportid,reportName,reportUrl,reportContent,object_table from AS_GJ_REPORTTABLE
+	</select>
+	
+	<!-- 查询单个报表 -->
+	<select id="selectRTByPid" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		SELECT * 
+		FROM AS_GJ_REPORTTABLE rt 
+		WHERE rt.reportid = #{reportid}   
+	</select>	
+</mapper>

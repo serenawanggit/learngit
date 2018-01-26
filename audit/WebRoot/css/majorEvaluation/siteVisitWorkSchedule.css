@@ -1,0 +1,117 @@
+@CHARSET "UTF-8";
+/* 现场考察~现场工作日程表 */
+/*主体 - 头部 */
+body {
+	background-image: url(../../img/majorEvaluation/beijing.png) !important;
+}
+
+li {
+	list-style-type: none;
+}
+
+.top-znj {
+	float: none;
+	height: 50px;
+	margin: 0px auto;
+	background-color: #354B67;
+	color: #FFFFFF;
+}
+.top-znj li{
+	float: left;
+	height: 50px;
+	line-height: 52px;
+	font-size: 15px;
+	letter-spacing: 2px;
+	list-style-type: none;
+}
+.top-li-1-znj{
+	width: 140px;
+	margin-left: 112px;
+}
+.top-li-1-znj form{
+	float: right;
+	width: 100px !important;
+	margin-top: 14px;
+}
+.top-li-2-znj{
+	width: 190px;
+	margin-left: 60px;
+}
+.top-li-2-znj  form{
+	float: right;
+	width: 150px !important;
+	margin-top: 14px;
+}
+.top-li-3-znj{
+	width: 200px;
+	margin-left: 60px;
+}
+.top-li-3-znj form{
+	float: right;
+	width: 160px !important;
+	margin-top: 14px;
+}
+.select-znj{
+	height: 22px;
+	padding: 0px 12px;
+}
+.button-znj{
+	float: none;
+	height: 35px;
+	margin: 20px auto 0px auto;
+}
+.btn-1-znj{
+	float: right;
+}
+.btn:HOVER{background-color: #01D8AA;color: #FFF;}
+/*主体 - 表格 */
+.bottom-znj {
+	float: none;
+	margin: 0px auto;
+}
+.table-znj {
+	background-color: #FFFFFF;
+}
+.table-znj thead{background-color: #E6E6E6;}
+.table-znj th, .table-znj td {
+	text-align: center;
+}
+
+.th-1 {
+	width: 8%;
+}
+
+.th-2 {
+	width: 15%;
+}
+
+.th-3 {
+	width: 15%;
+}
+
+.th-4 {
+	width: 39%;
+}
+
+.th-5 {
+	width: 15%;
+}
+
+.th-6 {
+	width: 8%;
+}
+.glyphicon-1-znj{
+	font-size: 16px;
+	color: #519E6C;
+	cursor: pointer;
+}
+.glyphicon-1-znj:HOVER{color: #39EA77;}
+.glyphicon-2-znj{
+	font-size: 16px;
+	color: #519e6c;
+	cursor: pointer;
+}
+.glyphicon-2-znj:HOVER{color: #39EA77;}
+/* -----弹出层----- */
+.modal-dialog {width: 80%!important;}
+.td-bnt-znj{padding: 10px!important;font-size: 21px;}

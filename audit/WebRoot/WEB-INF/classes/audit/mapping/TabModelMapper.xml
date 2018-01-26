@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.TabModelMapper">
+	<resultMap id="BaseResultMap" type="audit.model.TabModel">
+		<id column="tmid" property="tmid" jdbcType="INTEGER" />
+		<result column="tabmodel_name" property="tmName" jdbcType="VARCHAR" />
+		<result column="dtcid" property="dtcid" jdbcType="VARCHAR" />
+		<result column="tabmodel_property" property="tmProperty" jdbcType="INTEGER" />
+		<result column="tabmodel_cols" property="tmCols" jdbcType="INTEGER" />
+		<result column="tabmodel_rows" property="tmRows" jdbcType="INTEGER" />
+		<result column="tabmodel_filter" property="tmFilter" jdbcType="VARCHAR" />
+		<result column="ctime" property="tmtime" jdbcType="DATE" />
+	</resultMap>
+	
+	<!-- 用来定义可重用的sql代码段 -->
+	<sql id="Base_Column_mList">
+	    tmid,tabmodel_name,dtcid,tabmodel_property,tabmodel_cols,tabmodel_rows,tabmodel_filter
+	</sql>
+	
+	<select id="select" parameterType="java.lang.Integer" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		select * from tqc_view_tabmodel tm where tm.tmid = #{tmid}
+	</select>
+	
+<!-- 	<select id="selectByTmid" collection="array" parameterType="java.lang.Integer" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		select * from tqc_view_tabmodel tm where tm.tmid in #{tmid}
+	</select> -->
+	
+	
+ <select id="selectByTmid" resultMap="BaseResultMap">  
+    select  *   from tqc_view_tabmodel tm where tm.tmid in  
+    <foreach item="tmid" index="index" collection="array" open="(" separator="," close=")">  
+      #{tmid}  
+    </foreach>  
+ </select> 
+ 
+  		<!-- 查询所有数据 -->
+	<select id="selectAll" parameterType="String" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		${sql}
+	</select>
+</mapper>

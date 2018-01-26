@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="audit.dao.AsAccessDataInfoMapper">
+  <resultMap id="BaseResultMap" type="audit.model.assess.AsAccessDataInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="table_id" jdbcType="INTEGER" property="tableId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="data_type" jdbcType="VARCHAR" property="dataType" />
+    <result column="src" jdbcType="VARCHAR" property="src" />
+    <result column="access_data_online" jdbcType="VARCHAR" property="accessDataOnline" />
+    <result column="data_online_src" jdbcType="VARCHAR" property="dataOnlineSrc" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, table_id, name, data_type, src, access_data_online, data_online_src
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from AS_ACCESS_DATA_INFO
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <insert id="insert" parameterType="audit.model.assess.AsAccessDataInfo">
+    insert into AS_ACCESS_DATA_INFO (id, table_id, name, 
+      data_type, src, access_data_online, 
+      data_online_src)
+    values (#{id,jdbcType=INTEGER}, #{tableId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{dataType,jdbcType=VARCHAR}, #{src,jdbcType=VARCHAR}, #{accessDataOnline,jdbcType=VARCHAR}, 
+      #{dataOnlineSrc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.assess.AsAccessDataInfo">
+    insert into AS_ACCESS_DATA_INFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="tableId != null">
+        table_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="dataType != null">
+        data_type,
+      </if>
+      <if test="src != null">
+        src,
+      </if>
+      <if test="accessDataOnline != null">
+        access_data_online,
+      </if>
+      <if test="dataOnlineSrc != null">
+        data_online_src,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="tableId != null">
+        #{tableId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null">
+        #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="src != null">
+        #{src,jdbcType=VARCHAR},
+      </if>
+      <if test="accessDataOnline != null">
+        #{accessDataOnline,jdbcType=VARCHAR},
+      </if>
+      <if test="dataOnlineSrc != null">
+        #{dataOnlineSrc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.assess.AsAccessDataInfo">
+    update AS_ACCESS_DATA_INFO
+    <set>
+      <if test="tableId != null">
+        table_id = #{tableId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null">
+        data_type = #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="src != null">
+        src = #{src,jdbcType=VARCHAR},
+      </if>
+      <if test="accessDataOnline != null">
+        access_data_online = #{accessDataOnline,jdbcType=VARCHAR},
+      </if>
+      <if test="dataOnlineSrc != null">
+        data_online_src = #{dataOnlineSrc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.assess.AsAccessDataInfo">
+    update AS_ACCESS_DATA_INFO
+    set table_id = #{tableId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      data_type = #{dataType,jdbcType=VARCHAR},
+      src = #{src,jdbcType=VARCHAR},
+      access_data_online = #{accessDataOnline,jdbcType=VARCHAR},
+      data_online_src = #{dataOnlineSrc,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+    </update>
+    <!-- 查询在线预览的文件 -->
+    <select id="findDataOnline" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+		    select * from AS_ACCESS_DATA_INFO
+		    where table_id=5
+     </select>
+  
+   <!-- 2015-5-14 17:22:05 分割 LLP -->
+  <!-- 我的材料库 文件 初始化 -->
+  <select id="searchAssessDataInfo" resultMap="BaseResultMap">
+  	select info.* from AS_ACCESS_DATA_INFO as info
+	left join AS_ACCESS_DATA_TABLE as datatable on datatable.id=info.table_id
+	left join AS_ACCESS_DATA_ROOM as room on room.id=datatable.room_id 
+	where datatable.id=1
+  </select>
+  <!-- 文件夹下的文件 根据文件夹id查询 -->
+  <select id="searchAssessDataTableInfo" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  	select info.* from AS_ACCESS_DATA_INFO as info
+	left join AS_ACCESS_DATA_TABLE as datatable on datatable.id=info.table_id
+	left join AS_ACCESS_DATA_ROOM as room on room.id=datatable.room_id 
+	where datatable.id=#{dataTableId}
+  </select>
+  	  <!-- 删除文件夹下的文件 -->
+   <delete id="deleteByTableId"  parameterType="java.lang.Integer">
+    delete from AS_ACCESS_DATA_INFO
+    where table_id =#{tableId}
+  </delete>
+  <!-- 根据主键删除文件 -->
+  <delete id="deleteByPrimaryKey" parameterType="Map">
+    delete from AS_ACCESS_DATA_INFO
+    where id in (
+    	<foreach collection="id" separator="," item="item">
+    		#{item}
+    	</foreach>
+    )
+  </delete>
+  
+  <select id="getUserDataByName" parameterType="java.util.Map" resultMap="BaseResultMap">
+  select adi.id, table_id, adi.name, data_type, src, access_data_online, data_online_src
+   from AS_ACCESS_DATA_INFO adi
+	inner join AS_ACCESS_DATA_TABLE adt on adi.table_id = adt.id
+	inner join AS_ACCESS_DATA_ROOM adr on adr.id  = adt.room_id
+	where adr.user_id=#{userId} 
+	<if test="name !=null and name !=''">
+	and (adi.name like '%'+#{name}+'%' or adi.data_type like '%'+#{name}+'%')
+	</if>
+	
+  </select>
+  <select id="findFileNameById" resultMap="BaseResultMap">
+      select * from AS_ACCESS_DATA_INFO where id =#{0}
+  </select>
+  <select id="searchFileCount" resultType="Integer" parameterType="java.util.Map">
+  	select COUNT(*) from AS_ACCESS_DATA_INFO where table_id=#{tableid} and name=#{filename} and data_type=#{filetype}
+  </select>
+</mapper>

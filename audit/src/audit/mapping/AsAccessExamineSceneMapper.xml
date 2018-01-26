@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsAccessExamineSceneMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.assess.AsAccessExamineScene" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="access_specialty_id" property="accessSpecialtyId" jdbcType="INTEGER" />
+    <result column="expert_id" property="expertId" jdbcType="INTEGER" />
+    <result column="inspect_start_time" property="inspectStartTime" jdbcType="TIMESTAMP" />
+    <result column="inspect_end_time" property="inspectEndTime" jdbcType="TIMESTAMP" />
+    <result column="inspect_type_id" property="inspectTypeId" jdbcType="TINYINT" />
+    <result column="inspect_status" property="inspectStatus" jdbcType="VARCHAR" />
+    <result column="inspect_content" property="inspectContent" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, access_specialty_id, expert_id, inspect_start_time, inspect_end_time, inspect_type_id, 
+    inspect_status, inspect_content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from AS_ACCESS_EXAMINE_SCENE
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from AS_ACCESS_EXAMINE_SCENE
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.assess.AsAccessExamineScene" >
+    insert into AS_ACCESS_EXAMINE_SCENE (id, access_specialty_id, expert_id, 
+      inspect_start_time, inspect_end_time, inspect_type_id, 
+      inspect_status, inspect_content)
+    values (#{id,jdbcType=INTEGER}, #{accessSpecialtyId,jdbcType=INTEGER}, #{expertId,jdbcType=INTEGER}, 
+      #{inspectStartTime,jdbcType=TIMESTAMP}, #{inspectEndTime,jdbcType=TIMESTAMP}, #{inspectTypeId,jdbcType=TINYINT}, 
+      #{inspectStatus,jdbcType=VARCHAR}, #{inspectContent,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.assess.AsAccessExamineScene" >
+    insert into AS_ACCESS_EXAMINE_SCENE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="accessSpecialtyId != null" >
+        access_specialty_id,
+      </if>
+      <if test="expertId != null" >
+        expert_id,
+      </if>
+      <if test="inspectStartTime != null" >
+        inspect_start_time,
+      </if>
+      <if test="inspectEndTime != null" >
+        inspect_end_time,
+      </if>
+      <if test="inspectTypeId != null" >
+        inspect_type_id,
+      </if>
+      <if test="inspectStatus != null" >
+        inspect_status,
+      </if>
+      <if test="inspectContent != null" >
+        inspect_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="accessSpecialtyId != null" >
+        #{accessSpecialtyId,jdbcType=INTEGER},
+      </if>
+      <if test="expertId != null" >
+        #{expertId,jdbcType=INTEGER},
+      </if>
+      <if test="inspectStartTime != null" >
+        #{inspectStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inspectEndTime != null" >
+        #{inspectEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inspectTypeId != null" >
+        #{inspectTypeId,jdbcType=TINYINT},
+      </if>
+      <if test="inspectStatus != null" >
+        #{inspectStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectContent != null" >
+        #{inspectContent,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.assess.AsAccessExamineScene" >
+    update AS_ACCESS_EXAMINE_SCENE
+    <set >
+      <if test="accessSpecialtyId != null" >
+        access_specialty_id = #{accessSpecialtyId,jdbcType=INTEGER},
+      </if>
+      <if test="expertId != null" >
+        expert_id = #{expertId,jdbcType=INTEGER},
+      </if>
+      <if test="inspectStartTime != null" >
+        inspect_start_time = #{inspectStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inspectEndTime != null" >
+        inspect_end_time = #{inspectEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inspectTypeId != null" >
+        inspect_type_id = #{inspectTypeId,jdbcType=TINYINT},
+      </if>
+      <if test="inspectStatus != null" >
+        inspect_status = #{inspectStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectContent != null" >
+        inspect_content = #{inspectContent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.assess.AsAccessExamineScene" >
+    update AS_ACCESS_EXAMINE_SCENE
+    set access_specialty_id = #{accessSpecialtyId,jdbcType=INTEGER},
+      expert_id = #{expertId,jdbcType=INTEGER},
+      inspect_start_time = #{inspectStartTime,jdbcType=TIMESTAMP},
+      inspect_end_time = #{inspectEndTime,jdbcType=TIMESTAMP},
+      inspect_type_id = #{inspectTypeId,jdbcType=TINYINT},
+      inspect_status = #{inspectStatus,jdbcType=VARCHAR},
+      inspect_content = #{inspectContent,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+   <insert id="insertSceneTasks"  parameterType="java.util.List">
+    insert into AS_ACCESS_EXAMINE_SCENE
+    (access_specialty_id, expert_id, inspect_start_time, inspect_end_time, inspect_type_id, 
+    inspect_status, inspect_content)
+    values
+    <foreach collection="list" item="item" index="index" separator="," >
+    	 (#{item.accessSpecialtyId},#{item.expertId},#{item.inspectStartTime},#{item.inspectEndTime},#{item.inspectTypeId},
+    	 #{item.inspectStatus},#{item.inspectContent})  
+    </foreach>
+  </insert>
+    <delete id="deleteByPrimaryKeys" parameterType="java.lang.String" >
+    delete from AS_ACCESS_EXAMINE_SCENE
+    where id in
+    <foreach item="idItem" collection="array" open="(" separator="," close=")">
+		#{idItem}
+	</foreach>
+  </delete>
+</mapper>

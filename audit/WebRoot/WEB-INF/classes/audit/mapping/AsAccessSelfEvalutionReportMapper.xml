@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsAccessSelfEvalutionReportMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.assess.AsAccessSelfEvalutionReport" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="access_specialty_id" property="accessSpecialtyId" jdbcType="INTEGER" />
+    <result column="list_name" property="listName" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, access_specialty_id, list_name, parent_id, content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from AS_ACCESS_SELF_EVALUTION_REPORT
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from AS_ACCESS_SELF_EVALUTION_REPORT
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.assess.AsAccessSelfEvalutionReport" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ACCESS_SELF_EVALUTION_REPORT (id, access_specialty_id, 
+      list_name, parent_id, content
+      )
+    values (#{id,jdbcType=INTEGER}, #{accessSpecialtyId,jdbcType=INTEGER}, 
+      #{listName,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.assess.AsAccessSelfEvalutionReport" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ACCESS_SELF_EVALUTION_REPORT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="accessSpecialtyId != null" >
+        access_specialty_id,
+      </if>
+      <if test="listName != null" >
+        list_name,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="accessSpecialtyId != null" >
+        #{accessSpecialtyId,jdbcType=INTEGER},
+      </if>
+      <if test="listName != null" >
+        #{listName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.assess.AsAccessSelfEvalutionReport" >
+    update AS_ACCESS_SELF_EVALUTION_REPORT
+    <set >
+      <if test="accessSpecialtyId != null" >
+        access_specialty_id = #{accessSpecialtyId,jdbcType=INTEGER},
+      </if>
+      <if test="listName != null" >
+        list_name = #{listName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.assess.AsAccessSelfEvalutionReport" >
+    update AS_ACCESS_SELF_EVALUTION_REPORT
+    set access_specialty_id = #{accessSpecialtyId,jdbcType=INTEGER},
+      list_name = #{listName,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 我是分割线 -->
+  
+  <select id="selectAllBySpecialtyId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+     select 
+    <include refid="Base_Column_List" />
+    from AS_ACCESS_SELF_EVALUTION_REPORT
+    where access_specialty_id = #{specialtyId}
+  </select>
+  
+  <delete id="deleteByAccessSpecialtyId" parameterType="java.lang.Integer">
+  delete from AS_ACCESS_SELF_EVALUTION_REPORT
+    where access_specialty_id = #{accessSpecialtyId,jdbcType=INTEGER}
+  </delete>
+</mapper>

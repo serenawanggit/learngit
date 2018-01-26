@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AssessResultVoMapper">
+	<resultMap id="BaseResultMap" type="audit.model.assess.vo.AsAccessSceneScoreVo">
+		<result column="oneId"           property="oneId"           jdbcType="INTEGER"/>
+		<result column="oneLevelName"    property="oneLevelName"    jdbcType="VARCHAR"/>
+		<result column="oneLevelScore"   property="oneLevelScore"   jdbcType="NUMERIC"/>
+		<result column="twoId"           property="twoId"           jdbcType="INTEGER"/>
+		<result column="twoLevelName"    property="twoLevelName"    jdbcType="VARCHAR"/>
+		<result column="twoLevelScore"   property="twoLevelScore"   jdbcType="NUMERIC"/>
+		<result column="threeId"         property="threeId"         jdbcType="INTEGER"/>
+		<result column="threeLevelName"  property="threeLevelName"  jdbcType="VARCHAR"/>
+		<result column="threeLevelScore" property="threeLevelScore" jdbcType="NUMERIC"/>
+		<result column="sceneScore"      property="sceneScore"      jdbcType="NUMERIC"/>
+		<result column="personalIdea"    property="personalIdea"    jdbcType="VARCHAR"/>
+	</resultMap>
+	<resultMap id="AsAccessSpecialtyResultMap" type="audit.model.assess.AsAccessSpecialty">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="specialty_id" jdbcType="INTEGER" property="specialtyId" />
+    <result column="specialty_name" jdbcType="VARCHAR" property="specialtyName" />
+    <result column="access_id" jdbcType="INTEGER" property="accessId" />
+    <result column="participate_type" jdbcType="TINYINT" property="participateType" />
+    <result column="start_datetime" jdbcType="TIMESTAMP" property="startDatetime" />
+    <result column="end_datetime" jdbcType="TIMESTAMP" property="endDatetime" />
+    <result column="is_complete" jdbcType="TINYINT" property="isComplete" />
+    <result column="default_standart_id" jdbcType="VARCHAR" property="defaultStandartId" />
+    <result column="academy_id" jdbcType="INTEGER" property="academyId" />
+    <result column="academy_name" jdbcType="VARCHAR" property="academyName" />
+    <result column="user_group_id" jdbcType="INTEGER" property="userGroupId" />
+  </resultMap>
+    <sql id="Specialty_Column_List">
+    id, specialty_id, specialty_name, access_id, participate_type, start_datetime, end_datetime, 
+    is_complete, default_standart_id, academy_id, academy_name, user_group_id
+  </sql>
+	<select id="findSpecialtyByAccessIdAndAcademyIdAndSpecialtyId"  useCache="false" flushCache="false" resultMap="AsAccessSpecialtyResultMap">
+  	select 
+    <include refid="Specialty_Column_List" />
+    from AS_ACCESS_SPECIALTY
+    <where>
+         participate_type = 3
+    	<if test="accessId!=null and accessId!=''">
+    	   and access_id = #{accessId}
+    	</if>
+    	<if test="academyId!=null and academyId!=''">
+    	   and academy_id = #{academyId}
+    	</if>
+    	<if test="specialtyId!=null and specialtyId!=''">
+    	   and specialty_id = #{specialtyId}
+    	</if>
+    </where>
+  </select>
+	<select id="showSceneScoreComments" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+	     SELECT  distinct 
+         A.id as oneid,     A.name  as onelevelname,	A.score as oneLevelscore,	
+         B.id as twoid, 	B.name as twolevelname,	B.score as twolevelscore,	
+         C.id as threeid,	C.name as threelevelname,	C.score as threelevelscore,
+         cast(D.score as decimal(10,2)) as sceneScore,
+         E.personalIdea  as  personalIdea
+         from AS_ACCESS_STANDARD_DETAIL A 
+  	     left join AS_ACCESS_STANDARD_DETAIL B ON A.ID=B.PARENT_ID 	
+  	     left join AS_ACCESS_STANDARD_DETAIL C ON B.ID=C.PARENT_ID  
+  	     left join  AS_ACCESS_SITE_CHECK_RECORD D on D.standard_detail_id = C.id
+  	     left join AS_ACCESS_SITE_CHECK_RECORDIDEA E on E.standard_detail_id = A.id 
+  	     <where>
+  	          A.PARENT_ID=0 
+ 	         <if test="recordType != null">
+ 	            	and D.record_type = #{recordType}
+ 	         </if>
+  	         <if test="architectureId !=null and architectureId !=''">
+  	         	and A.standard_id=#{architectureId}
+  	         </if>
+  	         <if test="userId != null and userId != ''">
+  	            and  D.user_id = #{userId}
+  	         </if>
+  	         <if test="sid != null and sid != ''">
+  	            and  E.access_specialty_id= #{sid}
+  	         </if>
+  	     </where>
+	</select>
+	<select id="showArchitecture" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+	 SELECT  distinct 
+     a.id as oneid,     a.name  as onelevelname,	a.score as oneLevelscore,	
+     B.id as twoid, 	B.name as twolevelname,	b.score as twolevelscore,	
+     C.id as threeid,	c.name as threelevelname,	C.score as threelevelscore
+     FROM AS_ACCESS_STANDARD_DETAIL A 
+  	 LEFT JOIN AS_ACCESS_STANDARD_DETAIL B ON A.ID=B.PARENT_ID 	
+  	 LEFT JOIN AS_ACCESS_STANDARD_DETAIL C ON B.ID=C.PARENT_ID  
+  	 <where>
+  	     A.PARENT_ID=0
+  	      <if test="architectureId !=null and architectureId !=''">
+  	         	and A.standard_id=#{architectureId}
+  	      </if>
+  	 </where>
+	</select>
+</mapper>

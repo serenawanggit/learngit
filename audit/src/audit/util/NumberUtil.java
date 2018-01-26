@@ -1,0 +1,57 @@
+package audit.util;
+
+import java.math.BigDecimal;
+
+
+public class NumberUtil {
+	/**
+     * 判断字符串是否是整数
+    */
+   public static boolean isInteger(String value) {
+       try {
+           Integer.parseInt(value);
+           return true;
+       } catch (NumberFormatException e) {
+           return false;
+       }
+   }
+   
+	/**
+     * 判断字符串是否是浮点数
+     */
+	public static boolean isDouble(String value) {
+        try {
+            Double.parseDouble(value);
+            if (value.contains("."))
+                return true;
+            return false;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+	
+	/**
+     * 判断字符串是否是数字
+     */
+    public static boolean isNumber(String value) {
+        return isInteger(value) || isDouble(value);
+    }
+    
+	/**
+     * 
+     * 提供精确的小数位四舍五入处理。
+     * @param v 需要四舍五入的数字
+     * @param scale 小数点后保留几位
+     * @return 四舍五入后的结果
+     * 
+     */
+	 public static double roundForNumber(double v,int scale){
+	        if(scale<0){
+	            throw new IllegalArgumentException("必须是一个正整数或零");
+	        }
+	        BigDecimal b = new BigDecimal(Double.toString(v));
+	        BigDecimal one = new BigDecimal("1");
+	        return b.divide(one,scale,BigDecimal.ROUND_HALF_UP).doubleValue();
+	 }
+	
+}

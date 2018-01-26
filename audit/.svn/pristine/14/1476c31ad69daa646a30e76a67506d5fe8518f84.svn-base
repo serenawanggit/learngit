@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<style type="text/css">
+body{font-family:SimSun;} 
+table{border: 0px ; width:100%;}		 
+ table thead{background-color: #eee; border: 1px solid #ccc;}		
+   table td{border: 0px ;text-align: center; height:30px;}
+   .tb_title{background-color:#eee;border:1px solid #ccc; font-weight:bold; height:30px; margin-top: 15px;}
+   .tb_title h4{float: left; color:#4A8BC2; padding-left:10px; line-height:30px;position: relative;}
+   .tb_main table{border: 1px solid #ccc;  border-collapse: collapse; width:100%;margin:5px 0;}
+   .tb_main table td{border: 1px solid #ccc;text-align: center; height:30px;}
+   .tb_main table thead{background-color: #eee; border: 1px solid #ccc;}
+   .tb_main table tfoot td{text-align: left; padding-left:10px; }
+   .tb_main table thead h4{float: left; line-height: 30px; padding-left:15px;}
+   .f1class{ border: 1px solid #ccc;text-align: center; height:30px; width:30%;}
+   </style>
+   <meta http-equiv="Content-Type" content="text/html;charset=GBK"></meta>
+   <script type="text/javascript" src="/audit/commonjs/common1.js"></script>
+    <script type="text/javascript" src="/audit/commonjs/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript">
+    validateLogin();
+    </script>
+</head>
+<body>
+  	<table>
+  	<tbody><tr><td style="border: 0px;text-align: center;"><h1>��ͨ�ߵ�ѧУ���ƽ�ѧ</h1></td></tr>
+  	<tr><td style="border: 0px;text-align: center;"></td></tr>
+  	<tr><td style="border: 0px;text-align: center;"><h1>������ݷ�������</h1></td></tr>
+	<tr><td style="border: 0px;text-align: center;"></td></tr> 
+	<tr><td style="border: 0px;text-align: center;"></td></tr><tr><td style='border: 0px;text-align: center;'><h1>��</h1></td></tr><tr><td style="border: 0px;text-align: center;"></td></tr><tr><td style="border: 0px;text-align: center;"></td></tr><tr><td style='border: 0px;text-align: center;'><h1>��</h1></td></tr><tr><td style="border: 0px;text-align: center;"></td></tr><tr><td style="border: 0px;text-align: center;"></td></tr><tr><td style='border: 0px;text-align: center;'><h1>��</h1></td></tr><tr><td style="border: 0px;text-align: center;"></td></tr><tr><td style="border: 0px;text-align: center;"></td></tr><tr><td style='border: 0px;text-align: center;'><h1>��</h1></td></tr><tr><td style="border: 0px;text-align: center;"></td></tr><tr><td style="border: 0px;text-align: center;"></td></tr><tr><td style='border: 0px;text-align: center;'><h1>��</h1></td></tr><tr><td style="border: 0px;text-align: center;"></td></tr><tr><td style="border: 0px;text-align: center;"></td></tr><tr><td style='border: 0px;text-align: center;'><h1>ѧ</h1></td></tr><tr><td style="border: 0px;text-align: center;"></td></tr>
+  	<tr><td style="border: 0px;text-align: center;"><h3>�Ϻ���˼���Ӽ������޹�˾</h3></td></tr>
+  	<tr><td style="border: 0px;text-align: center;"></td></tr>
+  	<tr><td style="border: 0px;text-align: center;"></td></tr>
+  	<tr><td style="border: 0px;text-align: center;"><h3 id="h3Date"></h3></td></tr>
+	</tbody></table>
+	
+		<table style="border-collapse:collapse;padding: 0px;margin: 0px">
+		<thead><tr><td colspan="4">Ŀ ¼</td></tr></thead>
+    	<tbody>
+    		<tr>	<td style="border: 0px;text-align: left;">1</td>	<td style="border: 0px;text-align: left;">ȫ������У��������ռ��У������ı���</td>									<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+    		<tr>	<td style="border: 0px;text-align: left;">2</td>	<td style="border: 0px;text-align: left;">��������רҵ����</td>									<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+    		<tr>	<td style="border: 0px;text-align: left;">2.1</td>	<td style="border: 0px;text-align: left;">��������ѧԺ��רҵ�嵥</td>		<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+    		<tr>	<td style="border: 0px;text-align: left;">2.2</td>	<td style="border: 0px;text-align: left;">��ѧ�����ࣨһ��������רҵ�ֲ����</td>									<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+    		<tr>	<td style="border: 0px;text-align: left;">3</td>	<td style="border: 0px;text-align: left;">��������-־Ը¼ȡ����</td>										<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+    		<tr>	<td style="border: 0px;text-align: left;">3.1</td>	<td style="border: 0px;text-align: left;">��������(һ��ͳ��)��רҵһ־Ը¼ȡ�������־Ը����</td>									<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">4</td>	<td style="border: 0px;text-align: left;">��ʦ����ṹ</td>								<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">4.1</td>	<td style="border: 0px;text-align: left;">רҵ����ְ��ṹ״̬��</td>								<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">4.2</td>	<td style="border: 0px;text-align: left;">ѧ��ṹ״̬��</td>								<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">4.3</td>	<td style="border: 0px;text-align: left;">����ṹ״̬��</td>									<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">5</td>	<td style="border: 0px;text-align: left;">��ʦ��</td>								<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">6</td>	<td style="border: 0px;text-align: left;">����ѧ���������豸ֵ������ֵ</td>										<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">7</td>	<td style="border: 0px;text-align: left;">���ͼ����</td>								<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">8</td>	<td style="border: 0px;text-align: left;">����ͼ�顢�����ڿ�����</td>									<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">9</td>	<td style="border: 0px;text-align: left;">�������ͼ����ͨ��</td>						<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">10</td>	<td style="border: 0px;text-align: left;">����ѧ�����÷�</td>								<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">11</td>	<td style="border: 0px;text-align: left;">���ƽ�ѧ�ճ�����֧��</td>						<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">11.1</td>	<td style="border: 0px;text-align: left;">���ƽ�ѧ�ճ�����֧����ϸ��</td>								<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">11.2</td>	<td style="border: 0px;text-align: left;">����ר���ѧ������֧��</td>									<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">11.3</td>	<td style="border: 0px;text-align: left;">����ʵ�龭�ѡ�ʵϰ����ʹ�������</td>								<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">12</td>	<td style="border: 0px;text-align: left;">����ר���ѧ����</td>							<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">13</td>	<td style="border: 0px;text-align: left;">����ʵ�龭��</td>										<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">14</td>	<td style="border: 0px;text-align: left;">����ʵϰ����</td>								<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">15</td>	<td style="border: 0px;text-align: left;">����Ӧ���ҵ����ѧ�ּ�ѧʱ��</td>								<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">16</td>	<td style="border: 0px;text-align: left;">����Ӧ���ҵ��ʵ���ѧѧ�ֺ�ѡ�޿�ѧ�ֱַ�ռ��ѧ�ֱ���</td>									<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">17</td>	<td style="border: 0px;text-align: left;">ȫУ���豾�ƿγ̵����������Ŵ�</td>									<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">18</td>	<td style="border: 0px;text-align: left;">�������ƿγ̵Ľ��ڱ��������</td>									<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">18.1</td>	<td style="border: 0px;text-align: left;">������ʦ�и߼�ְ�ƽ�ʦ���ڱ��ƿγ����һ���?��ѧԺ��</td>							<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">19</td>	<td style="border: 0px;text-align: left;">���ڳе��ı��ƿγ̱���</td>								<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">19.1</td>	<td style="border: 0px;text-align: left;">�߼�ְ�ƽ�ʦ���ڱ��ƿγ��Ŵ������һ���?��ѧԺ��</td>								<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">20</td>	<td style="border: 0px;text-align: left;">�¿����ƿγ����������Ŵ�</td>							<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">20.1</td>	<td style="border: 0px;text-align: left;">�¿����ƿγ����һ���?��ѧԺ��</td>									<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">21</td>	<td style="border: 0px;text-align: left;">��ѧ������</td>										<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">22</td>	<td style="border: 0px;text-align: left;">ѧ��תרҵ�������</td>					<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">22.1</td>	<td style="border: 0px;text-align: left;">��ѧԺת��ת�����ͳ�Ʊ�</td>								<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">22.2</td>	<td style="border: 0px;text-align: left;">��ϵת��ת�����ͳ�Ʊ�</td>							<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">23</td>	<td style="border: 0px;text-align: left;">У��ʵϰ�����</td>								<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">23.1</td>	<td style="border: 0px;text-align: left;">�������ѧ��ʵϰ����嵥</td>								<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">24</td>	<td style="border: 0px;text-align: left;">ѧ�������ѧ�������</td>								<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">24.1</td>	<td style="border: 0px;text-align: left;">����������ѧ�����ѧԺͳ�Ʊ�</td>									<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">25</td>	<td style="border: 0px;text-align: left;">ѧ���������˴�</td>								<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+			<tr>	<td style="border: 0px;text-align: left;">25.1</td>	<td style="border: 0px;text-align: left;">�������ض��˴�ͳ��һ���?��Ժϵ��</td>					<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td></tr>
+				<tr><td style="border: 0px;text-align: left;">25.2</td>	<td style="border: 0px;text-align: left;">�������˴�ͳ��һ���?��Ժϵ��</td>						<td style="border: 0px;text-align: left;"></td>	<td style="border: 0px;text-align: left;"></td></tr>
+				<tr><td style="border: 0px;text-align: left;">26</td>	<td style="border: 0px;text-align: left;">ѧ��ѧϰ�ɼ����</td>						<td style="border: 0px;text-align: left;"></td>	<td style="border: 0px;text-align: left;"></td></tr>
+				<tr><td style="border: 0px;text-align: left;">26.1</td>	<td style="border: 0px;text-align: left;">������--ƽ���ֲ�</td>	<td style="border: 0px;text-align: left;"></td>	<td style="border: 0px;text-align: left;"></td></tr>
+				<tr><td style="border: 0px;text-align: left;">27</td>	<td style="border: 0px;text-align: left;">Ӧ�챾�����ҵ�ʺ�ѧλ������</td>				<td style="border: 0px;text-align: left;"></td>	<td style="border: 0px;text-align: left;"></td></tr>
+				<tr><td style="border: 0px;text-align: left;">27.1</td>	<td style="border: 0px;text-align: left;">��������ҵ��ѧλ���ͳ��</td>	<td style="border: 0px;text-align: left;"></td>	<td style="border: 0px;text-align: left;"></td></tr>
+				<tr><td style="border: 0px;text-align: left;">28</td>	<td style="border: 0px;text-align: left;">Ӧ�챾�����ҵ��</td>				<td style="border: 0px;text-align: left;"></td>	<td style="border: 0px;text-align: left;"></td></tr>
+				<tr><td style="border: 0px;text-align: left;">28.1</td>	<td style="border: 0px;text-align: left;">Ӧ���ҵ���ҵ���嵥����ѧԺ��</td>					<td style="border: 0px;text-align: left;"></td>	<td style="border: 0px;text-align: left;"></td></tr>
+				<tr><td style="border: 0px;text-align: left;">29</td>	<td style="border: 0px;text-align: left;">���ʲ��Դ����</td>				<td style="border: 0px;text-align: left;"></td>	<td style="border: 0px;text-align: left;"></td></tr>
+				<tr><td style="border: 0px;text-align: left;">30</td>	<td style="border: 0px;text-align: left;">ѧ��ѧϰ����ȣ����鷽������</td>			<td style="border: 0px;text-align: left;"></td>	<td style="border: 0px;text-align: left;"></td></tr>
+				<tr><td style="border: 0px;text-align: left;">31</td>	<td style="border: 0px;text-align: left;">���˵�λ�Ա�ҵ������ȣ����鷽������</td>						<td style="border: 0px;text-align: left;"></td>	<td style="border: 0px;text-align: left;"></td></tr>
+				
+				<tr><td style="border: 0px;text-align: left;"></td>	<td style="border: 0px;text-align: left;"></td><td style="border: 0px;text-align: left;"></td>	<td style="border: 0px;text-align: left;"></td></tr>
+				<tr><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td></tr>
+				<tr><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td></tr>
+				<tr><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td></tr>
+				<tr><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td></tr>
+				<tr><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td></tr>
+				<tr><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td></tr>
+				<tr><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td></tr>
+				<tr><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td></tr>
+				<tr><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td></tr>
+				<tr><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td></tr>
+				<tr><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td></tr>
+				<tr><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td></tr>
+				<tr><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td><td style="border: 0px;text-align: center;"></td></tr>
+		</tbody>
+	</table>
+
+			<!-- <p style="font-size: 18px;text-align: left;">������˵����,���������е�������Ͼ�������ѧУȫ��ƽ�ѧ��״̬��ݿ⡣����Χ�Ʊ��ƽ�ѧ�������������Χ,ͨ�������ȡ�����,������ӳѧУ���ƽ�ѧ��״̬,������ר���˽�����������ж�ʹ�á�</p>
+			<p style="font-size: 18px;text-align: left;">����������,��һ����ΪѧУ���ƽ�ѧ��������֧����ݵķ�չ�仯��ѧ��רҵ�����;�ڶ����ָ�����������Χ�� 6 �������Ŀ,�ֱ����ص���ݽ��з���,��ͨ��ͼ��ȷ�ʽ����;�����Ϊ��ϸ����ݸ���,Ϊ��λר�ҿ�չ���������ṩֱ�۵����֧�š�</p>
+			<p style="font-size: 18px;text-align: left;">ר�������˽����ԭʼ���,�������ڼ���Ե�¼ѧУ���ƽ�ѧ��״̬��ݿ�ϵͳ���ġ�</p>
+			<p style="font-size: 18px;text-align: left;">������˵����,�����в���Ϳ�����ݵ�ͳ��ʱ��Ϊ 2014 ����Ȼ��(�� 2014�� 1 �� 1 ���� 12 �� 31 ��),��ѧ���������ͳ��ʱ��Ϊ 2014�� 2015ѧ��(�� 2014 �� 9 �� 1 ���� 2015 �� 9�� 30 ��)��</p>
+			<p style="font-size: 18px;text-align: left;">�����ע��ԭʼ�����״̬��ݿ���λ��,����ר�Ҳ��ġ�</p> -->
+<div class='tb_box'> <div class='tb_main'><table id="table1">
+				<thead>
+					<tr>
+						<td colspan="13"><h4>ȫ����ѧ����һ����</h4></td>
+					</tr> 
+					<tr>
+						<td>ѧ&nbsp;��</td> 
+						<td>��ͨ��������</td> 
+						<td>ר�ƣ���ְ������</td>
+						<td>ȫ����˶ʿ����</td> 
+						<td>ȫ���Ʋ�ʿ����</td> 
+						<td>��ѧ����</td>
+						<td>Ԥ������</td> 
+						<td>����������޼���ѵʱ����<p></p>һ�����ϵ�ѧ����</td> 
+						<td>�����Ѳ��ѧ<p></p>����̣̽�</td>
+						<td>"ҹ��(ҵ��)ѧ<p></p>����̣̽�"</td> 
+						<td>������̣̽�</td> 
+						<td>ȫ������У������</td>
+						<td>ȫ������У������<p></p>ռ��У������ı���</td> 
+						<!-- <td>�ۺ���У����</td>
+						<td>��������Ѳ��ѧ����</td> 
+						<td>�������ҵ����ѧ����</td> -->
+					</tr>
+				</thead>
+				
+				<tbody>
+					<tr>
+						<td>2011</td>
+						<td>17265</td>
+						<td>0</td>
+						<td>6923</td>
+						<td>1433</td>
+						<td>555</td>
+						<td>0</td>
+						<td>6</td>
+						<td>0</td>
+						<td>10753</td>
+						<td>442</td>
+						<td>26182</td>
+						<td>65.94%</td>
+						<!-- <td>259</td>
+						<td>259</td>
+						<td>259</td> -->
+					</tr>
+				</tbody>
+				
+				<tfoot>
+					<tr>
+						<td colspan="13">
+							��ע��ȫ������У������=��ͨ����ר�ƣ���ְ������+�о�����+��ѧ����+Ԥ������+�����Ѳ��ѧ����+��������<p></p>														
+							��ע���ۺ���У����=��ͨ����ר�ƣ���ְ������+˶ʿ����*1.5+��ʿ����*2+��ѧ����*3+Ԥ������+��������+�����Ѳ��ѧ����+ҹ��(ҵ��)ѧ����*0.3+��������*0.1														
+						</td>
+					</tr>
+				</tfoot>
+			</table></div></div></body></html>

@@ -1,0 +1,101 @@
+body{
+	font-family:"Microsoft YaHei";
+	
+}
+/* div{
+	border: 1px solid green;
+} */
+#midle {
+	height: 10%;
+}
+
+#right {
+	float: right;
+	margin-top:12px;
+	margin-right:3%
+}
+#mid{
+	height: 70%;
+	margin-top:1%
+}
+
+#right span{
+	color: #D94E4A;
+	font-weight: bold;
+	font-size: 12px;
+}
+#top{
+	padding-top:9px;
+}
+#top div{
+	margin-left:10px;
+	width: 80%;
+	height: 50%;
+}
+#mid{
+	background-image: url("../img/1.png");
+	background-repeat: no-repeat;
+	background-position: left;
+	margin-top: 2%;
+}
+#left{
+	float: left;
+	margin-left:3% ;
+	height: 2px;
+	margin-top: -0.8%;
+	color: #949494
+}
+#mid>div:nth-child(1){
+	width: 40%;
+	float: left;
+	font-size:16px;
+	font-weight:bolder;
+	color:#C12625;
+	margin-top:11px;
+	margin-left:8%;
+}
+#opration{
+	height: 60%;
+	float: right;
+	margin: 10px 20px;
+}
+#opration img:nth-child(1){
+	margin-right:10px;
+}
+#down{
+	margin-top:5%; 
+}
+.tableCom table{
+	width: 100%;
+	text-align: center;
+	border-collapse: collapse;
+	color: #848484;
+	border: 1px solid #DCDBDB;
+	margin-top: 5px;
+}
+.tableCom>div{
+	width: 40%;
+	font-size:16px;
+	font-weight:bolder;
+	color:#C12625;
+}
+
+.tableCom table tr:nth-child(1) td{
+	text-align: center;
+	height: 30px;
+	font-weight: 600;
+	font-size:13px;
+	color:black;
+	background-color: #DCDBDB
+}
+.tableCom table td{
+	font-size: 13px;
+}
+.tableCom{
+	margin-top: 2%;
+}
+#down>div:nth-child(3){
+	color: red;
+	font-size: 13px;
+	font-weight: 600;
+}

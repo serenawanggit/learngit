@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsAccessSelfScoreOpinionMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.assess.AsAccessSelfScoreOpinion" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="USERID" property="useriId" jdbcType="INTEGER" />
+    <result column="SCORE" property="score" jdbcType="FLOAT" />
+    <result column="COMPREHENSIVE_OPINION_CONTENT" property="comprehensiveOpinionContent" jdbcType="VARCHAR" />
+    <result column="ACCESS_SELF_DATE" property="accessSelfDate" jdbcType="VARCHAR" />
+  </resultMap>
+ 
+</mapper>

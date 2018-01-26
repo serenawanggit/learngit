@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="audit.dao.AsAccessDataTableMapper">
+  <resultMap id="BaseResultMap" type="audit.model.assess.AsAccessDataTable">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="room_id" jdbcType="INTEGER" property="roomId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="file_path" jdbcType="NVARCHAR" property="filePath" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, room_id, name, parent_id, file_path
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from AS_ACCESS_DATA_TABLE
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <insert id="insert" parameterType="audit.model.assess.AsAccessDataTable">
+    insert into AS_ACCESS_DATA_TABLE (id, room_id, name, 
+      parent_id, file_path)
+    values (#{id,jdbcType=INTEGER}, #{roomId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{parentId,jdbcType=INTEGER}, #{filePath,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.assess.AsAccessDataTable">
+    insert into AS_ACCESS_DATA_TABLE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="roomId != null">
+        room_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="filePath != null">
+        file_path,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="roomId != null">
+        #{roomId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="filePath != null">
+        #{filePath,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.assess.AsAccessDataTable">
+    update AS_ACCESS_DATA_TABLE
+    <set>
+      <if test="roomId != null">
+        room_id = #{roomId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="filePath != null">
+        file_path = #{filePath,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.assess.AsAccessDataTable">
+    update AS_ACCESS_DATA_TABLE
+    set room_id = #{roomId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      file_path = #{filePath,jdbcType=NVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+	<!-- 2015-5-14 15:46:55 分割  LLP -->
+  <resultMap id="BaseResultMapTack" type="audit.model.assess.tack.AsAccessDataTableTack" >
+    <id column="tableId" property="tableId" jdbcType="INTEGER" />
+    <result column="tablbName" property="tablbName" jdbcType="VARCHAR" />
+    <result column="parentId" property="parentId" jdbcType="INTEGER" />
+    <result column="dataTableRoomId" property="dataTableRoomId" jdbcType="INTEGER" />
+    <result column="userId" property="userId" jdbcType="INTEGER" />
+    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+  </resultMap>
+
+  <!-- 我的材料库 文件夹  初始化 -->
+  <select id="searchAssessDataTable" parameterType="java.lang.Integer" resultMap="BaseResultMapTack">
+    select 
+		datatable.id as tableId,datatable.name as tablbName,datatable.parent_id as parentId,datatable.room_id as dataTableRoomId,
+		room.user_id as userId,datatable.file_path as filePath
+	from AS_ACCESS_DATA_TABLE as datatable
+		left join AS_ACCESS_DATA_ROOM as room on room.id=datatable.room_id
+	where room.room_type=0  and datatable.parent_id =1 and room.user_id=#{assessUserid}
+  </select>
+  <!-- 查询根目录 -->
+  <select id="searchRoomTable" parameterType="Integer" resultMap="BaseResultMap">
+  	select * from AS_ACCESS_DATA_TABLE where room_id=#{roomid};
+  </select>
+  <!-- 查询文件夹下面的文件夹 -->
+  <select id="searchDataTableTable" resultMap="BaseResultMapTack" parameterType="Map">
+  	select 
+		datatable.id as tableId,datatable.name as tablbName,datatable.parent_id as parentId,datatable.room_id as dataTableRoomId,
+		room.user_id as userId,(select COUNT(*) from AS_ACCESS_DATA_TABLE where parent_id=#{tableparentId}) as counts , datatable.file_path as filePath
+	from AS_ACCESS_DATA_TABLE as datatable
+		left join AS_ACCESS_DATA_ROOM as room on room.id=datatable.room_id
+	where room.room_type=0  and datatable.parent_id =#{tableparentId} and room.user_id=#{assessUserid}
+  </select>
+  <!-- 文件夹文字不可重复 -->
+  <select id="searchDataTableNameAndParentId" resultType="java.lang.Integer" parameterType="Map">
+  	select COUNT(*) from AS_ACCESS_DATA_TABLE where parent_id=#{tableParentId} and name=#{tableName}
+  </select>
+  
+  <!-- 删除选中的文件夹 注删除文件夹下的文件和文件夹 -->
+  <delete id="deleteByPrimaryKey"  parameterType="java.lang.Integer" statementType="CALLABLE">
+   	 { call procExists(#{tableId,jdbcType=INTEGER}) }
+  </delete>
+  <!-- 查询这个用户有没有材料库 -->
+   <select id="searchRoomByUserId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+  	select count(*) from AS_ACCESS_DATA_ROOM where user_id=#{roomUserId} and room_type=0
+  </select>
+  
+  <!-- 查询这个用户有默认文件夹 -->
+   <select id="searchRoomByRoomId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+  	select count(*) from AS_ACCESS_DATA_TABLE where room_id=#{roomid}
+  </select>
+  
+</mapper>

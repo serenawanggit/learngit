@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.TeachersMapper" >
+
+	 <select id="selectTeacher" parameterType="map" resultType="map">
+		select FIELD2,FIELD3,FIELD12,FIELD8,FIELD4,FIELD15 from ODS_B1_6_1JZGJBXX a, userinfo b where  a.FIELD1=b.number  and b.id=#{uid}
+	 </select>
+	 
+</mapper>

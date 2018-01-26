@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AssessmentSpecialtyInfoGuanliyuanMapper" >
+	<select id="selectZgList" resultType="map" parameterType="map">
+	select r.ID as zgId,
+	    r.upload_File as fileName,
+	    i.SPECIALTY_NAME as sp_name,
+	    u.showname
+	     from ASSESSMENT_SPECIALTY_INFO i 
+	     left join (select * from ASSESSMENT_RETIFICATION_PLAN where RYEAR  = #{syear,jdbcType=DECIMAL}) r
+	     on i.ID = r.SPECIALTYID
+	     left join userinfo u on u.id = r.userId
+	</select>
+	
+	<select id="selectJdlt" resultType="audit.model.quality.vo.JDuGenZ" parameterType="map">
+		select ASSESSMENT_TASK.specialty_id,
+		 ASSESSMENT_TASK.audit_zt,
+		 ASSESSMENT_TASK.self_assess_zt,
+		 o.name as oName,
+		 ASSESSMENT_SPECIALTY_INFO.SPECIALTY_NAME as sp_name,
+		 ASSESSMENT_TASK.item,
+		 wangPStruts.struts,
+		 ASSESSMAENT_DATE_SPECIALTY.SITE_VISITS
+		 from ASSESSMENT_SPECIALTY_INFO
+		left join ASSESSMAENT_DATE_SPECIALTY
+		 on ASSESSMAENT_DATE_SPECIALTY.SPECIALTY_INFO_ID = ASSESSMENT_SPECIALTY_INFO.ID
+		left join (select * from ASSESSMENT_USER_INFO where ASSESS_TYPE = 1)t
+		on t.DATE_SPECIALTY_ID = ASSESSMAENT_DATE_SPECIALTY.ID
+		inner join
+		ASSESSMENT_TASK 
+		on
+		ASSESSMENT_TASK.specialty_id=ASSESSMENT_SPECIALTY_INFO.ID
+		left join 
+		wangPStruts
+		on 
+		wangPStruts.SPECIALTY_ID=ASSESSMENT_SPECIALTY_INFO.ID
+		left join userinfo u on t.ASSESS_SELF_USER = t.ID
+		left join (select * from organization 
+		<if test="oName !=null ">
+			where organization.name like '%'+#{oName}+'%'
+		</if>) o on u.organization = o.id
+		where 1=1
+		<if test="sp_name !=null ">
+			and ASSESSMENT_SPECIALTY_INFO.SPECIALTY_NAME like '%'+#{sp_name}+'%'
+		</if>
+	</select>
+	
+	<select id="selectOrganization"  resultType="String">
+		select name from organization where parent != 0
+	</select>
+	
+	<select id="selectZjName" resultType="String">
+			select userinfo.showname from ASSESSMENT_USER_INFO
+			left join 
+			userinfo
+			on ASSESSMENT_USER_INFO.ASSESS_SELF_USER=userinfo.id
+			where ASSESSMENT_USER_INFO.ASSESS_TYPE=4 
+			or
+			ASSESSMENT_USER_INFO.ASSESS_TYPE=5
+			group by   userinfo.showname
+	</select>
+	
+</mapper>

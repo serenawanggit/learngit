@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AssessmentTaskVoMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.assess.vo.AssessmentTaskVo" >
+    <result column="zypgid" property="zypgid" jdbcType="INTEGER" />
+    <result column="zypgName" property="zypgName" jdbcType="VARCHAR" />
+    <result column="pgzyId" property="pgzyId" jdbcType="INTEGER" />
+    <result column="pgzyName" property="pgzyName" jdbcType="VARCHAR" />
+    <result column="userId" property="userId" jdbcType="INTEGER" />
+    <result column="userName" property="userName" jdbcType="VARCHAR" />
+    <result column="pgtype" property="pgtype" jdbcType="INTEGER" />
+    <result column="iscomplete" property="iscomplete" jdbcType="INTEGER" />
+    <result column="academyid" property="academyId" jdbcType="INTEGER" />
+    <result column="academyname" property="academyName" jdbcType="INTEGER" />
+     <result column="pgtxid" property="pgtxId" jdbcType="INTEGER" />
+  </resultMap>
+   <!-- 根据用户id查询固定的网评专业 -->
+  <select id="findAssessmentTaskByuserId" resultMap="BaseResultMap"  >
+       	 select aas.access_id as zypgId ,aai.name as zypgName, aas.specialty_id as pgzyId, aas.specialty_name as pgzyName ,aas.default_standart_id as pgtxid,aau.user_id as userId,aau.user_name as userName,aas.participate_type as pgtype,aas.is_complete as iscomplete ,aas.academy_id as academyid,aas.academy_name as academyname 
+			 from as_access_specialty aas 
+			 left join AS_ACCESS_INFO aai on aas.access_id=aai.id 
+			 left join AS_ACCESS_USER aau on aau.user_group_id= aas.user_group_id where aau.user_id= #{0} and aau.user_type=2 and aas.participate_type=2  and aai.access_year=#{1}
+			 
+  </select>
+  
+   <!-- 校级领导查看全部的网评专业 -->
+   <select id="findAllAssessmentTask" resultMap="BaseResultMap"  >
+       	 select aas.access_id as zypgId ,aai.name as zypgName, aas.specialty_id as pgzyId, aas.specialty_name as pgzyName ,aas.default_standart_id as pgtxid,aau.user_id as userId,aau.user_name as userName,aas.participate_type as pgtype,aas.is_complete as iscomplete ,aas.academy_id as academyid,aas.academy_name as academyname 
+			 from as_access_specialty aas 
+			 left join AS_ACCESS_INFO aai on aas.access_id=aai.id 
+			 left join AS_ACCESS_USER aau on aau.user_group_id= aas.user_group_id where aau.user_type=2 and aas.participate_type=2  and aai.access_year=#{0}
+   </select>
+   
+   <!-- 院级领导查看本学院的网评专业  -->
+   <select id="findAcademyAssessmentTask">
+       select aas.access_id as zypgId ,aai.name as zypgName, aas.specialty_id as pgzyId, aas.specialty_name as pgzyName ,aas.default_standart_id as pgtxid,aau.user_id as userId,aau.user_name as userName,aas.participate_type as pgtype,aas.is_complete as iscomplete ,aas.academy_id as academyid,aas.academy_name as academyname 
+			 from as_access_specialty aas 
+			 left join AS_ACCESS_INFO aai on aas.access_id=aai.id 
+			 left join AS_ACCESS_USER aau on aau.user_group_id= aas.user_group_id 
+			 where  aau.user_type=2 and aas.participate_type=2  and aai.access_year=2015
+			 and aas.academy_id=#{0}
+   </select>
+   
+   <!-- 查询当前登录用户状态 -->
+   <select id="findOnLineUserStatus" resultType="java.util.Map">
+       	select * from AS_ACCESS_USER A
+           LEFT JOIN AS_ACCESS_SYSTEM_CODE B ON  B.code_type='user_type' and a.user_type=B.code_value
+           where a.user_id=#{0} and user_type=#{1}
+   </select>
+</mapper>

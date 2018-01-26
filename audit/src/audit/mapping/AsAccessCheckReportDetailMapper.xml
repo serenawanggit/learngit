@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsAccessCheckReportDetailMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.assess.AsAccessCheckReportDetail" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="check_report_id" property="checkReportId" jdbcType="INTEGER" />
+    <result column="observation_point" property="observationPoint" jdbcType="VARCHAR" />
+    <result column="observation_content" property="observationContent" jdbcType="VARCHAR" />
+    <result column="observation_score" property="observationScore" jdbcType="NUMERIC" />
+    <result column="observation_state" property="observationState" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, check_report_id, observation_point, observation_content, observation_score, observation_state
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from AS_ACCESS_CHECK_REPORT_DETAIL
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from AS_ACCESS_CHECK_REPORT_DETAIL
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.assess.AsAccessCheckReportDetail" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ACCESS_CHECK_REPORT_DETAIL (id, check_report_id, observation_point, 
+      observation_content, observation_score, observation_state
+      )
+    values (#{id,jdbcType=INTEGER}, #{checkReportId,jdbcType=INTEGER}, #{observationPoint,jdbcType=VARCHAR}, 
+      #{observationContent,jdbcType=VARCHAR}, #{observationScore,jdbcType=NUMERIC}, #{observationState,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.assess.AsAccessCheckReportDetail" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ACCESS_CHECK_REPORT_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="checkReportId != null" >
+        check_report_id,
+      </if>
+      <if test="observationPoint != null" >
+        observation_point,
+      </if>
+      <if test="observationContent != null" >
+        observation_content,
+      </if>
+      <if test="observationScore != null" >
+        observation_score,
+      </if>
+      <if test="observationState != null" >
+        observation_state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="checkReportId != null" >
+        #{checkReportId,jdbcType=INTEGER},
+      </if>
+      <if test="observationPoint != null" >
+        #{observationPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="observationContent != null" >
+        #{observationContent,jdbcType=VARCHAR},
+      </if>
+      <if test="observationScore != null" >
+        #{observationScore,jdbcType=NUMERIC},
+      </if>
+      <if test="observationState != null" >
+        #{observationState,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.assess.AsAccessCheckReportDetail" >
+    update AS_ACCESS_CHECK_REPORT_DETAIL
+    <set >
+      <if test="checkReportId != null" >
+        check_report_id = #{checkReportId,jdbcType=INTEGER},
+      </if>
+      <if test="observationPoint != null" >
+        observation_point = #{observationPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="observationContent != null" >
+        observation_content = #{observationContent,jdbcType=VARCHAR},
+      </if>
+      <if test="observationScore != null" >
+        observation_score = #{observationScore,jdbcType=NUMERIC},
+      </if>
+      <if test="observationState != null" >
+        observation_state = #{observationState,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.assess.AsAccessCheckReportDetail" >
+    update AS_ACCESS_CHECK_REPORT_DETAIL
+    set check_report_id = #{checkReportId,jdbcType=INTEGER},
+      observation_point = #{observationPoint,jdbcType=VARCHAR},
+      observation_content = #{observationContent,jdbcType=VARCHAR},
+      observation_score = #{observationScore,jdbcType=NUMERIC},
+      observation_state = #{observationState,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.DwVLeadershipMapper">
+	<resultMap id="BaseResultMap" type="audit.model.DwVLeadership">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="syear" property="syear" jdbcType="INTEGER" />
+		<result column="department" property="department" jdbcType="VARCHAR" />
+		<result column="profession" property="profession" jdbcType="VARCHAR" />
+		<result column="zbid" property="zbid" jdbcType="VARCHAR" />
+		<result column="zb" property="zb" jdbcType="VARCHAR" />
+		<result column="zhi" property="zhi" jdbcType="FLOAT" />
+	</resultMap>
+	
+	<!-- 用来定义可重用的sql代码段 -->
+	<sql id="Base_Column_mList">
+	    id,syear,department,profession,zbid,zb,zhi
+	</sql>
+	
+	<!-- 查询所有数据 -->
+	<select id="selectAll" parameterType="String" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		${sql}
+	</select>
+	
+	<!-- 查询所有数据 -->
+	<select id="selectcount" resultType="java.lang.Integer">
+		${sql}
+	</select>
+	
+	<select id="getValueByQuery" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select ZHI from DW_V_LEADERSHIP vl
+		left join organization og on og.name = vl.DEPARTMENT 
+		left join specialty sp on sp.name = vl.PROFESSION
+		<where>
+			<if test="organization != null">
+			 and og.id = #{organization,jdbcType=INTEGER}
+			</if>
+			<if test="kgzbdm != null">
+			 and vl.zbid = #{kgzbdm,jdbcType=VARCHAR}
+			</if>
+			<if test="specialty != null">
+			 and sp.id = #{specialty,jdbcType=INTEGER}
+			</if>
+			<if test="year != null">
+			 and syear = #{year,jdbcType=INTEGER}
+			</if>
+		</where>
+	</select>
+	
+	<select id="findValueByZBAndSyearAndName"  resultMap="BaseResultMap">
+	       select * from DW_V_LEADERSHIP where ZB=#{0} and SYEAR=#{1}  and PROFESSION=#{2}
+	</select>
+</mapper>

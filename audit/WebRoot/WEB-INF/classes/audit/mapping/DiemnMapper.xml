@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.DiemnMapper">
+	<resultMap id="BaseResultMap" type="audit.model.Diemn">
+		<id column="did" property="did" jdbcType="INTEGER" />
+		<result column="tmid" property="tmid" jdbcType="INTEGER" />
+		<result column="pmsflm" property="pmsflm" jdbcType="VARCHAR" />
+		<result column="dimenname" property="dimenname" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- 用来定义可重用的sql代码段 -->
+	<sql id="Base_Column_mList">
+	    did,tmid,pmsflm,dimenname
+	</sql>
+	
+	<!-- 查询行列所有数据 -->
+	<select id="select" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		select * from tqc_view_diemn where tmid = #{tmid}
+	</select>
+	
+		<!-- 查询行列所有数据 -->
+	<select id="selectByTmid" resultMap="BaseResultMap">  
+	    select * from tqc_view_diemn where tmid in  
+	    <foreach item="tmid" index="index" collection="array" open="(" separator="," close=")">  
+	      #{tmid}  
+	    </foreach>  
+    </select>  
+ 
+</mapper>

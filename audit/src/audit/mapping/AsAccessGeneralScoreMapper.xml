@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsAccessGeneralScoreMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.assess.AsAccessGeneralScore" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="USEID" property="useid" jdbcType="INTEGER" />
+    <result column="GENERAL_SCORE" property="generalScore" jdbcType="DOUBLE" />
+    <result column="GENERAL_OPINION" property="generalOpinion" jdbcType="VARCHAR" />
+    <result column="GENERAL_TIME" property="generalTime" jdbcType="VARCHAR" />
+    <result column="SPECIALTY_ID" property="specialtyId" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="findOnlyUserByspecialtyId" resultMap="BaseResultMap">
+      select * from AS_ACCESS_GENERAL_SCORE where USEID=#{0} and SPECIALTY_ID=#{1}
+  </select>
+</mapper>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tendina plugin</title>
+
+  <link rel="stylesheet" href="css/demo.css">
+  
+  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="../dist/tendina.min.js"></script>
+</head>
+  <body>
+    <ul class="dropdown">
+      <li>
+        <a id="deepest" class="" href="#">Snacks</a>
+        <ul>
+          <li><a class="" href="#">Snickers</a></li>
+        </ul>
+      </li>
+      <li>
+        <a class="" href="#">Drinks</a>
+        <ul>
+          <li><a class="" href="#">Coca Cola111</a></li>
+          <li><a class="" href="#">Fanta222</a></li>
+          <li><a class="" href="#">Cocktails333</a>
+            <ul>
+              <li><a id="" href="#">Long Island Ice Tea</a></li>
+              <li><a class="" href="#">Gin Lemon</a>
+              </li>
+              <li><a class="" href="#">Non alcoholic</a>
+                <ul>
+                  <li><a href="#">With Milk</a>
+                    <ul>
+                      <li><a href="#">Almond Milk Cooler</a></li>
+                      <li><a href="#">Banana Milk Shake</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#">Almond Iced Coffee</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a class="" href="#">Mea321t</a>
+        <ul>
+          <li><a class="" href="#">Bee321f</a></li>
+          <li><a class="" href="#">321</a></li>
+        </ul>
+      </li>
+    </ul>
+    
+    <script>
+      $('.dropdown').tendina({
+        // This is a setup made only
+        // to show which options you can use,
+        // it doesn't actually make sense!
+        animate: true,
+        speed: 500,
+        onHover: false,
+        hoverDelay: 300,
+        activeMenu: $('#deepest'),
+        openCallback: function(clickedEl) {
+          console.log('Hey dude!');
+        },
+        closeCallback: function(clickedEl) {
+          console.log('Bye dude!');
+        }
+      })
+    </script>
+  </body>
+</html>

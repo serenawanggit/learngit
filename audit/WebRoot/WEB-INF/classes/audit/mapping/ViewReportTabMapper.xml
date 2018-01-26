@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.ViewReportTabMapper">
+	<resultMap id="BaseResultMap" type="audit.model.ViewReportTab">
+		<id column="rtid" property="rtid" jdbcType="VARCHAR" />
+		<result column="reportname" property="rtname" jdbcType="VARCHAR" />
+		<result column="reportlevel" property="rtlevel" jdbcType="VARCHAR" />
+		<result column="report_zyear" property="rtyear" jdbcType="VARCHAR" />
+		<result column="report_status" property="rtstatus" jdbcType="VARCHAR" />
+		<result column="report_tabs" property="rttabs" jdbcType="VARCHAR" />
+		<result column="ctime" property="rtctime" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- 用来定义可重用的sql代码段 -->
+	<sql id="Base_Column_mList">
+	    rtid,reportname,reportlevel,report_zyear,report_status,report_tabs,ctime
+	</sql>
+	
+	<!-- 查询所有数据 -->
+	<select id="selectAll" parameterType="String" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		${sql}
+	</select>
+	
+	<!-- 查询所有数据数 -->
+	<select id="selectcount" resultType="java.lang.Integer">
+		${sql}
+	</select>
+	
+	
+
+</mapper>

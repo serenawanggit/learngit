@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsAssessSupportMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.report.AssessSupport" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="SUPPORT_NAME" property="supportName" jdbcType="VARCHAR" />
+    <result column="SUPPORT_ADDRESS" property="supportAddress" jdbcType="DECIMAL" />
+    <result column="REPORT_ID" property="reportId" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  
+  <select id="getAllSupportById"  resultType="map">
+  		select id,support_name,support_address,type from As_Assess_Support where sysId = #{0} 
+  		and rYear = #{1}  and specialty_id = #{3} and userId in
+  		(select ASSESS_SELF_USER from ASSESSMENT_USER_INFO where date_specialty_id in (select DATE_SPECIALTY_ID from ASSESSMENT_USER_INFO i where i.ASSESS_SELF_USER = #{2})
+ and ASSESS_TYPE = 1)
+  </select>
+	<delete id="deleteById" parameterType="java.lang.Integer">
+	delete from As_Assess_Support where ID = #{1}
+	
+	</delete>
+	
+	<insert id="insert" parameterType="map">
+	insert into As_Assess_Support(SUPPORT_NAME, SUPPORT_ADDRESS, SYSID,RYEAR,USERID,SPECIALTY_ID,type) 
+						values(#{supportName,jdbcType=VARCHAR},#{supportAddress,jdbcType=VARCHAR}
+						,#{sysId,jdbcType=DECIMAL},#{rYear,jdbcType=DECIMAL},#{userId,jdbcType=DECIMAL}
+						,#{specialtyId,jdbcType=DECIMAL},#{type,jdbcType=DECIMAL})
+	
+	</insert>
+	<select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select * from As_Assess_Support where id = #{1}
+	</select>
+	<select id="selectAllSupportBySpeId" resultType="map">
+	select i.id,parent_id,system_name,support_address,support_name,A.id as sid from ASSESSMENT_SYSTEM_INFO i
+	left join (select * from AS_ASSESS_SUPPORT where RYEAR = #{0} and USERID=#{1} 
+	and SPECIALTY_ID = #{2})A  on A.sysid = i.id where stype = #{3}  order by order_num
+	</select>
+	
+
+</mapper>

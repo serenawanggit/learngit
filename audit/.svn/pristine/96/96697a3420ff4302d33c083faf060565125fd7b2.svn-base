@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsAccessCheckRecordInfoMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.assess.AsAccessCheckRecordInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="access_id" property="accessId" jdbcType="INTEGER" />
+    <result column="specialty_id" property="specialtyId" jdbcType="INTEGER" />
+    <result column="standard_id" property="standardId" jdbcType="INTEGER" />
+    <result column="total_score" property="totalScore" jdbcType="DOUBLE" />
+    <result column="total_suggest" property="totalSuggest" jdbcType="VARCHAR" />
+    <result column="useri_id" property="useriId" jdbcType="INTEGER" />
+    <result column="create_datetime" property="createDatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, access_id, specialty_id, standard_id, total_score, total_suggest, useri_id, create_datetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from AS_ACCESS_CHECK_RECORD_INFO
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from AS_ACCESS_CHECK_RECORD_INFO
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.assess.AsAccessCheckRecordInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ACCESS_CHECK_RECORD_INFO (id, access_id, specialty_id, 
+      standard_id, total_score, total_suggest, 
+      useri_id, create_datetime)
+    values (#{id,jdbcType=INTEGER}, #{accessId,jdbcType=INTEGER}, #{specialtyId,jdbcType=INTEGER}, 
+      #{standardId,jdbcType=INTEGER}, #{totalScore,jdbcType=DOUBLE}, #{totalSuggest,jdbcType=VARCHAR}, 
+      #{useriId,jdbcType=INTEGER}, #{createDatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.assess.AsAccessCheckRecordInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ACCESS_CHECK_RECORD_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="accessId != null" >
+        access_id,
+      </if>
+      <if test="specialtyId != null" >
+        specialty_id,
+      </if>
+      <if test="standardId != null" >
+        standard_id,
+      </if>
+      <if test="totalScore != null" >
+        total_score,
+      </if>
+      <if test="totalSuggest != null" >
+        total_suggest,
+      </if>
+      <if test="useriId != null" >
+        useri_id,
+      </if>
+      <if test="createDatetime != null" >
+        create_datetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="accessId != null" >
+        #{accessId,jdbcType=INTEGER},
+      </if>
+      <if test="specialtyId != null" >
+        #{specialtyId,jdbcType=INTEGER},
+      </if>
+      <if test="standardId != null" >
+        #{standardId,jdbcType=INTEGER},
+      </if>
+      <if test="totalScore != null" >
+        #{totalScore,jdbcType=DOUBLE},
+      </if>
+      <if test="totalSuggest != null" >
+        #{totalSuggest,jdbcType=VARCHAR},
+      </if>
+      <if test="useriId != null" >
+        #{useriId,jdbcType=INTEGER},
+      </if>
+      <if test="createDatetime != null" >
+        #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.assess.AsAccessCheckRecordInfo" >
+    update AS_ACCESS_CHECK_RECORD_INFO
+    <set >
+      <if test="accessId != null" >
+        access_id = #{accessId,jdbcType=INTEGER},
+      </if>
+      <if test="specialtyId != null" >
+        specialty_id = #{specialtyId,jdbcType=INTEGER},
+      </if>
+      <if test="standardId != null" >
+        standard_id = #{standardId,jdbcType=INTEGER},
+      </if>
+      <if test="totalScore != null" >
+        total_score = #{totalScore,jdbcType=DOUBLE},
+      </if>
+      <if test="totalSuggest != null" >
+        total_suggest = #{totalSuggest,jdbcType=VARCHAR},
+      </if>
+      <if test="useriId != null" >
+        useri_id = #{useriId,jdbcType=INTEGER},
+      </if>
+      <if test="createDatetime != null" >
+        create_datetime = #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.assess.AsAccessCheckRecordInfo" >
+    update AS_ACCESS_CHECK_RECORD_INFO
+    set access_id = #{accessId,jdbcType=INTEGER},
+      specialty_id = #{specialtyId,jdbcType=INTEGER},
+      standard_id = #{standardId,jdbcType=INTEGER},
+      total_score = #{totalScore,jdbcType=DOUBLE},
+      total_suggest = #{totalSuggest,jdbcType=VARCHAR},
+      useri_id = #{useriId,jdbcType=INTEGER},
+      create_datetime = #{createDatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

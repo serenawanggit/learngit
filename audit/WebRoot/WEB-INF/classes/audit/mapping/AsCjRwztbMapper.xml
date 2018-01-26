@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsCjRwztbMapper">
+	<resultMap id="BaseResultMap" type="audit.model.AsCjCjrwztb">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="CJRWDM" property="cjrwdm" jdbcType="INTEGER" />
+		<result column="ZTBDM" property="ztbdm" jdbcType="INTEGER" />
+		<result column="CJR" property="cjr" jdbcType="INTEGER" />
+		<result column="CJZT" property="cjzt" jdbcType="INTEGER" />
+		<result column="SHR" property="shr" jdbcType="INTEGER" />
+	    <result column="SHZT" property="shzt" jdbcType="INTEGER" />
+	     <result column="SFTJSH" property="sftjsh" jdbcType="INTEGER" />
+	     <result column="CJRWNF" property="cjrwnf" jdbcType="VARCHAR" />
+	     </resultMap>
+	<!-- 更新任务	-->
+	<update id="updateAscjrwztb" parameterType="audit.model.AsCjCjrwztb">
+		update AS_CJ_CJRWZTB  set CJZT=1 where ZTBDM=#{0} and CJRWDM=#{1}
+	</update>
+    <!-- 查询采集任务状态id -->
+    <select id="findCjRwZtId" parameterType="map" resultMap="BaseResultMap">
+       select * from as_cj_cjrwztb acc	where  acc.CJRWDM=#{0} and acc.ZTBDM=#{1} 
+    </select>
+    <select id="findCjrecjr"  resultMap="BaseResultMap">
+         select * from as_cj_cjrwztb where id= #{id}  
+    </select>
+         <!-- 根据采集任务id 查询采集人 -->
+   <select id="findCJR"  resultMap="BaseResultMap">
+            select * from as_cj_cjrwztb 
+   </select>
+        
+    <!-- 任务通过	-->
+	<update id="updateAsRWtg" parameterType="audit.model.AsCjCjrwztb">
+		update AS_CJ_CJRWZTB  set CJZT=1, shzt=1 where id=#{0}
+	</update>
+	
+	<!-- 任务通过出错是修改	-->
+	<update id="updateAsRWtgX" parameterType="audit.model.AsCjCjrwztb">
+		update AS_CJ_CJRWZTB  set CJZT=3, shzt=0 where id=#{0}
+	</update>
+	
+	<!-- 任务驳回	-->
+	<update id="updateAsRWbh" parameterType="audit.model.AsCjCjrwztb">
+		update AS_CJ_CJRWZTB  set CJZT=0 , shzt=2  where id=#{0} 
+	</update>
+	<!--  任务取消 -->
+	<update id="updateAsRWqx" parameterType="audit.model.AsCjCjrwztb">
+		update AS_CJ_CJRWZTB  set CJZT=0 , shzt=0  where id=#{0} 
+	</update>
+	<!-- 根据id删除数据 -->
+	<delete id="deleteRW">
+	  	delete from AS_CJ_CJRWZTB where id=#{0}
+	</delete>
+</mapper>

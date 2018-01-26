@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsAssessReportMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.report.AssessReport" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ENTER_CONTENT" property="enterContent" jdbcType="VARCHAR" />
+    <result column="UPLOAD_CONTENT" property="uploadContent" jdbcType="DECIMAL" />
+    <result column="UPLOAD_FILES" property="uploadFiles" jdbcType="VARCHAR" />
+    <result column="UPLOAD_ADDRESS" property="uploadAddress" jdbcType="VARCHAR" />
+    <result column="SYSID" property="sysid" jdbcType="DECIMAL" />
+    <result column="SPECIALTY_ID" property="specialtyId" jdbcType="DECIMAL" />
+    <result column="RYEAR" property="rYear" jdbcType="VARCHAR" />
+    <result column="USERID" property="userId" jdbcType="DECIMAL" />
+    <result column="BLACKCONTENT" property="blackContent" jdbcType="VARCHAR"/>
+    <result column="IS_READ" property="isRead" jdbcType="DECIMAL"/>
+  </resultMap>
+<select id="getAllReport" resultMap="BaseResultMap">
+	select * from AS_ASSESS_REPORT where sysid = #{0} and specialty_id = #{1}
+	 and rYear = #{3} and userid in (select ASSESS_SELF_USER from ASSESSMENT_USER_INFO where date_specialty_id in (select DATE_SPECIALTY_ID from ASSESSMENT_USER_INFO i where i.ASSESS_SELF_USER = #{2})
+ and ASSESS_TYPE = 1)
+</select>
+
+<delete id="deleteById" parameterType="java.lang.Integer">
+	delete from AS_ASSESS_REPORT where ID = #{1}
+</delete>
+
+	<insert id="insert" parameterType="audit.model.report.AssessReport" >
+insert into AS_ASSESS_REPORT(ENTER_CONTENT,UPLOAD_CONTENT,UPLOAD_FILES ,UPLOAD_ADDRESS ,SYSID ,SPECIALTY_ID ,RYEAR,USERID,size,FILE_ONLINE_NAME,FILE_ONLINE_URL)
+values(#{enterContent,jdbcType=VARCHAR},#{uploadContent,jdbcType=VARCHAR},#{uploadFiles,jdbcType=VARCHAR},#{uploadAddress,jdbcType=VARCHAR}
+,#{sysid,jdbcType=DECIMAL},#{specialtyId,jdbcType=DECIMAL},#{rYear,jdbcType=VARCHAR},#{userId,jdbcType=DECIMAL},#{size,jdbcType=VARCHAR},#{fileOnlineName,jdbcType=VARCHAR},#{fileOnlineUrl,jdbcType=VARCHAR})
+	</insert>
+	
+	<!-- 插入内容 -->
+	<insert id="insertContent" parameterType="audit.model.report.AssessReport" >
+		insert into AS_ASSESS_REPORT(ENTER_CONTENT,SYSID ,SPECIALTY_ID ,RYEAR,USERID,grade,score,problem)
+		values(#{enterContent,jdbcType=VARCHAR},#{sysid,jdbcType=DECIMAL},#{specialtyId,jdbcType=DECIMAL},
+		#{rYear,jdbcType=VARCHAR},#{userId,jdbcType=DECIMAL},#{grade,jdbcType=VARCHAR},#{score,jdbcType=VARCHAR},#{problem,jdbcType=VARCHAR})   
+	</insert>
+
+<select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+select * from AS_ASSESS_REPORT where id = #{1}
+</select>
+ <select id="getAllSpecialtyByItem" resultType="map" >
+      select s.id,specialty_name,specialty_code,self_assess_zt,audit_zt,inter_people_zt,spot_zt from ASSESSMENT_USER_INFO i
+   left join ASSESSMAENT_DATE_SPECIALTY d on i.date_specialty_id = d.id left join ASSESSMENT_SPECIALTY_INFO s 
+   on s.id = d.specialty_info_id left join ASSESSMENT_TASK a on a.specialty_id = s.id where i.assess_self_user = #{0} and a.item = 2
+  </select>
+<update id="updateReport" parameterType="audit.model.report.AssessReport">
+update AS_ASSESS_REPORT
+<set>
+	<if test="enterContent!=null">
+	 ENTER_CONTENT = #{enterContent,jdbcType=DECIMAL} , 
+	</if>
+	<if test="uploadContent!=null">
+	 UPLOAD_CONTENT = #{uploadContent,jdbcType=DECIMAL} ,
+	</if>
+	<if test="uploadFiles!=null">
+	 UPLOAD_FILES = #{uploadFiles,jdbcType=DECIMAL} ,
+	</if>
+	<if test="uploadAddress!=null">
+	 UPLOAD_ADDRESS = #{uploadAddress,jdbcType=DECIMAL} ,
+	</if>
+	<if test="sysid!=null">
+	 SYSID = #{sysid,jdbcType=DECIMAL} ,
+	</if>
+	<if test="specialtyId!=null">
+	 SPECIALTY_ID = #{specialtyId,jdbcType=DECIMAL} ,
+	</if>
+	<if test="rYear=null">
+	 RYEAR = #{rYear,jdbcType=DECIMAL} ,
+	</if>
+	<if test="userId!=null">
+	 USERID = #{userId,jdbcType=DECIMAL} ,
+	</if>
+	<if test="score!=null">
+	 score = #{score ,jdbcType=DECIMAL} ,
+	</if>
+	<if test="grade!=null">
+	 grade = #{grade,jdbcType=DECIMAL} ,
+	</if>
+	<if test="problem!=null">
+	 problem  = #{problem ,jdbcType=DECIMAL} ,
+	</if>
+</set>
+where ID = #{id,jdbcType=DECIMAL}
+</update>
+<select id="getAllReportBySpeId" resultType="map">
+select i.id,parent_id,system_name,enter_content,upload_content,upload_address from ASSESSMENT_SYSTEM_INFO i  
+	left join (select * from  AS_ASSESS_REPORT where RYEAR = #{0} and USERID=#{1} 
+	and SPECIALTY_ID = #{2})A  on A.sysid = i.id where stype = #{3} order by order_num
+</select>
+<select id="getAllReportZu" resultMap="BaseResultMap">
+select r.id,enter_content,upload_content,upload_address,upload_files,is_read from AS_ASSESS_REPORT r 
+left join ASSESSMENT_SPECIALTY_INFO s on r.SPECIALTY_ID = s.id
+left join (select * from  AS_ASSESS_REPORT_READ 
+<if test="readRole!='null'">
+  where read_role = #{readRole,jdbcType=DECIMAL}
+ </if>
+) d on d.reportId = r.id
+ where sysid = #{sysid,jdbcType=DECIMAL}
+ <if test="specialtyId!=null">
+ and SPECIALTY_ID = #{specialtyId,jdbcType=DECIAMAL}
+ </if>
+  <if test="specialtyName!=null">
+ and SPECIALTY_NAME = #{specialtyName,jdbcType=VARCHAR}
+ </if>
+ <if test="userId!=null">
+ and USERID = #{userId,jdbcType=DECIAMAL}
+ </if> 
+ <if test="syear!=null">
+ and RYEAR = #{syear,jdbcType=VARCHAR}
+ </if>
+
+</select>
+
+	<insert id="insertReportRead" parameterType="map">
+	insert into AS_ASSESS_REPORT_READ(is_read,read_role,reportId)
+	values(1,#{readRole,jdbcType=DECIMAL},#{reportId,jdbcType=DECIMAL})
+	</insert>
+
+	<!-- 上传材料  -->
+	<insert id="insertSelfDataFile" parameterType="map">
+		insert into ASSESSMENT_SELF_DATAFILE(SYSID,FILE_NAME,FILE_URL,FILE_ONLINE_NAME,FILE_ONLINE_URL,SELF_USER,SPECIALTYID,FILE_TYPE,UPLOAD_TIME,year)
+			values(#{SYSID,jdbcType=DECIMAL},#{FILE_NAME,jdbcType=VARCHAR},#{FILE_URL,jdbcType=VARCHAR},#{FILE_ONLINE_NAME,jdbcType=VARCHAR},
+			#{FILE_ONLINE_URL,jdbcType=VARCHAR},#{SELF_USER,jdbcType=VARCHAR},#{SPECIALTYID,jdbcType=VARCHAR},#{FILE_TYPE,jdbcType=VARCHAR},#{UPLOAD_TIME,jdbcType=VARCHAR},#{year,jdbcType=VARCHAR})
+	</insert>
+	
+	<!-- 根据id查询详细校级信息 -->
+	<select id="getDataTemplateById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select * from AS_ASSESS_REPORT where id = #{1}
+	</select>
+	
+	<!-- 根据id查询自评报告 -->
+	<select id="getSelfDataById" parameterType="java.lang.Integer" resultType="map">
+		select FILE_NAME,FILE_TYPE,FILE_URL from ASSESSMENT_SELF_DATAFILE where ID=#{1}
+	</select>
+	
+	<select id="getReportBySysid" resultType="map" parameterType="map">
+		select BLACKCONTENT,SHgrade,SHscore from AS_ASSESS_REPORT where SYSID=#{sysid} and RYEAR=#{ryear} and SHUSERID=#{shrid} and SPECIALTY_ID=#{specialtyId}
+	</select>
+	
+	<!-- 查询网评人的节点意见 -->
+	<select id="findRectificationBySysid" resultType="map" parameterType="map">
+		select * from ASSESS_COMMENT_RECTIFICATION where SYSID=#{sysid} and COMMENT_USERID=#{wprid} and SYEAR=#{syear}  and COMMENT_TYPE=1
+	</select>
+	
+	<!-- 查询网评人的节点意见 -->
+	<select id="getRectificationBySpecialtyId" resultType="map" parameterType="map">
+		select * from ASSESS_COMMENT_RECTIFICATION where COMMENT_USERID=#{wprid} and specialty_id=#{specialtyId} and SYEAR=#{syear}  and COMMENT_TYPE=2
+	</select>
+	
+	<!-- 查询考察人员和组长的的节点意见 -->
+	<select id="findrecordBySysid" resultType="map" parameterType="map">
+		select * from ASSESS_COMMENT_RECORD where sysid=#{sysid} and kc_userid=#{kcrid} and syear=#{syear} and kc_type=1
+	</select>
+	
+	<!-- 查询考察人员和组长的的总意见 -->
+	<select id="getRecordBySpecialtyId" resultType="map" parameterType="map">
+		select * from ASSESS_COMMENT_RECORD where specialtyId=#{specialtyId} and kc_userid=#{userid} and syear=#{syear} and kc_type=2
+	</select>
+	
+	<!-- 审核人的总意见 -->
+	<select id="getAllreportToSHR" parameterType="map" resultType="map">
+		select * from ASSESSMENT_ALLREPORT where specialty_id=#{specialtyId} and tYear=#{syear} and USERID=#{shrid}
+	</select>
+</mapper>
+
+

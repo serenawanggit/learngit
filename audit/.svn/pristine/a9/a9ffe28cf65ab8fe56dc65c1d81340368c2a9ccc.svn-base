@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsCjZtsjbxxMapper">
+	<resultMap id="BaseResultMap" type="audit.model.AsCjZtsjbxx">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="rwid" property="rwid" jdbcType="INTEGER" />
+		<result column="SJBMC" property="sjbmc" jdbcType="VARCHAR" />
+		<result column="CJBMDM" property="cjbmdm" jdbcType="INTEGER" />
+	    <result column="shbmdm" property="shbmdm" jdbcType="INTEGER" />
+		<result column="CJMBDM" property="cjmbdm" jdbcType="INTEGER" />
+		<result column="SYFWDM" property="syfwdm" jdbcType="INTEGER" />
+		<result column="CJSJ" property="cjsj" jdbcType="DATE" />
+		<result column="USERID" property="userid" jdbcType="INTEGER" />
+		<result column="CJZT" property="cjzt" jdbcType="INTEGER" />
+		<result column="SHZT" property="shzt" jdbcType="INTEGER" />
+		<result column="BHLY" property="bhly" jdbcType="VARCHAR" />
+		<!-- 自定义模版 -->
+		<collection property="zdymb" javaType="java.util.ArrayList" column="CJMBDM" ofType="audit.model.DefineTemplate">    
+           <id column="CTEMPLATE_ID" property="id" jdbcType="INTEGER" />
+		   <result column="CTEMPLATE_NAME" property="CTEMPLATE_NAME" jdbcType="VARCHAR" />
+		   <result column="TEMPLATE_ID" property="TEMPLATE_ID" jdbcType="INTEGER" />
+		   <result column="TEMPLATE_NAME" property="TEMPLATE_NAME" jdbcType="VARCHAR" />
+		   <result column="STATE" property="STATE" jdbcType="INTEGER" />
+		   <result column="TIME_TYPE" property="TIME_TYPE" jdbcType="VARCHAR" />
+		   <result column="CATEGORY_ID" property="CATEGORY_ID" jdbcType="INTEGER" />
+		   <result column="CREATE_TIME" property="CREATE_TIME" jdbcType="DATE" />
+        </collection>
+        <!-- 数据分类 -->
+		<collection property="sjfl" javaType="java.util.ArrayList" column="CATEGORY_ID" ofType="audit.model.TemplateCategory">    
+           <id column="CATEGORY_ID" property="CATEGORY_ID" jdbcType="INTEGER" />
+		   <result column="CATEGORY_NAME" property="CATEGORY_NAME" jdbcType="VARCHAR" />
+        </collection>
+        <!-- 采集部门信息 -->
+		<collection property="cjbm" javaType="java.util.ArrayList" column="CJBMDM" ofType="audit.model.AsCjBmxx">    
+            <id column="cjbmdm" property="cjbmdm" jdbcType="INTEGER" />
+			<result column="cjbmmc" property="cjbmmc" jdbcType="VARCHAR" />
+			<result column="jgdm" property="jgdm" jdbcType="VARCHAR" />
+        </collection> 
+        <!-- 适用范围 -->
+		<collection property="syfw" javaType="java.util.ArrayList" column="SYFWDM" ofType="audit.model.AsCjSyfw">    
+            <id column="id" property="id" jdbcType="INTEGER" />
+			<result column="syfwmc" property="syfwmc" jdbcType="VARCHAR" />
+        </collection>
+	</resultMap>
+	
+	
+	<resultMap type="audit.model.AsZtsjbdyVo" id="ztsjbdyVo">
+	  	<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="CATEGORY_NAME" property="categoryName" jdbcType="VARCHAR" />
+		<result column="SJBMC" property="sjbmc" jdbcType="VARCHAR" />
+		<result column="NAME" property="cjBmName" jdbcType="INTEGER" />
+		<result column="CTEMPLATE_NAME" property="ctemplateName" jdbcType="VARCHAR" />
+		<result column="SYFWMC" property="syfwmc" jdbcType="VARCHAR" />
+	    <result column="TIME_TYPE" property="timeType" jdbcType="VARCHAR" />
+	    <result column="JGID" property="jgid" jdbcType="INTEGER" />
+	     <result column="shbmdm" property="shbmdm" jdbcType="INTEGER" />
+	</resultMap>
+	<!-- 用来定义可重用的sql代码段 -->
+	<sql id="Base_Column_mList">
+		r.ID,r.SJBMC,r.CJBMDM,r.CJMBDM,r.SYFWDM,r.CJSJ,r.USERID
+	</sql>
+	
+	<!-- 根据适用范围Id查询状态数据 -->
+	<select id="selectAllBySyfwId" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		SELECT * 
+		FROM AS_CJ_ZTSJBXX r 
+		WHERE r.SYFWDM = #{syfwdm}
+	</select>
+	
+	<!-- 查询全部状态数据 -->
+	<select id="selectAllZtsj" useCache="false" flushCache="false" resultMap="ztsjbdyVo">
+   select Z.ID,CC.CATEGORY_NAME,Z.SJBMC,CJCJ.id as jgid,CT.CTEMPLATE_NAME,CJSY.SYFWMC,CT.TIME_TYPE,CJCJ.name ,shsh.name as shbmdm
+      from AS_CJ_ZTSJBXX z 
+      LEFT join AS_C_TEMPLATE CT ON Z.CJMBDM=CT.CTEMPLATE_ID 
+      LEFT JOIN AS_C_CATEGORY CC ON CT.CATEGORY_ID=CC.CATEGORY_ID 
+      LEFT JOIN organization CJCJ ON Z.CJBMDM=CJCJ.id 
+       LEFT JOIN organization shsh ON Z.shbmdm=shsh.id 
+      LEFT JOIN AS_CJ_SYFW CJSY ON Z.SYFWDM=CJSY.ID  order by Z.SJBMC
+	</select>
+
+	<!-- 查询全部状态数据 -->
+	<select id="selectZtsjs" useCache="false" flushCache="false" resultMap="ztsjbdyVo">
+   select Z.ID,CC.CATEGORY_NAME,Z.SJBMC,CJCJ.id as jgid,CT.CTEMPLATE_NAME,CJSY.SYFWMC,CT.TIME_TYPE,CJCJ.name 
+      from AS_CJ_ZTSJBXX z 
+      LEFT join AS_C_TEMPLATE CT ON Z.CJMBDM=CT.CTEMPLATE_ID 
+      LEFT JOIN AS_C_CATEGORY CC ON CT.CATEGORY_ID=CC.CATEGORY_ID 
+      LEFT JOIN organization CJCJ ON Z.CJBMDM=CJCJ.id 
+      LEFT JOIN AS_CJ_SYFW CJSY ON Z.SYFWDM=CJSY.ID  
+		
+	</select>
+	
+	<!-- 查询所有数据 -->
+	<select id="selectZtsjbs" parameterType="String" useCache="false" flushCache="false" resultMap="ztsjbdyVo">
+		${sql}
+	</select>
+	
+	<!-- 查询所有数据 -->
+	<select id="countZtsjbs" parameterType="String" useCache="false" flushCache="false" resultType="INTEGER">
+		${sql}
+	</select>
+	
+	<!-- 根据适用范围Id查询状态数据 -->
+	<select id="selectZtsjBySyfwId" useCache="false" flushCache="false" resultMap="ztsjbdyVo">
+	  select Z.ID,CC.CATEGORY_NAME,Z.SJBMC,CJCJ.id as jgid,CT.CTEMPLATE_NAME,CJSY.SYFWMC,CT.TIME_TYPE,CJCJ.name,shsh.name as shbmdm
+      from AS_CJ_ZTSJBXX z 
+      LEFT join AS_C_TEMPLATE CT ON Z.CJMBDM=CT.CTEMPLATE_ID 
+      LEFT JOIN AS_C_CATEGORY CC ON CT.CATEGORY_ID=CC.CATEGORY_ID 
+      LEFT JOIN organization CJCJ ON Z.CJBMDM=CJCJ.id 
+       LEFT JOIN organization shsh ON Z.shbmdm=shsh.id 
+      LEFT JOIN AS_CJ_SYFW CJSY ON Z.SYFWDM=CJSY.ID 
+		WHERE Z.SYFWDM = #{syfwdm} 
+	</select>
+	
+	<!--保存状态数据表  -->
+	<insert id="save" parameterType="audit.model.AsCjZtsjbxx" useGeneratedKeys="true" keyProperty="id">
+		insert into AS_CJ_ZTSJBXX (sjbmc,cjbmdm,cjmbdm,syfwdm,cjsj,userid,shbmdm) values(
+			#{sjbmc,jdbcType=VARCHAR},#{cjbmdm,jdbcType=INTEGER},#{cjmbdm,jdbcType=INTEGER},#{syfwdm,jdbcType=INTEGER},#{cjsj,jdbcType=DATE},#{userid,jdbcType=INTEGER},#{shbmdm,jdbcType=INTEGER})
+	</insert>
+	
+	<!-- 更新一个节点-->  
+    <update id="update" parameterType="audit.model.AsCjZtsjbxx">  
+        update AS_CJ_ZTSJBXX set sjbmc = #{sjbmc},cjbmdm = #{cjbmdm},cjmbdm=#{cjmbdm},syfwdm=#{syfwdm},cjsj=#{cjsj},shbmdm=#{shbmdm} where id = #{id}  
+    </update>  
+    
+    <!-- 删除一条记录 -->  
+    <delete id="delete" parameterType="int">  
+        delete from AS_CJ_ZTSJBXX where id = #{id}  
+    </delete> 
+    
+    <!-- 查询某个计划 -->
+	<select id="selectSingleById" parameterType="java.lang.Integer" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		select * from AS_CJ_ZTSJBXX e where e.id = #{id} 
+	</select>
+	
+	<!-- 根据任务id查询状态数据 -->
+	<select id="findZtbByRwId" parameterType="java.lang.Integer"  resultMap="BaseResultMap"> 
+		select rz.ID as rwid,  z.ID,z.SJBMC,z.CJBMDM,z.CJMBDM,z.SYFWDM,z.CJSJ,z.USERID,rz.CJZT,rz.SHZT,z.BHLY  
+		from AS_CJ_CJRWZTB rz 
+		left join AS_CJ_ZTSJBXX z on z.ID=rz.ZTBDM 
+		where rz.CJRWDM=#{0}  AND CJR=#{1}
+	</select>
+	
+	<!--修改未通过的理由 -->
+	<update id="updateBhly" parameterType="audit.model.AsCjZtsjbxx">
+	     update AS_CJ_ZTSJBXX set BHLY=#{0} where ID= (select ztbdm from AS_CJ_CJRWZTB where ID=#{1} );
+	</update>
+</mapper>

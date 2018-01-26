@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AssessmentSelfScoreVoMapper">
+	<resultMap id="BaseResultMap" type="audit.model.assess.vo.AssessmentSelfScoreVo">
+		<result column="oneid" property="oneId" jdbcType="INTEGER" />
+		<result column="onelevelname" property="oneLevelName" jdbcType="VARCHAR" />
+		<result column="onelevelscore" property="oneLevelScore" jdbcType="FLOAT" />
+		<result column="twoid" property="twoId" jdbcType="INTEGER" />
+		<result column="twolevelname" property="twoLevelName" jdbcType="VARCHAR" />
+		<result column="twolevelscore" property="twoLevelScore" jdbcType="FLOAT" />
+		<result column="threeid" property="threeId" jdbcType="INTEGER" />
+		<result column="threelevelname" property="threeLevelName" jdbcType="VARCHAR" />
+		<result column="threelevelscore" property="threeLevelScore" jdbcType="FLOAT" />
+		<result column="selfscore" property="selfScore" jdbcType="FLOAT" />
+		<result column="datas" property="datas" jdbcType="VARCHAR" />
+		<result column="measurename" property="measureName" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- 查询所有数据 -->
+	<select id="selectValues" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		 SELECT distinct a.id as oneid, 
+			a.name  as onelevelname,
+			a.score as oneLevelscore,
+			B.id as twoid, 
+			B.name as twolevelname,
+			b.score as twolevelscore,
+			C.id as threeid,
+			c.name as threelevelname,
+			C.score as threelevelscore,
+			D.SCORE AS selfscore ,
+			d.datas as datas
+			,STUFF((SELECT ','+hb.MEASURE_NAME FROM (select aci.detail_id,aci.measure_id, mm.MEASURE_NAME from as_access_scale_index aci,AS_M_MANAGE mm where aci.measure_id = mm.MEASURE_ID) hb where hb.detail_id= x.detail_id FOR XML PATH('')),1,1,'')  as MEASURE_NAME
+			FROM AS_ACCESS_STANDARD_DETAIL A 
+			 LEFT JOIN AS_ACCESS_STANDARD_DETAIL B ON A.ID=B.PARENT_ID 
+			 LEFT JOIN AS_ACCESS_STANDARD_DETAIL C ON B.ID=C.PARENT_ID 
+			 LEFT JOIN AS_ACCESS_SELF_EVALUTION_RECORD D ON C.id=D.detail_id
+			 left join as_access_scale_index e on e.detail_id=C.id 
+			 left join (select aci.detail_id,aci.measure_id, mm.MEASURE_NAME from as_access_scale_index aci,AS_M_MANAGE mm where aci.measure_id = mm.MEASURE_ID) x
+			 on    x.detail_id =  e.detail_id
+			 where A.PARENT_ID=0
+	</select>
+	
+      <!-- 初始化显示支撑材料相符性表 不关联用户 -->	
+      <select id="InitializationNoUser" parameterType="java.util.HashMap" resultType="java.util.Map">
+              select <!-- d.id as twoid,d.name as twoname,d.score as twomscore,i.id as threeid,i.name as threename,a.specialty_id,a.specialty_name,a.access_id,b.id as pflbid,b.scale,b.scale_remark,b.score as threemscore,
+                 f.scor_scale_id,f.conformity,f.self_score,f.general_score_id,g.useid,g.GENERAL_SCORE,g.GENERAL_OPINION,g.GENERAL_TIME,
+                 h.score as descore -->
+                  d.id as twoid,
+                d.name as twoname,
+                d.score as twomscore,
+                i.id as threeid,
+                i.name as threename,
+                a.specialty_id,
+                a.specialty_name,
+                a.access_id,
+               ISNULL( b.id,0) as pflbid,
+               ISNULL(  b.scale,'') as scale,
+               ISNULL(  b.scale_remark,'') as scale_remark,
+               ISNULL(  b.score,0) as threemscore,
+               ISNULL(  f.scor_scale_id,0) as scor_scale_id,
+               ISNULL( f.conformity,'') as conformity,
+               ISNULL(  f.self_score,0) as self_score,
+               ISNULL(  f.general_score_id,0) as general_score_id,
+               ISNULL(  g.useid,0) as useid,
+               ISNULL(  g.GENERAL_SCORE,0) as GENERAL_SCORE,
+               ISNULL(  g.GENERAL_OPINION,'') as GENERAL_OPINION,
+               ISNULL(  g.GENERAL_TIME,'') as GENERAL_TIME,
+               ISNULL(  h.score,0) as descore
+              from as_access_standard_detail c 
+			  left join as_access_standard_detail d on d.parent_id=c.id
+			  left join as_access_standard_detail i on i.parent_id=d.id
+			  left join 
+			  (select * from as_access_specialty 
+			  where specialty_id=#{0} and participate_type=2)a 
+			  on a.default_standart_id = c.standard_id
+			  left join as_access_score_scale b on i.id= b.detail_id
+			  left join AS_ACCESS_SCORE_SCALE_DETAIL f on f.scor_scale_id =b.id
+			  left join AS_ACCESS_GENERAL_SCORE g on g.id=f.general_score_id
+			  left join as_access_score_scale_record h on h.scale_id=b.id and h.access_specialty_id=#{1}
+              where c.parent_id=0 and c.standard_id=#{2}
+      </select>
+      
+            <!-- 初始化显示支撑材料相符性表 关联用户-->	
+      <select id="InitializationByUser" parameterType="java.util.HashMap" resultType="java.util.Map">
+              select  d.id as twoid,
+                d.name as twoname,
+                d.score as twomscore,
+                i.id as threeid,
+                i.name as threename,
+                a.specialty_id,
+                a.specialty_name,
+                a.access_id,
+               ISNULL( b.id,0) as pflbid,
+               ISNULL(  b.scale,'') as scale,
+               ISNULL(  b.scale_remark,'') as scale_remark,
+               ISNULL(  b.score,0) as threemscore,
+               ISNULL(  f.scor_scale_id,0) as scor_scale_id,
+               ISNULL( f.conformity,'') as conformity,
+               ISNULL(  f.self_score,0) as self_score,
+               ISNULL(  f.general_score_id,0) as general_score_id,
+               ISNULL(  g.useid,0) as useid,
+               ISNULL(  g.GENERAL_SCORE,0) as GENERAL_SCORE,
+               ISNULL(  g.GENERAL_OPINION,'') as GENERAL_OPINION,
+               ISNULL(  g.GENERAL_TIME,'') as GENERAL_TIME,
+               ISNULL(  h.score,0) as descore 
+              from as_access_standard_detail c 
+			  left join as_access_standard_detail d on d.parent_id=c.id
+			  left join as_access_standard_detail i on i.parent_id=d.id
+			  left join 
+			  (select * from as_access_specialty 
+			  where specialty_id=#{0} and participate_type=2)a 
+			  on a.default_standart_id = c.standard_id
+			  left join as_access_score_scale b on i.id= b.detail_id
+			  left join AS_ACCESS_SCORE_SCALE_DETAIL f on f.scor_scale_id =b.id
+			  left join AS_ACCESS_GENERAL_SCORE g on g.id=f.general_score_id and g.SPECIALTY_ID=#{1}
+			  left join as_access_score_scale_record h on h.scale_id=b.id and h.access_specialty_id=#{2}
+              where c.parent_id=0  and g.useid=#{3} and c.standard_id=#{4}  and g.syear=#{5}
+      </select>
+      
+      	<!-- 查询所有数据 -->
+	<select id="findZCCL" resultType="map">
+		${sql}
+	</select>
+      
+</mapper>

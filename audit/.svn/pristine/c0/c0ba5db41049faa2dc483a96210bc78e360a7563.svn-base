@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsZlJdrwxxMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.quality.AsZlJdrwxx" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="JDRWMC" property="jdrwmc" jdbcType="NVARCHAR" />
+    <result column="FBSJ" property="fbsj" jdbcType="DATE" />
+    <result column="JZSJ" property="jzsj" jdbcType="DATE" />
+    <result column="RWFW" property="rwfw" jdbcType="INTEGER" />
+    <result column="ZLRWID" property="zlrwid" jdbcType="INTEGER" />
+    <result column="SFLGRW" property="sflgrw" jdbcType="INTEGER" />
+    <result column="RWXH" property="rwxh" jdbcType="INTEGER" />
+    <result column="RWZT" property="rwzt" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, JDRWMC, FBSJ, JZSJ, RWFW, ZLRWID, SFLGRW, RWXH, RWZT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from AS_ZL_JDRWXX
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from AS_ZL_JDRWXX
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.quality.AsZlJdrwxx" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ZL_JDRWXX (ID, JDRWMC, FBSJ, 
+      JZSJ, RWFW, ZLRWID, SFLGRW, 
+      RWXH, RWZT)
+    values (#{id,jdbcType=INTEGER}, #{jdrwmc,jdbcType=NVARCHAR}, #{fbsj,jdbcType=DATE}, 
+      #{jzsj,jdbcType=DATE}, #{rwfw,jdbcType=INTEGER}, #{zlrwid,jdbcType=INTEGER}, #{sflgrw,jdbcType=INTEGER}, 
+      #{rwxh,jdbcType=INTEGER}, #{rwzt,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.quality.AsZlJdrwxx" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ZL_JDRWXX
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="jdrwmc != null" >
+        JDRWMC,
+      </if>
+      <if test="fbsj != null" >
+        FBSJ,
+      </if>
+      <if test="jzsj != null" >
+        JZSJ,
+      </if>
+      <if test="rwfw != null" >
+        RWFW,
+      </if>
+      <if test="zlrwid != null" >
+        ZLRWID,
+      </if>
+      <if test="sflgrw != null" >
+        SFLGRW,
+      </if>
+      <if test="rwxh != null" >
+        RWXH,
+      </if>
+      <if test="rwzt != null" >
+        RWZT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="jdrwmc != null" >
+        #{jdrwmc,jdbcType=NVARCHAR},
+      </if>
+      <if test="fbsj != null" >
+        #{fbsj,jdbcType=DATE},
+      </if>
+      <if test="jzsj != null" >
+        #{jzsj,jdbcType=DATE},
+      </if>
+      <if test="rwfw != null" >
+        #{rwfw,jdbcType=INTEGER},
+      </if>
+      <if test="zlrwid != null" >
+        #{zlrwid,jdbcType=INTEGER},
+      </if>
+      <if test="sflgrw != null" >
+        #{sflgrw,jdbcType=INTEGER},
+      </if>
+      <if test="rwxh != null" >
+        #{rwxh,jdbcType=INTEGER},
+      </if>
+      <if test="rwzt != null" >
+        #{rwzt,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.quality.AsZlJdrwxx" >
+    update AS_ZL_JDRWXX
+    <set >
+      <if test="jdrwmc != null" >
+        JDRWMC = #{jdrwmc,jdbcType=NVARCHAR},
+      </if>
+      <if test="fbsj != null" >
+        FBSJ = #{fbsj,jdbcType=DATE},
+      </if>
+      <if test="jzsj != null" >
+        JZSJ = #{jzsj,jdbcType=DATE},
+      </if>
+      <if test="rwfw != null" >
+        RWFW = #{rwfw,jdbcType=INTEGER},
+      </if>
+      <if test="zlrwid != null" >
+        ZLRWID = #{zlrwid,jdbcType=INTEGER},
+      </if>
+      <if test="sflgrw != null" >
+        SFLGRW = #{sflgrw,jdbcType=INTEGER},
+      </if>
+      <if test="rwxh != null" >
+        RWXH = #{rwxh,jdbcType=INTEGER},
+      </if>
+      <if test="rwzt != null" >
+        RWZT = #{rwzt,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.quality.AsZlJdrwxx" >
+    update AS_ZL_JDRWXX
+    set JDRWMC = #{jdrwmc,jdbcType=NVARCHAR},
+      FBSJ = #{fbsj,jdbcType=DATE},
+      JZSJ = #{jzsj,jdbcType=DATE},
+      RWFW = #{rwfw,jdbcType=INTEGER},
+      ZLRWID = #{zlrwid,jdbcType=INTEGER},
+      SFLGRW = #{sflgrw,jdbcType=INTEGER},
+      RWXH = #{rwxh,jdbcType=INTEGER},
+      RWZT = #{rwzt,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 我的分割线 -->
+  
+  <resultMap type="audit.model.quality.vo.JdTaskVo" id="BaseResultMapVo" extends="BaseResultMap">
+  	<result column="STATUS" property="userTaskStatus" jdbcType="INTEGER" />
+  	<result column="userCount" property="userCount" jdbcType="INTEGER" />
+  	<result column="organizeCount" property="organizeCount" jdbcType="INTEGER" />
+  	<result column="yidabiaobumen" property="yidabiaobumen" jdbcType="INTEGER"/>
+  </resultMap>
+  
+  <sql id="where_sql_query">
+ 	 <where>
+	  	<if test="data.id != null">
+	  	 and jd.ID = #{data.id,jdbcType=INTEGER}
+	  	</if>
+	  	<if test="data.zlrwid != null">
+	  	 and ZLRWID = #{data.zlrwid,jdbcType=INTEGER}
+	  	</if>
+	  	<!-- 未使用 -->
+	  	<if test="data.userTaskStatus != null">
+	  	 and STATUS = #{data.userTaskStatus,jdbcType=INTEGER}
+	  	</if>
+  	</where>
+  </sql>
+  
+    <select id="getJdTaskCountByQuery" parameterType="audit.model.quality.query.JdTaskQuery" resultType="java.lang.Integer">
+  select count(*) from AS_ZL_JDRWXX jd 
+  <include refid="where_sql_query"/>
+  </select>
+  <select id="getJdTaskListByQuery" parameterType="java.util.Map" resultMap="BaseResultMapVo">
+  	SELECT * FROM(
+    SELECT TOP (#{endIndex,jdbcType=INTEGER}) ROW_NUMBER() OVER(ORDER BY jd.ID ASC) AS ROWID,* 
+    	,(select count(*) from AS_ZL_JDRWRYGLB gl where gl.JDRWID = jd.ID 
+    		<if test="data.userId != null">
+		  	 and tbrid = #{data.userId,jdbcType=INTEGER}
+		  	</if>
+    	) as userCount
+    	,(select count(*) from (select gl.ID from AS_ZL_JDRWRYGLB gl 
+    			inner join AS_ZL_ZLRWBMRY ry on ry.USERID = gl.TBRID
+				where jd.ID = gl.JDRWID group by gl.ID) organizeGroup) as organizeCount
+        FROM AS_ZL_JDRWXX jd 
+	<include refid="where_sql_query"/> ) AS TEMP1 
+	 where ROWID > #{startIndex,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getTaskDetailsByQuery" parameterType="audit.model.quality.query.JdTaskQuery" resultMap="BaseResultMapVo">
+  select top(1) * from AS_ZL_JDRWXX jd 
+  		left join AS_ZL_JDRWRYGLB gl on gl.JDRWID = jd.ID
+ 	 <where>
+	  	<if test="data.id != null">
+	  	 and jd.ID = #{data.id,jdbcType=INTEGER}
+	  	</if>
+	  	<if test="data.userId != null">
+	  	 and gl.TBRID = #{data.userId,jdbcType=INTEGER}
+	  	</if>
+	  	</where>
+	  	
+  </select>
+  
+  <select id="getNextByRwId" parameterType="java.util.Map" resultMap="BaseResultMap">
+  select top (1) jd.ID, JDRWMC, FBSJ, JZSJ, RWFW, ZLRWID, SFLGRW, RWXH, RWZT
+  from AS_ZL_JDRWXX jd
+  inner join AS_ZL_JDRWRYGLB gl on gl.JDRWID = jd.ID
+  where  gl.TBRID = #{userId,jdbcType=INTEGER} and jd.ZLRWID = #{zlrwid,jdbcType=INTEGER}
+  <if test="jdXh != null">
+  	and jd.RWXH > #{jdXh,jdbcType=INTEGER}
+  </if>
+  order by jd.RWXH asc
+  </select>
+  
+  <select id="getMaxJdXhByZlRwId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+  select  MAX(jd.RWXH) from AS_ZL_JDRWXX jd
+  where jd.ZLRWID = #{zlRwId,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 2015年5月7日 14:54:15 -->
+    <select id="selectJDRW" resultMap="BaseResultMapVo" parameterType="java.lang.Integer">
+  		 SELECT  jd.*,org.id as oid,org.name as oname,(select count(*) from AS_ZL_JDRWRYGLB gl where gl.JDRWID = jd.ID ) 
+ 		 as userCount,
+	  	(select count(*) from (select gl.ID from AS_ZL_JDRWRYGLB gl 
+    	inner join AS_ZL_ZLRWBMRY ry on ry.USERID = gl.TBRID
+		where jd.ID = gl.JDRWID group by gl.ID) organizeGroup) as organizeCount
+		,(select count(*) from (select * from AS_ZL_JDRWRYGLB gl where gl.STATUS=1 
+		and gl.JDRWID=jd.ID) a) as yidabiaobumen
+        FROM AS_ZL_JDRWXX jd left join AS_ZL_JDRWRYGLB rygl on jd.ID=rygl.JDRWID 
+        left join userinfo info on info.id=rygl.TBRID
+        left join organization org on org.id=info.organization
+        where jd.ZLRWID= #{glJDRWID}
+  </select>
+  
+ <select id="selectAllJDRW" resultMap="BaseResultMapVo" parameterType="java.lang.Integer"> 
+    	SELECT  * ,(select count(*) from AS_ZL_JDRWRYGLB gl where gl.JDRWID = jd.ID ) 
+ 		 as userCount,
+	  	(select count(*) from (select gl.ID from AS_ZL_JDRWRYGLB gl 
+    	inner join AS_ZL_ZLRWBMRY ry on ry.USERID = gl.TBRID
+		where jd.ID = gl.JDRWID group by gl.ID) organizeGroup) as organizeCount
+		,(select count(*) from (select * from AS_ZL_JDRWRYGLB gl where gl.STATUS=1 
+		and gl.JDRWID=jd.ID) a) as yidabiaobumen
+        FROM AS_ZL_JDRWXX jd 
+  </select>
+  <!-- 
+ 	private Integer zzid;
+	private String zlname;
+	private Integer level;
+	private Integer cjbmdm;
+	private String jdrwmc;
+	private Integer jdrwid;
+   -->
+  <resultMap type="audit.model.quality.vo.Aszlrwxxkgb" id="BaseResultMap1" extends="BaseResultMap">
+  	<result column="zzid" property="zzid" jdbcType="INTEGER" />
+  	<result column="zlname" property="zlname" jdbcType="VARCHAR" />
+  	<result column="level" property="level" jdbcType="INTEGER" />
+  	<result column="cjbmdm" property="cjbmdm" jdbcType="INTEGER" />
+  	<result column="jdrwid" property="jdrwid" jdbcType="INTEGER" />
+  	<result column="jdrwmc" property="jdrwmc" jdbcType="VARCHAR" />
+  </resultMap>
+    <!--通过拿到jdrwid 循环比对客观表 jdid得到指标id 在指标表得到值 -->
+  <select id="selectJDrwxxglb" resultMap="BaseResultMap1" parameterType="java.lang.Integer">
+  	    SELECT  jd.*,org.id as oid,org.name as oname,(select count(*) from AS_ZL_JDRWRYGLB gl where gl.JDRWID = jd.ID ) 
+ 		 as userCount,
+	  	(select count(*) from (select gl.ID from AS_ZL_JDRWRYGLB gl 
+    	inner join AS_ZL_ZLRWBMRY ry on ry.USERID = gl.TBRID
+		where jd.ID = gl.JDRWID group by gl.ID) organizeGroup) as organizeCount
+		,(select count(*) from (select * from AS_ZL_JDRWRYGLB gl where gl.STATUS=1 
+		and gl.JDRWID=jd.ID) a) as yidabiaobumen
+        FROM AS_ZL_JDRWXX jd left join AS_ZL_JDRWRYGLB rygl on jd.ID=rygl.JDRWID 
+        left join userinfo info on info.id=rygl.TBRID
+        left join organization org on org.id=info.organization
+        where jd.ZLRWID=36
+  </select>
+  
+  <select id="getBeforeJdRw" parameterType="java.util.Map" resultMap="BaseResultMap">
+  select top(1) * from AS_ZL_JDRWXX
+  <where>
+  	<if test="zlRwId != null">
+  		and ZLRWID = #{zlRwId}
+  	</if>
+  	<if test="jdRwId != null">
+  		and ID <![CDATA[ < ]]> #{jdRwId}
+  	</if>
+  </where>
+  order by RWXH Desc
+  </select>
+  
+  
+</mapper>

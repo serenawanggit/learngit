@@ -1,0 +1,21 @@
+	*{margin: 0px; padding: 0px; font-family: "微软雅黑";}
+	body{}
+	li{list-style: none;}
+	
+	.index_tree{width:350px; float: left;}
+	.index_tree ul{float: left; width: 100%; cursor: pointer; display: none;}
+	.index_tree li{ line-height: 30px; width: 92%; float: left;  color:#7F7F7F; font-size:13px; font-weight:bold;}
+	.index_tree li div{float: left; height:30px; line-height: 30px;}
+	.index_tree li div.tree_icon{ padding:0px 10px; }
+	.index_tree li div.tree_icon img{ height:15px; width:15px; }
+	.index_tree li div.tree_text{ width:73%;    width: 62%;    text-overflow: ellipsis;    overflow: hidden;    white-space: nowrap;}
+	.index_tree li div.tree_text:hover{color:#EFA5AC; cursor: pointer;}
+	.index_tree li div.tree_score{ width:10%; font-style:italic; }
+	 
+	.index_tree li ul li{ font-weight: normal;  padding-left:8%;}
+	
+/* 	 */
+	.tree_head{float: left; width: 100%;}
+	.tree_head_back{}
+	.tree_checked{  width:88.5%!important; color:#E97A83!important;}
+	.tree_checked div{color:#E97A83;}

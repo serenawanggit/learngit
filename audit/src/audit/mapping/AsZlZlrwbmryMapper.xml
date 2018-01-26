@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="audit.dao.AsZlZlrwbmryMapper">
+  <resultMap id="BaseResultMap" type="audit.model.quality.AsZlZlrwbmry">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="CJBMDM" jdbcType="INTEGER" property="cjbmdm" />
+    <result column="LEVEL" jdbcType="INTEGER" property="level" />
+    <result column="USERID" jdbcType="INTEGER" property="userid" />
+    <result column="ZYSSXYID" jdbcType="INTEGER" property="zyssxyid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CJBMDM, LEVEL, USERID, ZYSSXYID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from AS_ZL_ZLRWBMRY
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from AS_ZL_ZLRWBMRY
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.quality.AsZlZlrwbmry" useGeneratedKeys="true" keyProperty="ID">
+    insert into AS_ZL_ZLRWBMRY (ID, CJBMDM, LEVEL, 
+      USERID, ZYSSXYID)
+    values (#{id,jdbcType=INTEGER}, #{cjbmdm,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, 
+      #{userid,jdbcType=INTEGER}, #{zyssxyid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.quality.AsZlZlrwbmry" useGeneratedKeys="true" keyProperty="ID">
+    insert into AS_ZL_ZLRWBMRY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="cjbmdm != null">
+        CJBMDM,
+      </if>
+      <if test="level != null">
+        LEVEL,
+      </if>
+      <if test="userid != null">
+        USERID,
+      </if>
+      <if test="zyssxyid != null">
+        ZYSSXYID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cjbmdm != null">
+        #{cjbmdm,jdbcType=INTEGER},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="zyssxyid != null">
+        #{zyssxyid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.quality.AsZlZlrwbmry">
+    update AS_ZL_ZLRWBMRY
+    <set>
+      <if test="cjbmdm != null">
+        CJBMDM = #{cjbmdm,jdbcType=INTEGER},
+      </if>
+      <if test="level != null">
+        LEVEL = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null">
+        USERID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="zyssxyid != null">
+        ZYSSXYID = #{zyssxyid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.quality.AsZlZlrwbmry">
+    update AS_ZL_ZLRWBMRY
+    set CJBMDM = #{cjbmdm,jdbcType=INTEGER},
+      LEVEL = #{level,jdbcType=INTEGER},
+      USERID = #{userid,jdbcType=INTEGER},
+      ZYSSXYID = #{zyssxyid,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 我的分割线 -->
+    <select id="selectAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+		a.ID ,b.name,c.name 
+	from 
+		AS_ZL_ZLRWBMRY a,userinfo b,organization c 
+	where 
+		a.CJBMDM=c.id and a.LEVEL=c.level and a.USERID=b.id
+  </select>
+  
+  <resultMap id="groupMap" type="audit.model.quality.vo.UserGroupVo">
+  	<result column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+  </resultMap>
+  
+  <select id="getUserGroupByLevel" parameterType="java.lang.Integer" resultMap="groupMap">
+  select z.CJBMDM as id ,  o.name as name
+   from AS_ZL_ZLRWBMRY z
+   <if test="level !=3">
+   inner join organization o on o.id = z.CJBMDM
+   </if>
+   <if test="level ==3">
+   inner join specialty o on o.id = z.CJBMDM
+   </if>
+	where z.LEVEL=#{level,jdbcType=INTEGER}
+	group by z.CJBMDM,o.name
+  </select>
+  
+  
+  <resultMap id="BaseResultMapVo" type="audit.model.quality.vo.UserVo" extends="BaseResultMap">
+    <result column="showname" jdbcType="VARCHAR" property="userName" />
+  </resultMap>
+  
+  <select id="getUserListByParentId" parameterType="java.lang.Integer" resultMap="BaseResultMapVo">
+      select 
+    bm.ID, CJBMDM, LEVEL, USERID, ZYSSXYID,ui.showname
+    from AS_ZL_ZLRWBMRY bm 
+    inner join userinfo ui on ui.id = bm.USERID
+    where CJBMDM = #{CJBMDM,jdbcType=INTEGER} and LEVEL = #{LEVEL,jdbcType=INTEGER}
+  </select>
+  <resultMap id="selAll" type="audit.model.quality.AsZJSJ">
+    <!-- 
+    	private Integer zzid;
+		private String zlname;//学院专业名	VARCHAR
+		private Integer cjbmdm;//学院或专业id
+		private Integer level;//等级
+		private String usename;//学院专业名	VARCHAR
+		private Integer id;//用户名id
+		private String name;//用户名	VARCHAR
+		private Integer roleid;//角色id
+		private String rolename;//角色名 VARCHAR
+     -->
+    <result column="zzid" jdbcType="INTEGER" property="zzid" />
+    <result column="zlname" jdbcType="VARCHAR" property="zlname" />
+    <result column="cjbmdm" jdbcType="INTEGER" property="cjbmdm" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="roleid" jdbcType="INTEGER" property="roleid" />
+    <result column="rolename" jdbcType="VARCHAR" property="rolename" />
+    </resultMap>
+  
+  <!-- 最终确认数据 
+  top(#{0})
+  
+  and zz.id not in (select top (#{1}) zz.CJBMDM from AS_ZL_ZLRWBMRY zz)
+  -->
+  <select id="selectPage" resultMap="selAll">
+	select  zz.id as zzid,o.name as zlname,zz.LEVEL as level,zz.CJBMDM as cjbmdm,t.name as username,t.* from AS_ZL_ZLRWBMRY zz 
+	left join organization o on zz.CJBMDM=o.id
+	left join (select uo.id as id,uo.showname as name,uo.role as roleid,ro.name as rolename 
+	from userinfo uo left join role ro 
+	on uo.role=ro.id)t on zz.USERID=t.id
+	group by o.name,zz.LEVEL,zz.CJBMDM,t.id,t.name,t.roleid,t.rolename,zz.ID
+	having zz.LEVEL in (1,2)
+	union all 
+	select  zz.ID as zzid,o.name+'-'+s.name as zlname,zz.LEVEL,zz.CJBMDM,t.name,t.* from AS_ZL_ZLRWBMRY zz 
+	left join specialty s on zz.CJBMDM=s.id
+	left join organization o on s.JGDM=o.code
+	left join (select uo.id as id,uo.showname as name,uo.role as roleid,ro.name as rolename 
+	from userinfo uo left join role ro 
+	on uo.role=ro.id)t on zz.USERID=t.id
+	group by o.name+'-'+s.name,zz.LEVEL,zz.CJBMDM,s.name,t.id,t.name,t.roleid,t.rolename,zz.ID
+	having zz.LEVEL=3 
+  </select>
+  <select id="selectLikeName" resultMap="selAll" parameterType="Map">
+  	select  zz.id as zzid,o.name as zlname,zz.LEVEL as level,zz.CJBMDM as cjbmdm,t.name as username,t.* from AS_ZL_ZLRWBMRY zz 
+	left join organization o on zz.CJBMDM=o.id
+	left join (select uo.id as id,uo.showname as name,uo.role as roleid,ro.name as rolename 
+	from userinfo uo left join role ro 
+	on uo.role=ro.id)t on zz.USERID=t.id
+	group by o.name,zz.LEVEL,zz.CJBMDM,t.id,t.name,t.roleid,t.rolename,zz.ID
+	having zz.LEVEL in (1,2) and o.name like '%${likeName}%'
+	union all 
+	select  zz.ID as zzid,o.name+'-'+s.name as zlname,zz.LEVEL,zz.CJBMDM,t.name,t.* from AS_ZL_ZLRWBMRY zz 
+	left join specialty s on zz.CJBMDM=s.id
+	left join organization o on s.JGDM=o.code
+	left join (select uo.id as id,uo.showname as name,uo.role as roleid,ro.name as rolename 
+	from userinfo uo left join role ro 
+	on uo.role=ro.id)t on zz.USERID=t.id
+	group by o.name+'-'+s.name,zz.LEVEL,zz.CJBMDM,s.name,t.id,t.name,t.roleid,t.rolename,zz.ID
+    having zz.LEVEL=3 and o.name+'-'+s.name like '%${likeName}%' 
+  	</select>
+  <!-- AS_ZL_ZLRWBMRYForPage   参数count需要的方法 -->
+  <select id="AS_ZL_ZLRWBMRYCount" resultType="java.lang.Integer" >
+	select count(*) from AS_ZL_ZLRWBMRY
+  </select>
+  
+  <!-- 根据cjbmdm 单个查询 -->
+  <select id="selectCJBMD" resultMap="selAll" parameterType="java.lang.Integer">
+  	select  zz.id as zzid,o.name as zlname,zz.LEVEL as level,zz.CJBMDM as cjbmdm,t.name as username,t.* from AS_ZL_ZLRWBMRY zz 
+	left join organization o on zz.CJBMDM=o.id
+	left join (select uo.id as id,uo.showname as name,uo.role as roleid,ro.name as rolename 
+	from userinfo uo left join role ro 
+	on uo.role=ro.id)t on zz.USERID=t.id
+	group by o.name,zz.LEVEL,zz.CJBMDM,t.id,t.name,t.roleid,t.rolename,zz.ID
+	having zz.LEVEL in (1,2) and CJBMDM=#{0}
+	union all 
+	select  zz.ID as zzid,o.name+'-'+s.name as zlname,zz.LEVEL,zz.CJBMDM,t.name,t.* from AS_ZL_ZLRWBMRY zz 
+	left join specialty s on zz.CJBMDM=s.id
+	left join organization o on s.JGDM=o.code
+	left join (select uo.id as id,uo.showname as name,uo.role as roleid,ro.name as rolename 
+	from userinfo uo left join role ro 
+	on uo.role=ro.id)t on zz.USERID=t.id
+	group by o.name+'-'+s.name,zz.LEVEL,zz.CJBMDM,s.name,t.id,t.name,t.roleid,t.rolename,zz.ID
+	having zz.LEVEL=3 and CJBMDM=#{0}
+  </select>
+  
+  
+  <!-- 修改 -->
+  <update id="updateByCJBMDM"  parameterType="Map">
+     update AS_ZL_ZLRWBMRY
+    <set>
+      <if test="asZlZl.cjbmdm != null">
+        CJBMDM = #{asZlZl.cjbmdm,jdbcType=INTEGER},
+      </if>
+      <if test="asZlZl.level != null">
+        LEVEL = #{asZlZl.level,jdbcType=INTEGER},
+      </if>
+      <if test="asZlZl.userid != null">
+        USERID = #{asZlZl.userid,jdbcType=INTEGER},
+      </if>
+      <if test="asZlZl.zyssxyid != null">
+        ZYSSXYID = #{asZlZl.zyssxyid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where CJBMDM = #{viewCJBMDM,jdbcType=INTEGER}
+  </update>
+  
+    <select id="selectAllRWBMRY" resultMap="BaseResultMap">
+    select 
+    	<include refid="Base_Column_List" />
+    from AS_ZL_ZLRWBMRY
+    </select>
+  
+   <select id="selectRWBMRYbycjbmdmAndUserid" parameterType="Map" resultType="java.lang.Integer">
+    select 
+    	COUNT(*)
+    from AS_ZL_ZLRWBMRY where CJBMDM=${zlCjbmdm} and USERID in (
+       <foreach collection="zlUserId"  item="item"  separator="," >
+        ${item}
+   	   </foreach>
+    )
+    </select>
+  
+  <delete id="deleteByPrimaryCjbmdm" parameterType="java.lang.Integer">
+    delete from AS_ZL_ZLRWBMRY
+    where CJBMDM = #{cjbmdm,jdbcType=INTEGER}
+  </delete>
+</mapper>

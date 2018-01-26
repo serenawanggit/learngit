@@ -1,0 +1,217 @@
+@charset "utf-8";
+/*专业评估——导航页样式表*/
+/*div{border: 0.1em solid red;border-collapse: collapse;}*/
+table,tr,td{
+	border: 1px solid #D3D3D3;
+	border-collapse: collapse;
+	text-align: center;
+}
+td{
+	height: 4em;
+	font-size: 17px;	
+}
+.container {
+	float: right;
+	width: 100%;
+	height: 100%;
+}
+/*主体内容*/
+.iframe-main{
+	border: ;
+	width: 100%;
+	height: 80%;
+}
+.main{
+	width: 128em;
+	height: 50em;
+	margin: 0 auto;
+}
+.main-left{
+	float: left;
+	width: 92em;
+	height: 50em;
+}
+.main-left-top{
+	width: 64em;
+	height: 2.6em;
+	margin: 2.5em auto auto auto;
+}
+.main-left-top ul{
+	margin: 0em;
+	height: 26px;
+}
+.main-left-top li{
+	display: inline;
+}
+.main-left-top img{
+	float: left;
+}
+.main-left-top-li-one{
+	float: left;
+	width: 18em;
+	height: 26px;
+	line-height: 26px;
+	color: #FFFFFF;
+	background-color:#577B98 ;
+}
+.main-left-top-li-one p{
+	font-size:1.8em;
+	margin-left: 0.6em;
+}
+.main-left-top-li-two{
+	float: left;
+	width: 39em;
+	height: 26px;
+	display: inline;
+	background-color: white;
+}
+.main-left-center{
+	width: 84em;
+	height: 13em;
+	margin: 6em auto ;
+}
+.main-nav-img{
+	float: left;
+	border-radius: 9.5em;
+	width: 9.5em;
+	height: 9.5em;
+}
+.main-nav-container{
+	float: left;
+	width: 9.5em;
+	height: 13em;
+	margin: 0em 2em ;
+}
+.xian{
+	float: left;
+	width: 10em;
+	height: 1.5em;
+	margin: 4.5em auto;
+}
+.main-nav{
+	float: left;
+	width: 10em;
+	height: 2em;
+	margin-top: 1em;
+}
+.main-nav li{
+	line-height: 1em;
+	text-align: center;
+	font-size: 2em;
+	color: #444444;
+}
+.main-left-bottom{
+	width: 64em;
+	height: 16em;
+	margin: auto;
+}
+.table-tr-th1{
+	background-image: url(../../img/majorEvaluation/shuangse.png);
+	width: 130px;
+	height: 39px;
+	background-color: #FFFFFF ;
+}
+.table-tr-th2{
+	background-image: url(../../img/majorEvaluation/huangtiao.png) ;
+	width: 170px;
+	height: 39px;
+	background-color: #FFFFFF;
+}
+.table-tr-th3{
+	background-image: url(../../img/majorEvaluation/lantiao.png)  ;
+	width: 170px;
+	height: 39px;
+	background-color: #FFFFFF;
+}
+.table-tr-th4{
+	background-image: url(../../img/majorEvaluation/hongtiao.png);
+	width: 170px;
+	height: 39px;
+	background-color: #FFFFFF;
+}
+.table-tr-td1{
+	width: 130px;
+	height: 40px;
+	background-color: #F1F1F1;
+}
+.table-tr-td234{
+	width: 170px;
+	height: 40px;
+	background-color: #F1F1F1;
+}
+.table-tr-td1white{
+	width: 130px;
+	height: 40px;
+	background-color: #FFFFFF;
+}
+.table-tr-td234white{
+	width: 170px;
+	height: 40px;
+	background-color: #FFFFFF;
+}
+.main-right{
+	float: left;
+	width: 32em;
+	height: 49em;
+	margin: 0;
+	border-left: 1px solid #D3D3D3;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#909090,direction=120,strength=3);/*ie*/
+	-moz-box-shadow: 2px -2px 5px #909090;/*firefox*/
+	-webkit-box-shadow: 2px -2px 5px #909090;/*safari或chrome*/
+	box-shadow: -3px 0px 5px 1px #909090;/*opera或ie9*/
+	-webkit-box-shadow: -3px 0px 5px 1px #909090;
+	background-color: #F2F2F2;
+	margin-left: 3em;
+}
+.main-right-top{
+	width: 21em;
+	height: 3em;
+	margin: 2em auto ;
+}
+.main-right-top li{
+	display: inline;
+	font-size: 1.8em;
+	color: #12587D;
+}
+.main-right-top1{
+	width: 15em;
+	height: 2em;
+}
+.main-right-top2{
+	width: 3em;
+	height: 3em;
+}
+.main-right-bottom{
+	width: 22em;
+	height: 44em;
+	margin: 1em auto auto auto;
+}
+.main-right-bottom li{
+	width: 22em;
+	height: 2.5em;
+	letter-spacing: 0.1em;
+	white-space : nowrap;/*让截断的文字显示为点点。还有一个值是clip意思是截断不显示点点 */
+	text-overflow:ellipsis;/* 让文字不换行 */
+	overflow: hidden;/* 超出要隐藏 */
+}
+.main-right-bottom input{
+	display: none;
+}
+.main-right-bottom a{
+	color: #000000;
+	font-size: 1.4em;
+}
+/*尾部*/
+.footer{
+	width: 100%;
+	height:4em;
+}
+
+
+
+
+
+/* -----xc------ */
+.access_year{width:100%!important; height:26px!important;}
+.access_year li{font-size:15px; line-height:25px;  padding: 0px 19px; color:#CCC;}
+.access_year li.check{color:black;}

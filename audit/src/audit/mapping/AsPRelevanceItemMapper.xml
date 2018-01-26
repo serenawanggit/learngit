@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsRelevanceItemMapper">
+	<resultMap id="BaseResultMap" type="audit.model.AsPRelevanceItem">
+		<id column="rid" property="rid" jdbcType="INTEGER" />
+		<result column="pid" property="pid" jdbcType="INTEGER" />
+		<result column="rpid" property="rpid" jdbcType="INTEGER" />
+		<result column="rvid" property="rvid" jdbcType="INTEGER" />
+		<result column="rpname" property="rpname" jdbcType="VARCHAR" />
+		<result column="rvqname" property="rvqname" jdbcType="VARCHAR" />
+		
+	</resultMap>
+	
+	<!-- 根据方案ID查询关联项目 -->
+	<select id="findRelevanceItemByPid" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		select r.rid,r.pid,r.rpid,r.rvid,(p.no+'  '+p.name) rpname,v.QNAME rvqname 
+		from AS_P_relevance_item r
+		left join AS_P_PLAN p on p.pid=r.rpid 
+		left join AS_P_VIEWQUOTA v on v.VID=r.rvid 
+		where r.pid=#{pid}
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="addRelevanceItem" parameterType="audit.model.AsPRelevanceItem">
+		insert into AS_P_relevance_item(pid,rpid,rvid) 
+		values(#{pid,jdbcType=INTEGER},#{rpid,jdbcType=INTEGER},
+		#{rvid,jdbcType=INTEGER})
+	</insert>
+	
+	<!-- 删除多个关联项目 -->
+	<delete id="delGlxms" parameterType="java.util.List">
+		delete from AS_P_relevance_item 
+		where rid in 
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+		  #{item}  
+		</foreach>   
+	</delete>
+	
+</mapper>

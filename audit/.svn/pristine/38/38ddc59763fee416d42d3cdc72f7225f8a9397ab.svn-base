@@ -1,0 +1,493 @@
+body {width: 100%;height: 100%;scroll=no;	background-image: url(/audit//images/centerbk.png);
+    background-repeat: repeat-x;}
+*{font-family: Microsoft YaHei!important;}
+li {list-style-type: none}
+a {text-decoration: none}
+table,tr,td {border-collapse: collapse}
+.body{
+	width:110%;
+	height: 100%;
+	overflow: auto
+}
+
+.scroll{
+	width:100%;
+	height:100%;
+	overflow:hidden;
+}
+
+.head{
+	width:100%;
+	height: 10.5%;
+    background-color: #2C4754;
+    position: fixed;
+    z-index:2	
+}
+
+.header-btn{
+	float: right;
+	min-width: 11em;
+	max-width: 12em;
+	height: 2em;
+	margin: 3.5em 0em 1.5em 3em;
+}
+.header-btn-li{
+	font-size: 1.5em;
+	color: #FFFFEE;
+	cursor: pointer;
+	margin-top:-13px;
+}
+.header-btn-li img{
+	width: 0.9em;
+	height: 0.8em;
+}
+
+.logoclass{
+	margin-left:10px;
+	margin-top:13px;
+	float:left;
+	cursor: pointer;
+}
+.logoclass img{float:left;height: 40px}
+.logoclass label{
+	cursor: pointer;
+	float:left;
+	margin-left:15px;
+	height: 70px;
+	line-height: 70px;
+	font-family: "微软雅黑";
+	color: #FFF;
+	font-size:18px;
+}
+
+.header-btn{
+	float: right;
+	min-width: 11em;
+	max-width: 12em;
+	margin: 3.5em 0em 0em 3em;
+}
+.header-btn-li{
+	font-size: 0.95em;
+	color: #FFFFEE;
+	cursor: pointer;
+	margin-top: -30px;
+	font-size: 100%;
+}
+.header-btn-li img{
+	width: 0.9em;
+	height: 0.8em;
+}
+
+.left{
+	width: 20%;
+	float: left;
+	padding-top: 75px;
+	height:100%;
+	background-color: #596B81;
+	z-index:2;
+}
+.left_title{
+	background-color: #354B67;
+    height: 70px;
+    font-size: x-large;
+    position: fixed;
+    border: 0.2em solid #22BE9E;
+    border-radius: 0.5em;
+    width: 10em;
+    min-height: 3em;
+    margin: 30px 13px;
+    padding: 15px;
+    z-index:2;
+    cursor: pointer;
+}
+
+.left_title li{
+    width: 200px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: #22BE9E;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.tableName{
+	float: right;
+    margin-right: 88%;
+    font-weight: bold;
+}
+
+.right{
+	width: 100%;
+    float: right;
+    padding-top: 85px;
+    position: fixed;
+    padding-left: 20%;
+    pointer-events: none;
+    
+}
+.right_title{
+	width: 100%;
+    padding-left: 4%;
+    pointer-events: auto;
+    padding-top: 2%;
+}
+
+.right_tab_name{
+    float: left;
+    width:100%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+
+
+#right_tab_name{
+    padding-top: 12px;
+    color: #E8737D;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    border: 0.2em solid #E8737D;
+    border-radius: 0.5em;
+   	width: 20em;
+    height: 50px;
+    float: left;
+    margin-left: 1%;
+}
+
+.right_tab_button{
+	padding-top: 60px;
+	margin-left: 1%;
+}
+
+.right_tab_menu{
+	display: none;
+    float: left;
+    border: 0.2em solid #19C6A1;
+    border-radius: 0.5em;
+    width: 8%;
+    height: 30px;
+    text-align: center;
+    line-height: 23px;
+    margin-right: 10px;
+    color: #19C6A1;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.yearDiv{
+    float: left;
+    width: 34%;
+    height: 50px;
+    margin-left: 7%;
+    border: 0.2em solid #F8A035;
+    border-radius: 0.5em;
+    text-align: center;
+    line-height: 41px;
+    color: #F8A035;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.yearDiv input{
+	text-align: center;
+	border: 0.2em solid #F8A035;
+    border-radius: 0.5em;
+    -webkit-transition: box-shadow 0.30s ease-in-out;
+    -moz-transition:  box-shadow 0.30s ease-in-out; 
+    color : #F8A035;
+        width: 60%;
+}
+
+.yearDiv input:FOCUS{
+	 outline:none;
+	text-align: center;
+	border: 0.2em solid #F8A035;
+    border-radius: 0.5em;
+    box-shadow: 0 0 8px rgba(103, 166, 217, 1);
+}
+
+.fileForm{
+	float:left;
+	width: 63px;
+	margin-right: 2%;
+}
+
+.inputClass{
+	float: left;
+    margin-right: 1%;
+    width: 70px;
+    height: 30px;
+    line-height: 17px;
+    text-align: center;
+    border: 1px solid #19C6A1;
+    border-radius: 4px;
+    background-color: #19C6A1;
+    color: #EAF9F5;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+	display: none
+}
+
+input[class='inputClass']:hover{
+	box-shadow: 0 0 8px rgba(103, 166, 217, 1);
+}
+
+.right_tab{
+	margin-top: 6%;
+	width:96%;
+	margin-left: 3%;
+	text-align: center;
+	overflow-x : overlay;
+	pointer-events: auto;
+/* 	position: fixed; */
+	overflow: auto;
+    height: 452px;
+}
+
+.table_class{
+	overflow-x: auto;
+}
+
+
+.right_tab table{
+	/* overflow : hidden; */
+	table-layout:fixed;
+	min-width: 100%;
+	margin-top: auto;
+	margin-bottom: 2%;
+}
+
+.right_tab thead th{
+	word-break: keep-all;
+    white-space: nowrap;
+    height: 30px;
+    border: 1px solid #19C6A1;
+    min-width: 60px;
+    background-color: lightseagreen;
+    font-weight: bold;
+    text-align: center;
+    color : white;
+    vertical-align: middle;
+    font-size : 12px
+}
+
+.table_title{
+	word-break: keep-all;
+    white-space: nowrap;
+    height: 20px;
+    border: 1px solid #19C6A1;
+    min-width: 60px;
+    background-color: lightseagreen;
+    font-weight: bold;
+    vertical-align: middle;
+    text-align: center;
+    color : white
+}
+
+.right_tab tbody td{
+	word-break:keep-all; /* for ie */  
+	white-space:nowrap; /* for chrome */  
+	height:30px;
+	border: 1px solid #19C6A1;
+	vertical-align: middle;
+	text-align: center;
+	background-color: white;
+	font-size : 12px
+}
+
+.right_tab tbody td input[type="text"]{
+	width:95%;
+	height:95%;
+	text-align: center;
+	border: 0.1em solid white;
+    border-radius: 0.5em;
+    -webkit-transition: box-shadow 0.30s ease-in-out;
+    -moz-transition:  box-shadow 0.30s ease-in-out; 
+    margin-top: 2px;
+}
+
+.right_tab tbody td input[type="text"]:focus{
+	outline: none;
+	border: 0.1em solid #19C6A1;
+    box-shadow: 0 0 1px rgba(103, 166, 217, 1); 
+}
+
+ .checkbox{
+	vertical-align:middle; 
+	margin:auto;
+	height:30px; 
+	border: 0.1em solid #19C6A1;
+}
+
+/*  */
+.chk_1 { 
+    display: none; 
+} 
+ 
+.chk_1 + label { 
+    background-color: #FFF; 
+    border: 1px solid #C1CACA; 
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05); 
+    padding: 8px; 
+    border-radius: 5px; 
+    display: inline-block; 
+    position: relative; 
+    vertical-align: middle;
+} 
+.chk_1 + label:active { 
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1); 
+} 
+ 
+.chk_1:checked + label { 
+    background-color: #ECF2F7; 
+    border: 1px solid #92A1AC; 
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05), inset 15px 10px -12px rgba(255, 255, 255, 0.1); 
+    color: #243441; 
+} 
+ 
+.chk_1:checked + label:after { 
+    content: '\2714'; 
+    position: absolute; 
+    top: 1px; 
+    left: 0px; 
+    color: #758794; 
+    width: 100%; 
+    text-align: center; 
+    font-size: 0.9em; 
+   /*  padding: 1px 0 0 0;  */
+    vertical-align: middle; 
+} 
+
+/*  */
+
+.pageClass{
+    float: right;
+    width: 38%;
+    margin-top: 2%;
+    /* width: 50%; */
+}
+.pageClass input{
+	margin-right: 1%;
+	width: 63px;
+	height: 25px;
+	line-height: 17px;
+	text-align: center;
+	border: 1px solid #19C6A1;
+	border-radius: 4px;
+	background-color: #19C6A1;
+	color: #EAF9F5;
+	font-size: 13px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.pageClass select{
+    margin-right: 2%;
+    width: 70px;
+    height: 25px;
+    line-height: 17px;
+    text-align: center;
+    border: 1px solid #19C6A1;
+    border-radius: 4px;
+    background-color: #19C6A1;
+    color: #EAF9F5;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 1%;
+}
+/* http://meyerweb.com/eric/tools/css/reset/
+ * v2.0 | 20110126
+ * License: none (public domain) */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 13px;
+  font: inherit;
+  vertical-align: baseline; }
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block; }
+
+body {
+  line-height: 1; }
+
+blockquote, q {
+  	quotes: none; }
+
+blockquote:before, blockquote:after,
+q:before, q:after {	content: "";content: none; }
+
+* {	box-sizing: border-box;	-webkit-font-smoothing: antialiased; }
+
+.dropdown {
+  	left: 0;
+  	width: 100%;
+  	background-color: #596B81;
+  	font-family: "Montserrat", sans-serif;
+  	padding-top: 30px;
+  	font-size: 12px; 
+  	color:white;
+  	margin-top: 80px;
+ }
+.dropdown li { 
+	padding: 0 0 0 20px;
+}
+/* .dropdown li.selected { background-color: #f2f2f2; } */
+.dropdown li span {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    text-decoration: none;
+    cursor: pointer;
+   	overflow: hidden; 
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display:block;
+}
+.check_li{
+	background-color: #41556D;
+    cursor: pointer;
+}
+.table_color{
+	color: #19C6A1
+}
+.inputClass1{
+	float: right;
+    margin-right: 1%;
+    width: 70px;
+    height: 30px;
+    line-height: 17px;
+    text-align: center;
+    border: 1px solid #19C6A1;
+    border-radius: 4px;
+    background-color: #19C6A1;
+    color: #EAF9F5;
+    font-size: 15px;
+    font-weight: bold;
+    
+}
+input[class='inputClass1']:hover{
+	box-shadow: 0 0 8px rgba(103, 166, 217, 1);
+}

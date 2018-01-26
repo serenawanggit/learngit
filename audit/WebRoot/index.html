@@ -1,0 +1,473 @@
+﻿﻿﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- <%@ page language="java" import="java.util.*,audit.util.Common" pageEncoding="UTF-8"%> -->
+<HTML>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title><%=Common.TITLE%></title>
+		<link rel="shortcut icon" href="" type="image/x-icon" />
+		<script type="text/javascript" src="/CHART/commonjs/common.js"></script> 
+		<style type="text/css">
+			body,
+			html {
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				border: none;
+				background-color: #F7F7F7;
+				background-repeat: repeat-x;
+				font-size: 12px;
+				font-family: Arial, Helvetica, sans-seri
+			}
+		</style>
+		<link rel="stylesheet" href="css/style2.css" type="text/css">
+		<script src="js/jquery.js"></script>
+		<style>
+			.myd {
+				background: #77887E;
+				height: 100%;
+				left: 0%;
+				right: 0%;
+				width: 100%;
+				position: absolute;
+				z-index: 1000;
+			}
+			.top_logo {
+				height: 60px;
+				line-height: 70px;
+				font-family: "隶书";
+				font-size: 22px;
+				color: #FFF;
+				background: url("/tqc/images/logo.png") no-repeat scroll 10px center transparent;
+				padding-left: 270px;
+				float: left;
+				cursor: pointer;
+			}
+		</style>
+		<!-- 导航 -->
+		<style type="text/css">
+			.chart_nva{margin-top: -3px;}
+			.chart_nva strong{font-weight: bold;line-height: 30px; margin-left: 5px;}
+			.chart_nva strong a{color:white;}
+			.chart_nva strong a img{width:16px;height:16px;vertical-align:middle;}
+		</style>
+		<script>
+			$(function() {
+				var cookie = document.cookie;
+				if (cookie && cookie != "") {
+					var cookies = cookie.split(";");
+					for (var i = 0; i < cookies.length; i++) {
+						var index = cookies[i].lastIndexOf("=");
+						var cookiename = cookies[i].substring(0, index);
+						if (cookiename.trim() == "uvocookie") {
+							var value = cookies[i].substring(index + 1, cookies[i].length);
+							var array = value.split("&");
+							var url = "/DLYZ/login?name=" + array[1] + "&password=" + array[2];
+							$.getJSON(url, function(data) {
+								$("#showname").html(eval(data).showname);
+							});
+						}
+					}
+				} else {
+					window.location.href = "/DLYZ";
+				}
+			});
+			String.prototype.trim=function(){
+		　　    return this.replace(/(^\s*)|(\s*$)/g, "");
+		　　 }
+			
+		</script>
+	</head>
+
+	<body scroll="no">
+		<!-- 遮盖层 -->
+		<div class="myd" style="display: none;z-index:1000;height:100%;" id="md"></div>
+		<table width="100%" style="height:100%;" cellpadding="0" cellspacing="0" border="0">
+
+			<tr>
+				<td align="right" valign="top">
+					<table cellpadding="0" cellspacing="0" style="width:100%;height:57px;font-size:12px;background-image:url(images/tqcmenubk.png);background-repeat:repeat-x;">
+						<tr>
+							<td align="left" style="height:57px;" valign="middle">
+								<!-- <div style="height:57px;" class="top_logo" onclick="javascript:window.location.href='/CHART';">
+									教学质量管理系统
+								</div> --><img src="images/login1.png"></img>
+							</td>
+							<td>
+								<!-- 返回导航 -->
+							    <div class="chart_nva">
+							    	<strong>
+										<a href="javascript:void(0);" onclick="javascript:window.location.href = '/CHART'" >
+											返回导航&nbsp;<img src="/tqc/images/nva_back.png"/>
+										</a>
+									</strong>
+							    </div>
+							</td>
+							<!-- 修改菜单 -->
+							<div id="site-nav">
+								<ul class="quick-menu" style="margin-top:15px; margin-right:15px;">
+									<li class="mytaobao menu-item last">
+										<div class="menu" style="">
+											<a class="menu-hd" href="#" style="font-weight: bold">
+												<img src="images/gonneg.png" style="width:30px;height:20px;" /><b></b>
+											</a>
+											<div class="menu-bd" style="width: 100px; height: 200px; _width: 202px;margin-top: 5px;">
+												<div class="menu-bd-panel">
+
+													<dl>
+														<dd style="margin-left: 5px;">
+															<strong style="font-weight: bold;">
+
+								<div style="height: 25px;padding-top: 5px;">
+
+								<img src="images/user_tb.png" style="width:16px;height:16px;vertical-align:middle;"/>
+
+								<a class=""  href="javascript:void(0)" id="showname"></a>
+
+								</div>
+
+							</strong>
+														</dd>
+													</dl>
+													<dl>
+														<dd style="margin-left: 5px;">
+															<strong style="font-weight: bold;">
+
+								<div style="height: 25px;padding-top: 5px;">
+
+								<a href="/CHART/index.jsp"><img src="images/view.png" height="16px" width="16px" style="vertical-align: middle; margin-right: 2px;" />教学状态</a>
+
+							</strong>
+														</dd>
+													</dl>
+													<hr class="hr_style" />
+													<dl>
+														<dd style="margin-left: 5px;">
+															<strong style="font-weight: bold;line-height: 30px;">
+
+								<a class="" href="/TQCC">
+
+								<img src="images/houtai_tb.png" style="width:16px;height:16px;vertical-align:middle;"/>
+
+								后台管理
+
+								</a>
+
+							</strong>
+														</dd>
+													</dl>
+													<hr class="hr_style" />
+
+													<dl>
+														<dd style="margin-left: 5px;">
+															<strong style="font-weight: bold;line-height: 30px;">
+
+								<a href="/DLYZ" >
+
+								<img src="images/zhuxiao_tb.png" style="width:16px;height:16px;vertical-align:middle;"/>
+
+								注销
+
+								</a>
+
+							</strong>
+														</dd>
+													</dl>
+
+												</div>
+												<s class=r></s><s class=rt></s><s class=lt></s><s class=b></s><s class="b b2"></s><s class=rb></s><s class=lb></s>
+											</div>
+										</div>
+									</li>
+								</ul>
+							</div>
+
+							<!-- 修改菜单结束 -->
+				</td>
+				</tr>
+
+				<tr style="background-color: #519267;">
+					<td align="left" style="height:40px;color:#333333;" colspan="2">
+						<table cellpadding="0" cellspacing="0" style="margin-left:70px;">
+							<tr>
+								<td align="left" style="height:38px;color:#333333;display: none;">
+									<img src="images/menu001_press.png" id="menu001" onclick="cgmenubk(this);return false;" style="border:0px;" onmouseover="this.style.cursor='pointer';">
+								</td>
+								<td align="left" style="height:38px;color:#333333;">
+									<img src="images/menu002.png" id="menu002" onclick="cgmenubk(this);return false;" style="border:0px;" onmouseover="this.style.cursor='pointer';">
+								</td>
+								<td align="left" style="height:38px;color:#333333;">
+									<img src="images/menu003.png" id="menu003" onclick="cgmenubk(this);return false;" style="border:0px;" onmouseover="this.style.cursor='pointer';">
+								</td>
+								<td align="left" style="height:38px;color:#333333;">
+									<img src="images/menu004.png" id="menu004" onclick="skipaudit()" style="border:0px;" onmouseover="this.style.cursor='pointer';">
+								</td>
+								<td align="left" style="height:38px;color:#333333;">
+									<img src="images/menu005.png" id="menu005" onclick="skipaudit5()" style="border:0px;" onmouseover="this.style.cursor='pointer';">
+								</td>
+								<td align="left" style="height:38px;color:#333333;">
+									<img src="images/menu006.png" id="menu006" onclick="skipaudit6()" style="border:0px;" onmouseover="this.style.cursor='pointer';">
+								</td>
+								<td align="left" style="height:38px;color:#333333;">
+									<img src="images/menu007.png" id="menu007" onclick="skipaudit7()" style="border:0px;" onmouseover="this.style.cursor='pointer';">
+								</td>
+								<td align="left" style="height:38px;color:#333333;display:none;">
+									<img src="images/menu008.png" id="menu008" onclick="cgmenubk(this);return false;" style="border:0px;" onmouseover="this.style.cursor='pointer';">
+								</td>
+								<td align="left" style="height:38px;color:#333333;display:none;">
+									<img src="images/menu009.png" id="menu009" onclick="cgmenubk(this);return false;" style="border:0px;" onmouseover="this.style.cursor='pointer';">
+								</td>
+								<td align="left" style="height:38px;color:#333333;display:none;">
+									<img src="images/menu010.png" id="menu010" onclick="cgmenubk(this);return false;" style="border:0px;" onmouseover="this.style.cursor='pointer';">
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+
+				</table>
+				</td>
+			</tr>
+
+			<tr>
+				<td align="center" valign="top">
+					<div id="centerdiv" style="width:100%;height:500px;overflow-y:auto;overflow-x:hidden;"></div>
+				</td>
+			</tr>
+
+		</table>
+		<script type="text/javascript" src="js/tqc.js"></script>
+		<script type="text/javascript" src="js/tqc2.js"></script>
+		<script type="text/javascript" src="js/tqc3.js"></script>
+		<script type="text/javascript" src="js/shjwupload.js"></script>
+		<script type="text/javascript" src="js/md5.js"></script>
+		<script type="text/javascript" src="js/tqctongji.js"></script>
+		<script type="text/javascript" src="tongjitu/js/jquery.min.js"></script>
+		<script type="text/javascript" src="tongjitu/highchart/js/highcharts.js"></script>
+		<script type="text/javascript" src="tongjitu/highchart/js/modules/exporting.js"></script>
+		<script type="text/javascript" src="js/tqchtml.js"></script>
+		<script type="text/javascript">
+			function getRequest() {
+				var url = decodeURI(location.search); // 获取url中"?"符后的字串
+				var theRequest = new Object();
+				if (url.indexOf("?") != -1) {
+					var str = url.substr(1);
+					strs = str.split("&");
+					for (var i = 0; i < strs.length; i++) {
+						theRequest[strs[i].split("=")[0]] = (strs[i].split("=")[1]);
+					}
+				}
+				return theRequest;
+			}
+			if (getRequest().id != undefined) {
+				$("#" + getRequest().id).click();
+			} else {
+				$("#menu002").click();
+			}
+			 //首页初始化 暂时不要 改为初始化数据上报
+			 //	initfirstpage();
+			 // 初始化数据上报
+			function skipaudit() {
+				window.location.href = "/audit/page/home.jsp?mid=4";
+			}
+
+			function skipaudit5() {
+				window.location.href = "/audit/page/home.jsp?mid=5";
+			}
+
+			function skipaudit6() {
+				window.location.href = "/audit/page/home.jsp?mid=6";
+			}
+
+			function skipaudit7() {
+				window.location.href = "/audit/page/home.jsp?mid=7";
+			}
+		</script>
+
+		<!--link rel="stylesheet" href="zTree_v3/css/demo.css" type="text/css"-->
+		<link rel="stylesheet" href="zTree_v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+		<!--script type="text/javascript" src="zTree_v3/js/jquery-1.4.4.min.js"></script-->
+		<script type="text/javascript" src="zTree_v3/js/jquery.ztree.core-3.5.js"></script>
+		<script type="text/javascript" src="zTree_v3/js/jquery.ztree.excheck-3.5.js"></script>
+		<SCRIPT type="text/javascript">
+			<!--
+			var setting = {
+				check: {
+					enable: true
+				},
+				data: {
+					simpleData: {
+						enable: true
+					}
+				},
+				callback: {
+					onCheck: onCheck
+				}
+			};
+			setting.check.chkboxType = {
+				"Y": "",
+				"N": ""
+			};
+			 //var code;
+			 //树形结构选中时间
+			function onCheck(e, treeId, treeNode) {
+					if (treeId == "treeDemo001") { //列维度
+						//var zTree = $.fn.zTree.getZTreeObj("treeDemo001");
+						//var allc=zTree.getCheckedNodes();
+						var dimenclostab = $1("dimenclostab001");
+						if (dimenclostab == null) {
+							dimenclostab = document.createElement("table");
+							dimenclostab.id = "dimenclostab001";
+							dimenclostab.style.width = "100%";
+							dimenclostab.cellPadding = "0px";
+							dimenclostab.cellSpacing = "0px";
+						}
+						if (treeNode.checked) { //点选	
+							var rowobj = dimenclostab.insertRow(dimenclostab.rows.length);
+							rowobj.id = "dimenclostab001" + treeNode.id;
+							var ibk = "#FFF";
+							if ((dimenclostab.rows.length - 1) % 2 == 1) {
+								ibk = "#F7F7F7";
+							}
+							rowobj.style.backgroundColor = ibk;
+							var cell1 = rowobj.insertCell(rowobj.cells.length);
+							var cell2 = rowobj.insertCell(rowobj.cells.length);
+							cell1.style.height = "40px";
+							cell1.align = "center";
+							cell1.style.borderBottom = "#DADADA 1px solid";
+							//cell1.style.borderRight="#DADADA 1px solid";
+							cell2.style.height = "40px";
+							cell2.align = "center";
+							cell2.style.borderBottom = "#DADADA 1px solid";
+							cell1.innerHTML = treeNode.name;
+							cell2.innerHTML = "<a href='#' onclick='moveUp(this);return false;'>上移</a>  <a href='#' onclick='moveDown(this);return false;'>下移</a>";
+							if ($1("dimenclostab001") == null) {
+								$1("dimenclosdivvalue").appendChild(dimenclostab);
+							}
+						} else { //取消选中
+							var treerowid = "dimenclostab001" + treeNode.id;
+							dimenclostab.deleteRow($1(treerowid).rowIndex);
+						}
+					} else if (treeId == "treeDemo002") { //行维度
+						var dimenclostab = $1("dimenclostab002");
+						if (dimenclostab == null) {
+							dimenclostab = document.createElement("table");
+							dimenclostab.id = "dimenclostab002";
+							dimenclostab.style.width = "100%";
+							dimenclostab.cellPadding = "0px";
+							dimenclostab.cellSpacing = "0px";
+						}
+						if (treeNode.checked) {
+							var rowobj = dimenclostab.insertRow(dimenclostab.rows.length);
+							rowobj.id = "dimenclostab002" + treeNode.id;
+							var ibk = "#FFF";
+							if ((dimenclostab.rows.length - 1) % 2 == 1) {
+								ibk = "#F7F7F7";
+							}
+							rowobj.style.backgroundColor = ibk;
+							var cell1 = rowobj.insertCell(rowobj.cells.length);
+							var cell2 = rowobj.insertCell(rowobj.cells.length);
+							cell1.style.height = "40px";
+							cell1.align = "center";
+							cell1.style.borderBottom = "#DADADA 1px solid";
+							//cell1.style.borderRight="#DADADA 1px solid";
+							cell2.style.height = "40px";
+							cell2.align = "center";
+							cell2.style.borderBottom = "#DADADA 1px solid";
+							cell1.innerHTML = "" + treeNode.name + "";
+							cell2.innerHTML = "<a href='#' onclick='moveUp(this);return false;'>上移</a>  <a href='#' onclick='moveDown(this);return false;'>下移</a>";
+							if ($1("dimenclostab002") == null) {
+								$1("dimenrowsdivvalue").appendChild(dimenclostab);
+							}
+						} else {
+							var treerowid = "dimenclostab002" + treeNode.id;
+							dimenclostab.deleteRow($1(treerowid).rowIndex);
+						}
+					} else if (treeId == "treeDemo003") { //筛选条件
+						var dimenclostab = $1("dimenclostab003");
+						if (dimenclostab == null) {
+							dimenclostab = document.createElement("table");
+							dimenclostab.id = "dimenclostab003";
+							dimenclostab.style.width = "100%";
+							dimenclostab.cellPadding = "0px";
+							dimenclostab.cellSpacing = "0px";
+						}
+						if (treeNode.checked) {
+							var rowobj = dimenclostab.insertRow(dimenclostab.rows.length);
+							rowobj.id = "dimenclostab003" + treeNode.id;
+							var ibk = "#FFF";
+							if ((dimenclostab.rows.length - 1) % 2 == 1) {
+								ibk = "#F7F7F7";
+							}
+							rowobj.style.backgroundColor = ibk;
+							var cell1 = rowobj.insertCell(rowobj.cells.length);
+							var cell2 = rowobj.insertCell(rowobj.cells.length);
+							cell1.style.height = "40px";
+							cell1.align = "center";
+							cell1.style.borderBottom = "#DADADA 1px solid";
+							//cell1.style.borderRight="#DADADA 1px solid";
+							cell2.style.height = "40px";
+							cell2.align = "center";
+							cell2.style.borderBottom = "#DADADA 1px solid";
+							cell1.innerHTML = "" + treeNode.name + "";
+							cell2.innerHTML = "<a href='#' onclick='moveUp(this);return false;'>上移</a>  <a href='#' onclick='moveDown(this);return false;'>下移</a>";
+							if ($1("dimenclostab003") == null) {
+								$1("dimenconditiondivvalue").appendChild(dimenclostab);
+							}
+						} else {
+							var treerowid = "dimenclostab003" + treeNode.id;
+							dimenclostab.deleteRow($1(treerowid).rowIndex);
+						}
+					}
+				}
+				//-->
+				//*********************************
+
+			function cleanWhitespace(element) {
+					//遍历element的子结点
+					for (var i = 0; i < element.childNodes.length; i++) {
+						var node = element.childNodes[i];
+						//判断是否是空白文本结点，如果是，则删除该结点
+						if (node.nodeType == 3 && !/\S/.test(node.nodeValue))
+							node.parentNode.removeChild(node);
+					}
+				}
+				//获得表格对象
+				//var _table=document.getElementById("table1");
+				//cleanWhitespace(_table);
+				//使表格行上移，接收参数为链接对象
+
+			function moveUp(_a) {
+					//通过链接对象获取表格行的引用
+					var _row = _a.parentNode.parentNode;
+					//如果不是第一行，则与上一行交换顺序
+					if (_row.previousSibling) swapNode(_row, _row.previousSibling);
+				}
+				//使表格行下移，接收参数为链接对象
+
+			function moveDown(_a) {
+					//通过链接对象获取表格行的引用
+					var _row = _a.parentNode.parentNode;
+					//如果不是最后一行，则与下一行交换顺序
+					if (_row.nextSibling) swapNode(_row, _row.nextSibling);
+				}
+				//定义通用的函数交换两个结点的位置
+
+			function swapNode(node1, node2) {
+					//获取父结点
+					var _parent = node1.parentNode;
+					//获取两个结点的相对位置
+					var _t1 = node1.nextSibling;
+					var _t2 = node2.nextSibling;
+					//将node2插入到原来node1的位置
+					if (_t1) _parent.insertBefore(node2, _t1);
+					else _parent.appendChild(node2);
+					//将node1插入到原来node2的位置
+					if (_t2) _parent.insertBefore(node1, _t2);
+					else _parent.appendChild(node1);
+				}
+				//**********************************
+		</SCRIPT>
+	</body>
+
+</html>

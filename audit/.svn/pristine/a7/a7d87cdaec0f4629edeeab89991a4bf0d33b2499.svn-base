@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsAccessExamineSceneVoMapper">
+  <resultMap id="AccessYearResultMap" type="audit.model.assess.AsAccessInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="access_year" property="accessYear" jdbcType="VARCHAR" />
+    <result column="start_datetime" property="startDatetime" jdbcType="TIMESTAMP" />
+    <result column="end_datetime" property="endDatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+   <resultMap id="AsAccessSpecialtyResultMap" type="audit.model.assess.AsAccessSpecialty">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="specialty_id" jdbcType="INTEGER" property="specialtyId" />
+    <result column="specialty_name" jdbcType="VARCHAR" property="specialtyName" />
+    <result column="access_id" jdbcType="INTEGER" property="accessId" />
+    <result column="participate_type" jdbcType="TINYINT" property="participateType" />
+    <result column="start_datetime" jdbcType="TIMESTAMP" property="startDatetime" />
+    <result column="end_datetime" jdbcType="TIMESTAMP" property="endDatetime" />
+    <result column="is_complete" jdbcType="TINYINT" property="isComplete" />
+    <result column="default_standart_id" jdbcType="VARCHAR" property="defaultStandartId" />
+    <result column="academy_id" jdbcType="INTEGER" property="academyId" />
+    <result column="academy_name" jdbcType="VARCHAR" property="academyName" />
+    <result column="user_group_id" jdbcType="INTEGER" property="userGroupId" />
+  </resultMap> 
+  <resultMap id="BaseResultMap" type="audit.model.assess.vo.AsAccessExamineSceneVo">
+  	<id column="id" jdbcType="INTEGER" property="id" />
+  	<result column="accessSpecialtyId" jdbcType="INTEGER" property="accessSpecialtyId"/>
+  	<result column="expertId" jdbcType="INTEGER" property="expertId"/>
+  	<result column="expertName" jdbcType="VARCHAR" property="expertName"/>
+  	<result column="inspectStartTime" jdbcType="TIMESTAMP" property="inspectStartTime"/>
+  	<result column="inspectEndTime" jdbcType="TIMESTAMP" property="inspectEndTime"/>
+  	<result column="inspectTypeId" jdbcType="INTEGER" property="inspectTypeId"/>
+  	<result column="inspectStatus" jdbcType="VARCHAR" property="inspectStatus"/>
+  	<result column="inspectContent" jdbcType="VARCHAR" property="inspectContent"/>
+  	<result column="showstime" jdbcType="VARCHAR" property="showSTime"/>
+  	<result column="showetime" jdbcType="VARCHAR" property="showETime"/>
+  </resultMap>
+  <resultMap id="AsAccessUserResultMap" type="audit.model.assess.AsAccessUser" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_type" property="userType" jdbcType="TINYINT" />
+    <result column="user_group_id" property="userGroupId" jdbcType="INTEGER" />
+  </resultMap>   
+    <sql id="Specialty_Column_List">
+    id, specialty_id, specialty_name, access_id, participate_type, start_datetime, end_datetime, 
+    is_complete, default_standart_id, academy_id, academy_name, user_group_id
+  </sql>
+  <sql id="AccessYear_Column_List">
+    id,name,access_year,start_datetime,end_datetime
+  </sql>
+   <select id="findAccessYear"  useCache="false" flushCache="false" resultMap="AccessYearResultMap">
+   		select
+   		<include refid="AccessYear_Column_List"/>
+   		from AS_ACCESS_INFO order by access_year desc
+   </select>
+  <select id="findSpecialtyByAccessIdAndAcademyIdAndSpecialtyId"  useCache="false" flushCache="false" resultMap="AsAccessSpecialtyResultMap">
+  	select 
+    <include refid="Specialty_Column_List" />
+    from AS_ACCESS_SPECIALTY
+    <where>
+         participate_type = 3
+    	<if test="accessId!=null and accessId!=''">
+    	   and access_id = #{accessId}
+    	</if>
+    	<if test="academyId!=null and academyId!=''">
+    	   and academy_id = #{academyId}
+    	</if>
+    	<if test="specialtyId!=null and specialtyId!=''">
+    	   and specialty_id = #{specialtyId}
+    	</if>
+    </where>
+  </select>
+    <select id="selectValues" useCache="false" flushCache="false" resultMap="BaseResultMap">
+	        Select distinct
+	        	aaes.id as id,
+	        	aaes.access_specialty_id as accessSpecialtyId, 
+	        	aaes.expert_id as expertId,
+	        	aau.user_name as expertName,
+	        	convert(varchar(20),aaes.inspect_start_time,120)  as showstime,
+                convert(varchar(20), aaes.inspect_end_time,120) as showetime,
+	        	aaes.inspect_type_id as inspectTypeId,
+	        	aasc.code_value_name as inspectTypeName,
+	        	aaes.inspect_status as inspectStatus,
+	        	aaes.inspect_content as inspectContent,
+	        	aai.id as accessId,
+	        	aai.name as accessName,
+	        	aas.academy_id as academyId,
+	        	aas.academy_name as academyName,
+	        	aas.specialty_id as specialtyId,
+	        	aas.specialty_name as specialtyName
+	        From           AS_ACCESS_EXAMINE_SCENE aaes
+	             left join AS_ACCESS_SPECIALTY        aas on aaes.access_specialty_id = aas.id
+	             left join AS_ACCESS_USER             aau on aas.user_group_id = aau.user_group_id and aaes.expert_id = aau.user_id
+	             left join AS_ACCESS_INFO             aai on aas.access_id = aai.id
+	             left join AS_ACCESS_SYSTEM_CODE      aasc on aasc.id = aaes.inspect_type_id and aasc.code_type = 'inspect_type'
+    <where>
+    	<if test="accessId!=null and accessId!=''">
+    	   and access_id = #{accessId}
+    	</if>
+    	<if test="academyId!=null and academyId!=''">
+    	   and academy_id = #{academyId}
+    	</if>
+    	<if test="specialtyId!=null and specialtyId!=''">
+    	   and specialty_id = #{specialtyId}
+    	</if>
+    </where>
+	</select>
+	<select id="getExamineExpert" useCache="false" flushCache="false" resultMap="AsAccessUserResultMap">
+	  select 
+	  a.id,a.user_id,a.user_name,a.user_type,a.user_group_id,a.operate_type
+	  from AS_ACCESS_USER a
+	  left join AS_ACCESS_SPECIALTY b on a.user_group_id = b.user_group_id
+	  <where>
+	        user_type =3 and operate_type = 1
+	     <if test="accessSpecialtyId!=null and accessSpecialtyId!=''">
+	      and b.id = #{accessSpecialtyId}
+	     </if>
+	  </where>
+	</select>
+	<select id="getExpertInfo" resultMap="AsAccessUserResultMap" parameterType="java.lang.Integer">
+	  select 
+	  a.id,a.user_id,a.user_name,a.user_type,a.user_group_id,a.operate_type
+	  from AS_ACCESS_USER a
+	  left join AS_ACCESS_SPECIALTY b on a.user_group_id = b.user_group_id
+	  where
+	   a.user_id in (select expert_id from AS_ACCESS_EXAMINE_SCENE)
+	   and user_type =3 and operate_type = 1
+	   and b.id = #{accessSpecialtyId}
+	</select>
+	<select id="getExpertInspectInfo" resultMap="BaseResultMap" useCache="false" flushCache="false">
+	 select 
+		   a.id as id,
+	       a.access_specialty_id as accessSpecialtyId, 
+	   	   a.expert_id as expertId,
+	   	   c.user_name as expertName,
+	   	   convert(varchar(20),a.inspect_start_time,120)  as showstime,
+	       convert(varchar(20), a.inspect_end_time,120) as showetime,
+	   	   a.inspect_type_id as inspectTypeId,
+	   	   d.code_value_name as inspectTypeName,
+	   	   a.inspect_status as inspectStatus,
+	   	  a.inspect_content as inspectContent
+	  from AS_ACCESS_EXAMINE_SCENE a 
+		  left join AS_ACCESS_SPECIALTY b on a.access_specialty_id = b.id
+		  left join As_Access_User      c on b.user_group_id = c.user_group_id and a.expert_id = c.user_id
+		  left join AS_ACCESS_SYSTEM_CODE d  on d.id = a.inspect_type_id and d.code_type = 'inspect_type'
+	  <where>
+	         c.user_type = 3 and c.operate_type = 1
+	        <if test="userId!=null">
+	         and a.expert_id = #{userId}
+	        </if>
+	        <if test="accessSpecialtyId!=null">
+	        and a.access_specialty_id = #{accessSpecialtyId}
+	        </if>
+	  </where>
+	</select>
+</mapper>

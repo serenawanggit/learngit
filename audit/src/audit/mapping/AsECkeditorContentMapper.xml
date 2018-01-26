@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsECkeditorContentMapper">
+	<resultMap id="BaseResultMap" type="audit.model.AsECkeditorContent">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="eid" property="eid" jdbcType="INTEGER" />
+		<result column="rtid" property="rtid" jdbcType="INTEGER" />
+		
+	</resultMap>
+	
+	<!-- 用来定义可重用的sql代码段 -->
+	<sql id="Base_Column_mList">
+	    id,content,eid,rtid
+	</sql>
+	
+	<!-- 查询所有数据 -->
+	<select id="selectAll" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		select * from as_e_ckeditorcontent
+	</select>
+	
+	<!-- 查询某个计划下的所有保存的ckeditor内容 -->
+	<select id="selectSingleById" parameterType="java.lang.Integer" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		select * from as_e_ckeditorcontent ec where ec.eid = #{eid} 
+	</select>
+	
+	<!--增加  -->
+	<insert id="save" parameterType="audit.model.AsECkeditorContent" useGeneratedKeys="true" keyProperty="id">
+		insert into as_e_ckeditorcontent (content,eid) values(
+			#{content,jdbcType=VARCHAR},#{eid,jdbcType=INTEGER})
+	</insert>
+	
+	<!-- 更新-->  
+    <update id="update" parameterType="audit.model.AsECkeditorContent">  
+        update as_e_ckeditorcontent set content = #{content} where eid = #{eid}  
+    </update>  
+</mapper>

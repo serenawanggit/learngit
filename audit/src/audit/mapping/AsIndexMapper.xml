@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsIndexMapper">
+	<resultMap id="BaseResultMap" type="audit.model.AsIIndexClassification">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="parent_Id" property="parentId" jdbcType="VARCHAR" />
+		<result column="index_Name" property="indexName" jdbcType="INTEGER" />
+		<!-- 指标 -->
+		<collection property="manageList" javaType="java.util.ArrayList" column="INDEX_CLASSIFICATION_ID" ofType="audit.model.AsMManage">    
+            <id column="MEASURE_ID" property="measureId" jdbcType="VARCHAR" />
+			<result column="MEASURE_NAME" property="measureName" jdbcType="VARCHAR" />
+			<result column="CATEGORY_ID" property="categoryId" jdbcType="INTEGER" />
+			<result column="classify" property="classify" jdbcType="VARCHAR" />
+			<result column="level" property="level" jdbcType="VARCHAR" />
+			<result column="IS_SCHOOL" property="isSchool" jdbcType="VARCHAR" />
+			<result column="is_Department" property="isDepartment" jdbcType="VARCHAR"/>
+			<result column="is_Profession" property="isProfession" jdbcType="VARCHAR" />
+			<result column="is_Assess" property="isAssess" jdbcType="VARCHAR" />
+			<result column="notice" property="notice" jdbcType="VARCHAR" />
+			<result column="equation" property="equation" jdbcType="VARCHAR" />
+			<result column="states" property="states" jdbcType="INTEGER" />
+			<result column="is_Query" property="isQuery" jdbcType="INTEGER" />
+			<result column="INDEX_CLASSIFICATION_ID" property="indexClassificationId" jdbcType="VARCHAR" />
+        </collection>  
+	</resultMap>
+	
+	<!-- 查询指标值返回值 -->
+	<resultMap id="zbbEntity" type="audit.model.ZbbEntity">
+		<result column="SYEAR" property="year" jdbcType="VARCHAR" />
+		<result column="department" property="schoolname" jdbcType="VARCHAR" />
+		<result column="zb" property="name" jdbcType="VARCHAR" />
+		<result column="zbid" property="zbid" jdbcType="VARCHAR" />
+		<result column="zhi" property="zhi" jdbcType="VARCHAR" />
+		<result column="methods" property="methods" jdbcType="VARCHAR" />
+	</resultMap>
+	<!-- 查询所有数据 -->
+	<select id="selectAllIndex" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		select m.MEASURE_ID,m.MEASURE_NAME,m.CATEGORY_ID,m.CLASSIFY,m.LEVEL,
+		m.IS_SCHOOL,m.IS_DEPARTMENT,m.IS_PROFESSION,m.IS_ASSESS,m.INDEX_CLASSIFICATION_ID,
+		c.ID,c.PARENT_ID,c.INDEX_NAME 
+		from AS_I_INDEX_CLASSIFICATION c
+		left join AS_M_MANAGE m on m.INDEX_CLASSIFICATION_ID=c.ID 
+		where (m.STATES!=9 or m.STATES is null ) 
+		order by c.ID asc
+	</select>
+	
+	<!-- 存储过程根据指标ID查询指标值 -->
+	<select id="findQuotaValByQId" parameterType="java.util.Map" statementType="CALLABLE" resultMap="zbbEntity">  
+	  	{call SP_R_ZLSJ_ZB('SYEAR','DEPARTMENT',
+		  	#{year},
+		  	#{school},
+		  	#{qid}
+		  	)
+	  	}  
+	</select> 
+	
+	<select id="findQuotaVal"  parameterType="java.util.Map" resultMap="zbbEntity">  
+    	{call SP_R_ZLSJ_ZB('SYEAR','DEPARTMENT',
+		  	#{year,mode=IN,jdbcType=INTEGER},
+		  	#{school,mode=IN,jdbcType=VARCHAR},
+		  	#{qid,mode=IN,jdbcType=VARCHAR}
+		  	)
+	  	}  
+    </select>  
+	
+</mapper>

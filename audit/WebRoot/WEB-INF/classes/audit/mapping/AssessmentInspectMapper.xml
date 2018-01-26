@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AssessmentInspectMapper" >
+  
+<select id="selectBySpotPeopleId" resultType="map">
+select i.id,t.spot_zt,i.SPECIALTY_NAME,i.specialty_code,t.item,s.SITE_VISITS from ASSESSMENT_USER_INFO u 
+left join ASSESSMAENT_DATE_SPECIALTY s on u.DATE_SPECIALTY_ID=s.ID
+left join ASSESSMENT_SPECIALTY_INFO i on i.ID = s.SPECIALTY_INFO_ID
+left join ASSESSMENT_TASK t on t.specialty_id = i.ID   where u.ASSESS_SELF_USER in 
+(select ASSESS_SELF_USER from ASSESSMENT_USER_INFO where date_specialty_id in (select DATE_SPECIALTY_ID from ASSESSMENT_USER_INFO i where i.ASSESS_SELF_USER = #{0})
+ and ASSESS_TYPE = 1) and s.SYEAR = #{1}
+</select>
+<select id="selectRoleBySpeId" resultType="map">
+select u.assess_type from ASSESSMENT_USER_INFO u left join ASSESSMAENT_DATE_SPECIALTY d on d.ID = u.DATE_SPECIALTY_ID
+left join ASSESSMENT_SPECIALTY_INFO i on i.ID = d.SPECIALTY_INFO_ID where i.ID = #{0} and u.ASSESS_SELF_USER = #{1}
+</select>
+<select id="selectPeopleBySpeId" resultType="map">
+select distinct ASSESS_SELF_USER,f.showname from ASSESSMENT_USER_INFO u left join ASSESSMAENT_DATE_SPECIALTY d on d.ID = u.DATE_SPECIALTY_ID
+left join ASSESSMENT_SPECIALTY_INFO i on i.ID = d.SPECIALTY_INFO_ID left join userinfo f on f.id = u.ASSESS_SELF_USER where i.ID = #{0} and ASSESS_TYPE = 4 and d.SYEAR=#{1}
+</select>
+<select id="selectInspectBySysid" resultType="map" >
+select f.ID,f.SYSID,ACHIEVE_SITUATION,EVALUATION_DATE,SCORE,SYSTEM_NAME,remark,SYSTYPE from ASSESSMENT_SITE_SURVEY_FEEDBACK f inner join ASSESSMENT_SYSTEM_INFO i
+on i.ID = f.SYSID left join userinfo u on u.id = f.USERID left join ASSESSMENT_SPECIALTY_INFO p
+	on p.ID = f.OBJECTID 
+where f.SYEAR = #{syear,jdbcType=VARCHAR} 
+<if test="sysid!=null">
+and f.SYSID = #{sysid,jdbcType=DECIMAL}
+</if>
+<if test="userId!=null">
+and USERID = #{userId,jdbcType=DECIMAL}
+</if>
+<if test="specialtyId!=null">
+and OBJECTID = #{specialtyId,jdbcType=DECIMAL}
+</if>
+<if test="userName!=null">
+and u.showName like #{userName,jdbcType=VARCHAR}
+</if>
+<if test="specialtyName!=null">
+and SPECIALTY_NAME like #{specialtyName,jdbcType=VARCHAR}
+</if>
+</select>
+
+<select id="getInspectSysInfo" resultType="map" parameterType="map">
+select ID,SYSTEM_NAME,LEVEL,PARENT_ID,remark from ASSESSMENT_SYSTEM_INFO where stype = #{stype} 
+<if test="syear!=null">
+and syear=#{syear}
+</if>
+ order by order_num
+</select>
+
+<insert id="insert" parameterType="java.util.List">
+	insert into ASSESSMENT_SITE_SURVEY_FEEDBACK(SYSID,ACHIEVE_SITUATION,USERID,SYEAR,OBJECTID,EVALUATION_DATE,SCORE,SYSTYPE)
+	values <foreach collection="list" item="item" index="index" separator="," open="" close="">
+	(#{item.sysId,jdbcType=DECIMAL},#{item.achieveSituation,jdbcType=VARCHAR},#{item.userId,jdbcType=DECIMAL},#{item.sYear,jdbcType=VARCHAR}
+	,#{item.objectId,jdbcType=DECIMAL},#{item.evaluationDate,jdbcType=VARCHAR},#{item.score,jdbcType=VARCHAR},#{item.sysType,jdbcType=DECIMAL})
+	</foreach>
+	
+</insert>
+
+<update id="updateInspect">
+	update ASSESSMENT_SITE_SURVEY_FEEDBACK
+	<set>
+	<if test="evaluationDate!=null">
+		EVALUATION_DATE = #{evaluationDate,jdbcType=VARCHAR},
+	</if>
+	<if test="achieveSituation!=null">
+		ACHIEVE_SITUATION = #{achieveSituation,jdbcType=VARCHAR},
+	</if>
+		<if test="score!=null">
+		SCORE = #{score,jdbcType=VARCHAR},
+	</if>
+	</set>
+	where  ID = #{id,jdbcType=DECIMAL}
+</update>
+  <select id="getAllData" resultType="map" >
+   select specialty_name, is_engineering,is_rz,self_assessment_date,comment_date,site_visits,(select showname from userinfo where id = #{id,jdbcType=DECIMAL}) as showName,o.name from ASSESSMENT_USER_INFO i
+   left join ASSESSMAENT_DATE_SPECIALTY d on i.date_specialty_id = d.id left join ASSESSMENT_SPECIALTY_INFO s 
+   on s.id = d.specialty_info_id left join userinfo u  on u.id = i.assess_self_user left join organization o on o.id = u.organization
+    where i.assess_self_user in (select ASSESS_SELF_USER from ASSESSMENT_USER_INFO where date_specialty_id in (select DATE_SPECIALTY_ID from ASSESSMENT_USER_INFO i where i.ASSESS_SELF_USER = #{id,jdbcType=DECIMAL})
+ and ASSESS_TYPE = 1) 
+ <if test="specialtyId!=null">
+  and s.id = #{specialtyId,jdbcType=DECIMAL}
+ </if>
+  <if test="specialtyName!=null">
+  and s.SPECIALTY_NAME = #{specialtyName,jdbcType=VARCHAR}
+ </if>
+
+   </select>
+   <select id="getAllData1" resultType='map'>
+   select is_engineering from ASSESSMENT_SPECIALTY_INFO i where i.SPECIALTY_NAME like #{specialtyName,jdbcType=VARCHAR}
+   
+   </select>
+<select id="selectExpedition" resultType="map">
+	select id ,act_name from ASSESSMENT_EXPEDITION
+</select>
+
+<select id="selectFieldRecord" resultType="map">
+select r.id,content,FIELD_TEST_RECORD_DATE,u.showname from ASSESSMENT_FIELD_TEST_RECORD r left join userinfo u on u.id = r.USERID 
+left join ASSESSMENT_SPECIALTY_INFO i on i.ID = r.OBJECT_ID
+where r.rid = #{rid,jdbcType=DECIMAL} and SYEAR = #{syear,jdbcType=VARCHAR} 
+<if test="specialtyId!=null">
+  and OBJECT_ID = #{specialtyId,jdbcType=DECIMAL}
+</if>
+<if test="userId!=null">
+ and  r.USERID = #{userId,jdbcType=DECIMAL}
+</if>
+<if test="userName!=null">
+and u.SHOWNAME like #{userName,jdbcType=VARCHAR}
+</if>
+<if test="specialtyName!=null">
+and SPECIALTY_NAME like #{specialtyName,jdbcType=VARCHAR}
+</if>
+
+</select>
+
+<insert id="insertTestRecord" parameterType="map">
+insert into ASSESSMENT_FIELD_TEST_RECORD(RID,FIELD_TEST_RECORD_DATE,USERID,CONTENT,OBJECT_ID,SYEAR)
+values(#{rid,jdbcType=DECIMAL},#{fieldRecord,jdbcType=VARCHAR},#{userID,jdbcType=DECIMAL},
+#{content,jdbcType=VARCHAR},#{objectId,jdbcType=DECIMAL},#{sYear,jdbcType=VARCHAR})
+</insert>
+
+<update id="updateTestRecord"  parameterType="map">
+update ASSESSMENT_FIELD_TEST_RECORD 
+<set>
+<if test="fieldRecord!=null">
+FIELD_TEST_RECORD_DATE = #{fieldRecord,jdbcType=VARCHAR},
+</if>
+<if test="content!=null">
+CONTENT = #{content,jdbcType=VARCHAR},
+</if>
+</set>
+where id = #{id,jdbcType=DECIMAL}
+</update>
+
+<insert id="insertGraduation" parameterType="map">
+insert into ASSESS_STUDENT_GRADUATION_THESIS(OBJECT_ID,CONTENT,TYPE,USERID,EVALUATION_DATE,OVERALL_EVALUATION_REVIEW,syear,GRADE,PROPOSAL,NUM,EXISTING_PROBLEMS)
+values(#{object_id,jdbcType=DECIMAL},#{content,jdbcType=VARCHAR},#{type,jdbcType=DECIMAL},#{userId,jdbcType=DECIMAL},
+#{evaluation_date,jdbcType=VARCHAR},#{overrall_evaluation_review,jdbcType=VARCHAR},#{syear,jdbcType=VARCHAR},#{grade,jdbcType=VARCHAR}
+,#{proposal,jdbcType=VARCHAR},#{num,jdbcType=DECIMAL},#{existing_problems,jdbcType=VARCHAR})
+</insert>
+<update id="updateGraduation" parameterType="map">
+update ASSESS_STUDENT_GRADUATION_THESIS
+<set>
+<if test="content!=null">
+CONTENT= #{content,jdbcType=VARCHAR},
+</if>
+<if test="overrall_evaluation_review!=null">
+OVERALL_EVALUATION_REVIEW = #{overrall_evaluation_review,jdbcType=VARCHAR},
+</if>
+<if test="grade!=null">
+GRADE = #{grade,jdbcType=VARCHAR},
+</if>
+<if test="proposal!=null">
+PROPOSAL = #{proposal,jdbcType=VARCHAR},
+</if>
+<if test="num!=null">
+NUM = #{num,jdbcType=VARCHAR},
+</if>
+<if test="existing_problems!=null">
+EXISTING_PROBLEMS = #{existing_problems,jdbcType=VARCHAR},
+</if>
+<if test="evaluation_date!=null">
+EVALUATION_DATE = #{evaluation_date,jdbcType=VARCHAR},
+</if>
+</set>
+where ID = #{id,jdbcType=DECIMAL}
+</update>
+<select id="selectGraduation" resultType="map">
+select t.ID,CONTENT,OVERALL_EVALUATION_REVIEW,EVALUATION_DATE,TYPE,PROPOSAL,NUM,GRADE,EXISTING_PROBLEMS,SPECIALTY_NAME	 from ASSESS_STUDENT_GRADUATION_THESIS t
+ left join userinfo u on u.id = t.USERID left join ASSESSMENT_SPECIALTY_INFO i on i.ID = t.OBJECT_ID
+where SYEAR = #{syear,jdbcType=VARCHAR} 
+<if test="specialtyId!=null">
+  and OBJECT_ID = #{specialtyId,jdbcType=DECIMAL}
+</if>
+<if test="userId!=null">
+ and  USERID = #{userId,jdbcType=DECIMAL}
+</if>
+<if test="userName!=null">
+and u.SHOWNAME like #{userName,jdbcType=VARCHAR}
+</if>
+<if test="specialtyName!=null">
+and SPECIALTY_NAME like #{specialtyName,jdbcType=VARCHAR}
+</if>
+</select>
+
+<delete id="deleteGraduations">
+delete from ASSESS_STUDENT_GRADUATION_THESIS where ID =#{0}
+</delete>
+
+<select id="selectSpecInfo" resultType="map" parameterType="map">
+select f.SCORE ,i.SPECIALTY_NAME,s.SYSTEM_NAME ,(select COUNT(ID) from ASSESSMENT_SPECIALTY_INFO where IS_ENGINEERING = #{engineer,jdbcType=DECIMAL}) as NUM
+ from ASSESSMENT_SPECIALTY_INFO i left join (select  Convert(decimal(18,2),AVG(convert(float ,b.SCORE))) as SCORE,SYSID,b.OBJECTID from ASSESSMENT_SITE_SURVEY_FEEDBACK b where b.SYEAR = #{syear,jdbcType=VARCHAR}  
+	and b.USERID in (select  ASSESS_SELF_USER from ASSESSMENT_USER_INFO where  ASSESS_TYPE>=4) group by b.SYSID,b.OBJECTID ) f
+on f.OBJECTID = i.ID left join ASSESSMENT_SYSTEM_INFO s on s.ID = f.SYSID where IS_ENGINEERING = #{engineer,jdbcType=DECIMAL} 
+
+</select>
+
+
+<select id="selectBoolean" resultType="int" parameterType="map">
+	select count(*) from ASSESSMENT_SITE_SURVEY_FEEDBACK  where ID=#{id}
+</select>
+<select id="selectParentId" resultType="map" parameterType="map">
+	select ID,SYSTEM_NAME,LEVEL,PARENT_ID,remark from ASSESSMENT_SYSTEM_INFO where PARENT_ID=#{pid} and stype=#{stype} and syear=#{syear} order by order_num
+</select>
+<select id="selectChildensCount" resultType="int" parameterType="int">
+with m as(
+select ID,SYSTEM_NAME,LEVEL,PARENT_ID,remark from ASSESSMENT_SYSTEM_INFO x where x.id = #{pid}
+union all
+select y.ID,y.SYSTEM_NAME,y.LEVEL,y.PARENT_ID,y.remark from ASSESSMENT_SYSTEM_INFO y inner join m as b on y.PARENT_ID = b.id
+)
+
+select COUNT(*) from( select * from m) a where ID not in(select m.PARENT_ID from m group by m.PARENT_ID)	  
+</select>
+
+<select id="selectRecord" parameterType="map" resultType="map">
+	select * from ASSESS_COMMENT_RECORD where sysid=#{pid} and syear=#{syear}  and kc_userid=#{usreid} and specialtyId=#{specialtyId}
+</select>
+<select id="selectContent" parameterType="map" resultType="map">
+	select * from ASSESSMENT_SYSTEM_INFO_content where sysid=#{pid} and syear=#{syear} 
+</select>
+<select id="selectSpectyList" parameterType="map" resultType="map">
+	 select a.SYEAR,a.SELF_ASSESSMENT_DATE,a.COMMENT_DATE,a.SITE_VISITS,b.ID,b.SPECIALTY_CODE,b.SPECIALTY_NAME  from ASSESSMAENT_DATE_SPECIALTY a 
+   inner join ASSESSMENT_SPECIALTY_INFO b on a.SPECIALTY_INFO_ID=b.ID  and b.PG_TYPE=#{stype} and  a.SYEAR=#{syear} and b.IS_ENGINEERING=#{zyId}
+</select>
+
+<!--没有等级  -->
+<select id="selectPFNoDJ" parameterType="map" resultType="map">
+    select a.ID,b.score from (select ID,SYSTEM_NAME,LEVEL,PARENT_ID,remark from ASSESSMENT_SYSTEM_INFO where stype =#{zyId} and LEVEL=3 and syear=#{syear} ) a 
+		left join ASSESSMENT_SYSTEM_INFO_content b on a.ID=b.sysid
+</select>
+
+<!--有等级 -->
+<select id="selectPFDJ" parameterType="map" resultType="map">
+     select x.*,y.ranks from
+    ( select a.ID,b.score from (select ID,SYSTEM_NAME,LEVEL,PARENT_ID,remark from ASSESSMENT_SYSTEM_INFO where stype = #{zyId} and LEVEL=3 and syear=#{syear} ) a 
+		left join ASSESSMENT_SYSTEM_INFO_content b on a.ID=b.sysid) x left join 
+
+		(select a.ID,b.score,c.ranks,a.PARENT_ID from (select ID,SYSTEM_NAME,LEVEL,PARENT_ID,remark from ASSESSMENT_SYSTEM_INFO where stype = #{zyId} and LEVEL=3 and syear=#{syear} ) a 
+		left join ASSESSMENT_SYSTEM_INFO_content b on a.ID=b.sysid inner join (select * from ASSESS_COMMENT_RECORD t where t.kc_userid=#{zzID} and t.specialtyId=#{specialtyId})c on a.ID=c.sysid  ) y on x.ID=y.ID 
+</select>
+
+
+
+<!-- 查询最后结果 有ID 分数 等级 -->
+<select id="selectLastEnd" parameterType="map" resultType="map">
+
+		
+	with m as(
+select ID,SYSTEM_NAME,LEVEL,PARENT_ID,remark from ASSESSMENT_SYSTEM_INFO x where x.id in(select ID from ASSESSMENT_SYSTEM_INFO where stype=#{zyId} and PARENT_ID=0 and syear=#{syear})
+union all
+select y.ID,y.SYSTEM_NAME,y.LEVEL,y.PARENT_ID,y.remark from ASSESSMENT_SYSTEM_INFO y inner join m as b on y.PARENT_ID = b.id
+)
+
+  select  Distinct * from ( select x.*,y.ranks from
+    ( select a.ID,b.score,a.SYSTEM_NAME,PARENT_ID from ( select ID,SYSTEM_NAME,PARENT_ID from( select * from m) a where ID not in(select m.PARENT_ID from m group by m.PARENT_ID)	 ) a 
+		left join ASSESSMENT_SYSTEM_INFO_content b on a.ID=b.sysid  where syear=#{syear}) x left join 
+
+		(select a.ID,b.score,c.ranks from ( select ID from( select * from m) a where ID not in(select m.PARENT_ID from m group by m.PARENT_ID)	 ) a 
+		left join ASSESSMENT_SYSTEM_INFO_content b on a.ID=b.sysid inner join (select * from ASSESS_COMMENT_RECORD t where t.kc_userid=#{zzID} and t.specialtyId=#{specialtyId})c on a.ID=c.sysid  ) y on x.ID=y.ID 
+		) c order by c.PARENT_ID
+
+</select>
+
+<!--查询显示分数的节点ID  -->
+<select id="selectLastEndID" resultType="map" parameterType="map">
+with m as(
+select ID,SYSTEM_NAME,LEVEL,PARENT_ID,remark from ASSESSMENT_SYSTEM_INFO x where x.id in(select ID from ASSESSMENT_SYSTEM_INFO where stype=#{zyId} and PARENT_ID=0 and syear=#{syear})
+union all
+select y.ID,y.SYSTEM_NAME,y.LEVEL,y.PARENT_ID,y.remark from ASSESSMENT_SYSTEM_INFO y inner join m as b on y.PARENT_ID = b.id
+)
+
+select * from ( select * from( select * from m) a where ID not in(select * from(select m.PARENT_ID from m) x)) c order by c.ID
+	</select>
+</mapper>

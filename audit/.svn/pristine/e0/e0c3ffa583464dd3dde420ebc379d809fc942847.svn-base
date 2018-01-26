@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsCjBmyBmryMapper">
+	<resultMap id="BaseResultMap" type="audit.model.AsCjBmyBmry">
+		<id column="id" property="id" jdbcType="INTEGER"/>
+		<result column="cjbmdm" property="cjbmdm" jdbcType="INTEGER" />
+		<result column="userid" property="userid" jdbcType="INTEGER" />
+		<result column="bmryjs" property="bmryjs" jdbcType="VARCHAR" />
+		<collection property="users" column="id" ofType="audit.model.User">    
+            <id property="id" column="id" javaType="int" jdbcType="INTEGER"/>    
+            <result property="showName" column="showName" javaType="string" jdbcType="VARCHAR"/> 
+            <result property="orga" column="orga" javaType="int" jdbcType="INTEGER"/> 
+        </collection> 
+        <collection property="asCjBmxxs" column="cjbmdm" ofType="audit.model.AsCjBmxx">    
+            <id property="cjbmdm" column="cjbmdm" javaType="int" jdbcType="INTEGER"/>    
+            <result property="cjbmmc" column="cjbmmc" javaType="string" jdbcType="VARCHAR"/> 
+            <result property="jgid" column="jgdm" javaType="int" jdbcType="INTEGER"/> 
+        </collection> 
+	</resultMap>
+	
+	
+	
+		<resultMap id="BaseResultMap1" type="audit.model.AsCjShxx">
+		<result column="id" property="userid" jdbcType="INTEGER"/>
+		<result column="showName" property="showName" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="bmryjs" property="bmryjs" jdbcType="INTEGER" />
+		<result column="jgid" property="organization" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<!-- 保存-->
+	<insert id="insertBmyBmry" parameterType="audit.model.AsCjBmyBmry">
+		insert into as_cj_cjbmybmry(cjbmdm,userid,bmryjs) 
+		values(#{cjbmdm,jdbcType=INTEGER},#{userid,jdbcType=INTEGER},
+		#{bmryjs,jdbcType=INTEGER})
+	</insert>
+	
+	<!-- 查询 -->
+	 <select id="selectJsUsers" parameterType="int"  resultMap="BaseResultMap" >  
+        <!--分别为AS_CJ_CJBMXX的主键id与user的主键id赋值别名,避免因为两个表字段名称相同而注入到对应对象名称冲突-->  
+         select cbm.id as jgid,cbm.name,u.showname,cbb.BMRYJS,u.id from as_cj_cjbmybmry cbb 
+		 left join organization cbm on cbb.cjbmdm = cbm.id 
+		 left join userinfo u on u.id = cbb.userid
+          
+    </select>  
+    <!-- 查询 -->
+	 <select id="selectJsUsers1" parameterType="int"  resultMap="BaseResultMap1" >  
+        <!--分别为AS_CJ_CJBMXX的主键id与user的主键id赋值别名,避免因为两个表字段名称相同而注入到对应对象名称冲突-->  
+         select cbm.id as jgid,cbm.name,u.showname,cbb.BMRYJS,u.id from as_cj_cjbmybmry cbb 
+		 left join organization cbm on cbb.cjbmdm = cbm.id 
+		 left join userinfo u on u.id = cbb.userid
+    </select>  
+    <select id="findAll" resultMap="BaseResultMap">
+        select  acc.id ,u.id as userid ,u.showname,u.organization,o.name,acc.BMRYJS from userinfo u left join as_cj_cjbmybmry acc on u.id= acc.USERID left join organization o on u.organization=o.id where acc.BMRYJS in(1,2)
+    </select>
+     <!-- 根据用户id和部门人员状态 查询人员是否存在 -->
+    <select id="findByuserIdAndZt" resultMap="BaseResultMap" >
+        select * from  as_cj_cjbmybmry where USERID=#{0} and bmryjs=#{1}
+    </select>
+    
+</mapper>

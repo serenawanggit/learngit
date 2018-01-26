@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsAccessScaleIndexMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.assess.AsAccessScaleIndex" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="detail_id" property="detailId" jdbcType="INTEGER" />
+    <result column="measure_id" property="measureId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, detail_id, measure_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from AS_ACCESS_SCALE_INDEX
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from AS_ACCESS_SCALE_INDEX
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.assess.AsAccessScaleIndex" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ACCESS_SCALE_INDEX (id, detail_id, measure_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{detailId,jdbcType=INTEGER}, #{measureId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.assess.AsAccessScaleIndex" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ACCESS_SCALE_INDEX
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="detailId != null" >
+        detail_id,
+      </if>
+      <if test="measureId != null and measureId !=''" >
+        measure_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="detailId != null" >
+        #{detailId,jdbcType=INTEGER},
+      </if>
+      <if test="measureId != null and measureId !=''" >
+        #{measureId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.assess.AsAccessScaleIndex" >
+    update AS_ACCESS_SCALE_INDEX
+    <set >
+      <if test="detailId != null" >
+        detail_id = #{detailId,jdbcType=INTEGER},
+      </if>
+      <if test="measureId != null and measureId !=''" >
+        measure_id = #{measureId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.assess.AsAccessScaleIndex" >
+    update AS_ACCESS_SCALE_INDEX
+    set detail_id = #{detailId,jdbcType=INTEGER},
+      measure_id = #{measureId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+    <!-- 我是分割线 -->
+  <select id="getListByDetailId" parameterType = "java.lang.Integer" resultType="java.util.Map" >
+  select * from AS_ACCESS_SCALE_INDEX asi
+  inner join AS_ACCESS_INDEX_BASE mm on asi.measure_id = mm.MEASURE_ID
+   where detail_id = #{detailId,jdbcType=INTEGER}
+  </select>
+  
+</mapper>

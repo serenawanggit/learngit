@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AnalysisReportMapper" >
+	<select id="getTemplateByTableName" parameterType="map" resultType="map">
+		select * from SHUTCM_DATA_TEMPLATE 
+		<where>
+			<if test="tableName!=null">
+				 and TABLE_NAME like '%'+#{tableName}+'%'
+			</if>
+			<if test="templateId!=null">
+				and ID=#{templateId}
+			</if>
+		</where>
+	</select>
+	
+	<select id="findFieldByTemplateId" parameterType="int" resultType="map">
+		select * from SHUTCM_DATA_FIELD where SDT_ID=#{value}
+	</select>
+</mapper>

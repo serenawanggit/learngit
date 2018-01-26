@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<script type="text/javascript" src="/audit/commonjs/common1.js"></script>
+<script type="text/javascript">
+validateLogin();
+</script>
+</head>
+
+<body>
+<div ><img src="img/one.png" alt="" style="width: 99%;height:99%"  usemap="#Map" />
+  <map name="Map">
+    <area shape="rect" coords="107,156,245,309" href="MajoRselfAassessment.html">
+    <area shape="rect" coords="338,156,476,313" href="ExpertComments.html">
+    <area shape="rect" coords="572,157,697,311" href="SceneStudy.html">
+    <area shape="rect" coords="700,158,930,310" href="stateEvaluation.html" style="boerder:1px solid red;">
+    <area shape="rect" coords="1100,22,1363,51" href="/CHART">
+  </map>
+</div>
+
+</body>
+</html>

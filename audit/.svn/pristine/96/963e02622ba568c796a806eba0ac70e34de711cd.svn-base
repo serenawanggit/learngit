@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsCustomVoMapper">
+	<resultMap id="BaseResultMap" type="audit.model.AsCustomVo">
+	<result column="CTEMPLATE_ID" property="ctemplateId" jdbcType="INTEGER" />
+		<result column="CTEMPLATE_NAME" property="ctemplateName" jdbcType="VARCHAR" />
+		<result column="TEMPLATE_NAME" property="templateName" jdbcType="INTEGER" />
+      	<result column="OBJECT_TABLE" property="objectTable" jdbcType="INTEGER" />
+      		<result column="CTEMPLATE_TITLE_NAME" property="ctemplateTitleName" jdbcType="INTEGER" />
+      			<result column="TEMPLATE_TITLE_NAME" property="templateTitleName" jdbcType="INTEGER" />
+      				<result column="OBJECT_FIELD_NAME" property="objectFieldName" jdbcType="INTEGER" />
+      					<result column="CATEGORY_ID" property="categoryId" jdbcType="INTEGER" />
+	</resultMap>
+    
+	<!-- 查询所有数据   where  CTEMPLATE_NAME=#{ctemplateName}and ctemplate_title_name=#{ctemplateTitleName} -->
+	<select id="searchAsCustomVoByOfn" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		SELECT 
+		      	 CT.CTEMPLATE_ID,
+			 CTEMPLATE_NAME,
+			 TS.TEMPLATE_NAME,
+			 TS.OBJECT_TABLE,
+			 CTEMPLATE_TITLE_NAME,
+			 TEMPLATE_TITLE_NAME,
+			 OBJECT_FIELD_NAME
+			 FROM AS_C_TEMPLATE CT LEFT JOIN AS_C_OBJECT_TABLE_MAPPING OTM ON CT.CTEMPLATE_ID=OTM.CTEMPLATE_ID
+			LEFT JOIN AS_C_TEMPLATE_STANDARD TS ON CT.TEMPLATE_ID=TS.ID 
+			LEFT JOIN AS_C_TABLE_MAPPING_STANDARD cts on OTM.SID=cts.ID where  CTEMPLATE_NAME=#{ctemplateName}; 
+	</select>
+	
+	<select id="findCTNAndOFN" useCache="false" flushCache="false" resultMap="BaseResultMap">
+			SELECT 
+			 CTEMPLATE_NAME,
+			 TS.TEMPLATE_NAME,
+			 TS.OBJECT_TABLE,
+			 CTEMPLATE_TITLE_NAME,
+			 TEMPLATE_TITLE_NAME,
+			 OBJECT_FIELD_NAME
+			 FROM AS_C_TEMPLATE CT LEFT JOIN AS_C_OBJECT_TABLE_MAPPING OTM ON CT.CTEMPLATE_ID=OTM.CTEMPLATE_ID
+			LEFT JOIN AS_C_TEMPLATE_STANDARD TS ON CT.TEMPLATE_ID=TS.ID 
+			LEFT JOIN AS_C_TABLE_MAPPING_STANDARD cts on OTM.SID=cts.ID where  CTEMPLATE_NAME=(select CTEMPLATE_NAME from AS_C_TEMPLATE where CTEMPLATE_ID=#{cteID});
+	</select>
+	<!-- 教师激励计划专用sql 后期可能需要修改 -->
+	<select id="findCTNAndOFNByTid" useCache="false" flushCache="false" resultMap="BaseResultMap">
+			<!-- SELECT 
+			 CTEMPLATE_NAME,
+			 TS.TEMPLATE_NAME,
+			 TS.OBJECT_TABLE,
+			 CTEMPLATE_TITLE_NAME,
+			 TEMPLATE_TITLE_NAME,
+			 OBJECT_FIELD_NAME
+			 FROM AS_C_TEMPLATE CT LEFT JOIN AS_C_OBJECT_TABLE_MAPPING OTM ON CT.CTEMPLATE_ID=OTM.CTEMPLATE_ID
+			LEFT JOIN AS_C_TEMPLATE_STANDARD TS ON CT.TEMPLATE_ID=TS.ID 
+			LEFT JOIN AS_C_TABLE_MAPPING_STANDARD cts on OTM.SID=cts.ID where  CTEMPLATE_NAME=(select CTEMPLATE_NAME from AS_C_TEMPLATE where TEMPLATE_ID=#{cteID}); -->
+			
+				SELECT 
+			 CTEMPLATE_NAME,
+			 TS.TEMPLATE_NAME,
+			 TS.OBJECT_TABLE,
+			 CTEMPLATE_TITLE_NAME,
+			 TEMPLATE_TITLE_NAME,
+			 OBJECT_FIELD_NAME,
+			 TS.CATEGORY_ID
+			 FROM AS_C_TEMPLATE CT LEFT JOIN AS_C_OBJECT_TABLE_MAPPING OTM ON CT.CTEMPLATE_ID=OTM.CTEMPLATE_ID
+			LEFT JOIN AS_C_TEMPLATE_STANDARD TS ON CT.TEMPLATE_ID=TS.ID 
+			LEFT JOIN AS_C_TABLE_MAPPING_STANDARD cts on OTM.SID=cts.ID where  CTEMPLATE_NAME=(select CTEMPLATE_NAME from AS_C_TEMPLATE f where f.CTEMPLATE_ID=#{cteID});
+	</select>
+	
+	
+	<select  id="findNewTableTemplate" resultType="map">
+	     select FIELD_CNAME,FIELD_ENAME from SHUTCM_DATA_FIELD where SDT_ID=#{cteID} and FIELD_CNAME not in ('主键','错误信息');
+	</select>
+</mapper>

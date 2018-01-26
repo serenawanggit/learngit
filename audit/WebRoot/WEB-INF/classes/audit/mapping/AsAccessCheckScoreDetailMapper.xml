@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsAccessCheckScoreDetailMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.assess.AsAccessCheckScoreDetail" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="access_id" property="accessId" jdbcType="INTEGER" />
+    <result column="specialty_id" property="specialtyId" jdbcType="INTEGER" />
+    <result column="check_score_id" property="checkScoreId" jdbcType="INTEGER" />
+    <result column="suggest_state" property="suggestState" jdbcType="TINYINT" />
+    <result column="observation_score" property="observationScore" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, access_id, specialty_id, check_score_id, suggest_state, observation_score
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from AS_ACCESS_CHECK_SCORE_DETAIL
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from AS_ACCESS_CHECK_SCORE_DETAIL
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.assess.AsAccessCheckScoreDetail" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ACCESS_CHECK_SCORE_DETAIL (id, access_id, specialty_id, 
+      check_score_id, suggest_state, observation_score
+      )
+    values (#{id,jdbcType=INTEGER}, #{accessId,jdbcType=INTEGER}, #{specialtyId,jdbcType=INTEGER}, 
+      #{checkScoreId,jdbcType=INTEGER}, #{suggestState,jdbcType=TINYINT}, #{observationScore,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.assess.AsAccessCheckScoreDetail" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ACCESS_CHECK_SCORE_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="accessId != null" >
+        access_id,
+      </if>
+      <if test="specialtyId != null" >
+        specialty_id,
+      </if>
+      <if test="checkScoreId != null" >
+        check_score_id,
+      </if>
+      <if test="suggestState != null" >
+        suggest_state,
+      </if>
+      <if test="observationScore != null" >
+        observation_score,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="accessId != null" >
+        #{accessId,jdbcType=INTEGER},
+      </if>
+      <if test="specialtyId != null" >
+        #{specialtyId,jdbcType=INTEGER},
+      </if>
+      <if test="checkScoreId != null" >
+        #{checkScoreId,jdbcType=INTEGER},
+      </if>
+      <if test="suggestState != null" >
+        #{suggestState,jdbcType=TINYINT},
+      </if>
+      <if test="observationScore != null" >
+        #{observationScore,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.assess.AsAccessCheckScoreDetail" >
+    update AS_ACCESS_CHECK_SCORE_DETAIL
+    <set >
+      <if test="accessId != null" >
+        access_id = #{accessId,jdbcType=INTEGER},
+      </if>
+      <if test="specialtyId != null" >
+        specialty_id = #{specialtyId,jdbcType=INTEGER},
+      </if>
+      <if test="checkScoreId != null" >
+        check_score_id = #{checkScoreId,jdbcType=INTEGER},
+      </if>
+      <if test="suggestState != null" >
+        suggest_state = #{suggestState,jdbcType=TINYINT},
+      </if>
+      <if test="observationScore != null" >
+        observation_score = #{observationScore,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.assess.AsAccessCheckScoreDetail" >
+    update AS_ACCESS_CHECK_SCORE_DETAIL
+    set access_id = #{accessId,jdbcType=INTEGER},
+      specialty_id = #{specialtyId,jdbcType=INTEGER},
+      check_score_id = #{checkScoreId,jdbcType=INTEGER},
+      suggest_state = #{suggestState,jdbcType=TINYINT},
+      observation_score = #{observationScore,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

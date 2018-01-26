@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.DefineTemplateMapper">
+	<resultMap id="BaseResultMap" type="audit.model.DefineTemplate">
+		<id column="CTEMPLATE_ID" property="CTEMPLATE_ID" jdbcType="INTEGER" />
+		<result column="CTEMPLATE_NAME" property="CTEMPLATE_NAME" jdbcType="VARCHAR" />
+		<result column="TEMPLATE_ID" property="TEMPLATE_ID" jdbcType="INTEGER" />
+		<result column="TEMPLATE_NAME" property="TEMPLATE_NAME" jdbcType="VARCHAR" />
+		<result column="STATE" property="STATE" jdbcType="INTEGER" />
+		<result column="TIME_TYPE" property="TIME_TYPE" jdbcType="VARCHAR" />
+		<result column="CATEGORY_ID" property="CATEGORY_ID" jdbcType="INTEGER" />
+		<result column="CREATE_TIME" property="CREATE_TIME" jdbcType="DATE" />
+	</resultMap>
+	<resultMap id="BaseDefineObjectMap" type="audit.model.DefineObject">
+		<id column="ID" property="ID" jdbcType="INTEGER" />
+		<result column="CTEMPLATE_ID" property="CTEMPLATE_ID" jdbcType="INTEGER" />
+		<result column="SID" property="SID" jdbcType="INTEGER" />
+		<result column="CTEMPLATE_TITLE_NAME" property="CTEMPLATE_TITLE_NAME" jdbcType="VARCHAR" />
+		<result column="IS_NULL" property="IS_NULL" jdbcType="INTEGER" />
+		<result column="IS_DATE" property="IS_DATE" jdbcType="INTEGER" />
+		<result column="IS_NUM" property="IS_NUM" jdbcType="INTEGER" />
+		<result column="IS_SOLE" property="IS_SOLE" jdbcType="INTEGER" />
+		<result column="EXIST_ID" property="EXIST_ID" jdbcType="INTEGER" />
+		<result column="IS_REPEAT" property="IS_REPEAT" jdbcType="INTEGER" />
+		<result column="REPEAT_ID" property="REPEAT_ID" jdbcType="INTEGER" />
+		<result column="REPEAT_ID2" property="REPEAT_ID2" jdbcType="INTEGER" />
+		<result column="MID" property="MID" jdbcType="INTEGER" />
+		<result column="DEFAULTVALUE" property="DEFAULTVALUE" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="BaseScfMap" type="audit.model.StandardCellField">
+		<id column="ID" property="ID" jdbcType="INTEGER" />
+		<result column="TEMPLATE_ID" property="TEMPLATE_ID" jdbcType="INTEGER" />
+		<result column="OBJECT_TABLE" property="OBJECT_TABLE" jdbcType="VARCHAR" />
+		<result column="OBJECT_FIELD_NAME" property="OBJECT_FIELD_NAME" jdbcType="VARCHAR" />
+ 		<result column="TEMPLATE_TITLE_NAME" property="TEMPLATE_TITLE_NAME" jdbcType="VARCHAR" />
+		<result column="IS_importability" property="IS_importability" jdbcType="INTEGER" />
+		<result column="BASIS_TABLE" property="BASIS_TABLE" jdbcType="INTEGER" />
+		<result column="IS_SOLE" property="IS_SOLE" jdbcType="VARCHAR" />
+		<result column="BASIS_FIELD" property="BASIS_FIELD" jdbcType="VARCHAR" />
+		<result column="QUERY_TYPE" property="QUERY_TYPE" jdbcType="INTEGER" />
+		<result column="EXIST_TABLE" property="EXIST_TABLE" jdbcType="VARCHAR" />
+		<result column="EXIST_TFIELD" property="EXIST_TFIELD" jdbcType="VARCHAR" />
+		<result column="IS_CROSSTAB" property="IS_CROSSTAB" jdbcType="INTEGER" />
+	</resultMap>
+	<!-- 标准模版 -->
+	<resultMap id="BaseBzmbMap" type="audit.model.StandardTemplate">
+		<id column="ID" property="ID" jdbcType="INTEGER" />
+		<result column="TEMPLATE_NAME" property="TEMPLATE_NAME" jdbcType="VARCHAR" />
+		<result column="STATE" property="STATE" jdbcType="INTEGER" />
+		<result column="IS_CROSSTAB" property="IS_CROSSTAB" jdbcType="INTEGER" />
+ 		<result column="PATH" property="PATH" jdbcType="VARCHAR" />
+		<result column="OBJECT_TABLE" property="OBJECT_TABLE" jdbcType="VARCHAR" />
+		<result column="TIME_TYPE" property="TIME_TYPE" jdbcType="VARCHAR" />
+		<result column="CATEGORY_ID" property="CATEGORY_ID" jdbcType="INTEGER" />
+	</resultMap>
+	<!-- 校验用到的 -->
+	 <resultMap type="audit.model.DefineObjectVo" id="DefineObjectVo">
+	    <id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="CTEMPLATE_ID" property="ctemplateId" jdbcType="INTEGER" />
+		<result column="SID" property="sid" jdbcType="INTEGER" />
+		<result column="CTEMPLATE_TITLE_NAME" property="ctemplateTitleName" jdbcType="VARCHAR" />
+ 		<result column="IS_NULL" property="isNull" jdbcType="VARCHAR" />
+		<result column="IS_DATE" property="isDate" jdbcType="VARCHAR" />
+		<result column="IS_NUM" property="isNum" jdbcType="VARCHAR" />
+		<result column="IS_REPEAT" property="isRepeat" jdbcType="INTEGER" />
+		<result column="OBJECT_TABLE" property="objectTable" jdbcType="VARCHAR" />
+		<result column="OBJECT_FIELD_NAME" property="objectFieldName" jdbcType="VARCHAR" />
+		<result column="BASIS_TABLE" property="basisTable" jdbcType="VARCHAR" />
+		<result column="BASIS_FIELD" property="basisField" jdbcType="VARCHAR" />
+		<result column="REPEAT_ID" property="repeatId" jdbcType="INTEGER"/>
+		<result column="REPEAT_ID2" property="repeatId2" jdbcType="INTEGER"/>
+		<result column="EXIST_TABLE" property="existTable" jdbcType="VARCHAR"/>
+		<result column="EXIST_TFIELD" property="existTfield" jdbcType="VARCHAR"/>
+	 </resultMap>
+	<!-- 校验默认是否存在 -->
+	 <resultMap type="audit.model.DefineObjectVoDefault" id="DefineObjectVoDefault">
+	    <id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="CTEMPLATE_ID" property="ctemplateId" jdbcType="INTEGER" />
+		<result column="SID" property="sid" jdbcType="INTEGER" />
+		<result column="CTEMPLATE_TITLE_NAME" property="ctemplateTitleName" jdbcType="VARCHAR" />
+ 		<result column="IS_NULL" property="isNull" jdbcType="VARCHAR" />
+		<result column="IS_DATE" property="isDate" jdbcType="VARCHAR" />
+		<result column="IS_NUM" property="isNum" jdbcType="VARCHAR" />
+		<result column="IS_REPEAT" property="isRepeat" jdbcType="INTEGER" />
+		<result column="OBJECT_TABLE" property="objectTable" jdbcType="VARCHAR" />
+		<result column="OBJECT_FIELD_NAME" property="objectFieldName" jdbcType="VARCHAR" />
+		<result column="BASIS_TABLE" property="basisTable" jdbcType="VARCHAR" />
+		<result column="BASIS_FIELD" property="basisField" jdbcType="VARCHAR" />
+		<result column="REPEAT_ID" property="repeatId" jdbcType="INTEGER"/>
+		<result column="REPEAT_ID2" property="repeatId2" jdbcType="INTEGER"/>
+		<result column="EXIST_TABLE" property="existTable" jdbcType="VARCHAR" />
+		<result column="EXIST_TFIELD" property="existTfield" jdbcType="VARCHAR" />
+	 </resultMap>
+	
+	<!-- 根据id查询自定义模版 -->
+	<select id="findDiyMbById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select * from dbo.AS_C_TEMPLATE 
+		where CTEMPLATE_ID=#{id,jdbcType=INTEGER}
+	</select>
+	
+	<!-- 根据模版id查询自定义模版映射 -->
+	<select id="findYsbBymbId" parameterType="java.lang.Integer" resultMap="BaseDefineObjectMap">
+		select * from dbo.AS_C_OBJECT_TABLE_MAPPING /*自定义模版*/
+		where CTEMPLATE_ID=#{id,jdbcType=INTEGER}
+	</select>
+	
+	<!-- 根据模版id查询交叉表 -->
+	<select id="findBZYS" parameterType="java.lang.Integer" resultMap="BaseScfMap">
+		select * from AS_C_TABLE_MAPPING_STANDARD 
+		where ID=#{id,jdbcType=INTEGER}
+	</select>
+	
+	<!-- 根据标准模版id查询标准模板 -->
+	<select id="findStandardTemplate" parameterType="java.lang.Integer" resultMap="BaseBzmbMap">
+		select * from AS_C_TEMPLATE_STANDARD 
+		where ID=#{id,jdbcType=INTEGER}
+	</select>
+    <!-- 根据 CTEMPLATE_ID查询 需要校验的 列-->
+    <select id="findACOTMByCid" resultMap="DefineObjectVo">
+     select b.ID,b.CTEMPLATE_ID  ,b.SID ,b.CTEMPLATE_TITLE_NAME ,b.IS_NULL ,b.IS_DATE ,b.IS_NUM,b.IS_REPEAT,acms.OBJECT_TABLE, acms.OBJECT_FIELD_NAME ,acms.BASIS_TABLE,acms.BASIS_FIELD,REPEAT_ID,REPEAT_ID2,acms.EXIST_TABLE,acms.EXIST_TFIELD  from (  select * from (	 select * from AS_C_OBJECT_TABLE_MAPPING 
+		where CTEMPLATE_ID=#{id}) a where IS_NULL=1 or IS_DATE=1 or IS_NUM=1 or IS_SOLE=1 or  IS_REPEAT=1  ) b 
+		 left join AS_C_TABLE_MAPPING_SJSJ  acms on acms.ID= b.SID 
+    </select>
+    
+    <!-- 根据 CTEMPLATE_ID查询 全部的列-->
+    
+    <select id="findAllByCid" resultType="java.util.Map">
+        select a.ID,a.CTEMPLATE_ID ,a.SID ,a.CTEMPLATE_TITLE_NAME ,acms.OBJECT_TABLE, acms.OBJECT_FIELD_NAME ,acms.BASIS_TABLE,acms.BASIS_FIELD,REPEAT_ID,REPEAT_ID2,acms.EXIST_TABLE,acms.EXIST_TFIELD    
+          from( select * from AS_C_OBJECT_TABLE_MAPPING where CTEMPLATE_ID=#{0}) a 
+          left join AS_C_TABLE_MAPPING_SJSJ acms on acms.ID= a.SID order by BASIS_TABLE desc
+    </select>
+    
+        <!-- 查询默认判断是否存在 -->
+      <select id="findDefaultCheckFiled" resultMap="DefineObjectVoDefault">
+         select  b.ID,b.CTEMPLATE_ID ,b.SID ,b.CTEMPLATE_TITLE_NAME ,b.IS_NULL ,b.IS_DATE ,b.IS_NUM,b.IS_REPEAT,acms.OBJECT_TABLE, acms.OBJECT_FIELD_NAME ,acms.BASIS_TABLE,acms.BASIS_FIELD,REPEAT_ID,REPEAT_ID2,acms.EXIST_TABLE,acms.EXIST_TFIELD
+          from ( select * from 
+         ( select * from AS_C_OBJECT_TABLE_MAPPING where CTEMPLATE_ID=#{0}) a ) b 
+         left join AS_C_TABLE_MAPPING_STANDARD acms on acms.ID= b.SID   where EXIST_TABLE is not null
+      </select>
+</mapper>

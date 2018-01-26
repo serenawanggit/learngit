@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsAccessIndexBaseMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.assess.AsAccessIndexBase" >
+    <result column="MEASURE_ID" property="measureId" jdbcType="NVARCHAR" />
+    <result column="MEASURE_NAME" property="measureName" jdbcType="NVARCHAR" />
+    <result column="CATEGORY_ID" property="categoryId" jdbcType="NVARCHAR" />
+    <result column="CLASSIFY" property="classify" jdbcType="NVARCHAR" />
+    <result column="LEVEL" property="level" jdbcType="NVARCHAR" />
+    <result column="IS_SCHOOL" property="isSchool" jdbcType="NVARCHAR" />
+    <result column="IS_DEPARTMENT" property="isDepartment" jdbcType="NVARCHAR" />
+    <result column="IS_PROFESSION" property="isProfession" jdbcType="NVARCHAR" />
+    <result column="IS_ASSESS" property="isAssess" jdbcType="NVARCHAR" />
+    <result column="NOTICE" property="notice" jdbcType="NVARCHAR" />
+    <result column="EQUATION" property="equation" jdbcType="NVARCHAR" />
+    <result column="STATES" property="states" jdbcType="INTEGER" />
+    <result column="IS_QUERY" property="isQuery" jdbcType="INTEGER" />
+    <result column="INDEX_CLASSIFICATION_ID" property="indexClassificationId" jdbcType="NVARCHAR" />
+    <result column="METHODS" property="methods" jdbcType="NVARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="audit.model.assess.AsAccessIndexBase" >
+    insert into AS_ACCESS_INDEX_BASE (MEASURE_ID, MEASURE_NAME, CATEGORY_ID, 
+      CLASSIFY, LEVEL, IS_SCHOOL, 
+      IS_DEPARTMENT, IS_PROFESSION, IS_ASSESS, 
+      NOTICE, EQUATION, STATES, 
+      IS_QUERY, INDEX_CLASSIFICATION_ID, METHODS
+      )
+    values (#{measureId,jdbcType=NVARCHAR}, #{measureName,jdbcType=NVARCHAR}, #{categoryId,jdbcType=NVARCHAR}, 
+      #{classify,jdbcType=NVARCHAR}, #{level,jdbcType=NVARCHAR}, #{isSchool,jdbcType=NVARCHAR}, 
+      #{isDepartment,jdbcType=NVARCHAR}, #{isProfession,jdbcType=NVARCHAR}, #{isAssess,jdbcType=NVARCHAR}, 
+      #{notice,jdbcType=NVARCHAR}, #{equation,jdbcType=NVARCHAR}, #{states,jdbcType=INTEGER}, 
+      #{isQuery,jdbcType=INTEGER}, #{indexClassificationId,jdbcType=NVARCHAR}, #{methods,jdbcType=NVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.assess.AsAccessIndexBase" >
+    insert into AS_ACCESS_INDEX_BASE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="measureId != null" >
+        MEASURE_ID,
+      </if>
+      <if test="measureName != null" >
+        MEASURE_NAME,
+      </if>
+      <if test="categoryId != null" >
+        CATEGORY_ID,
+      </if>
+      <if test="classify != null" >
+        CLASSIFY,
+      </if>
+      <if test="level != null" >
+        LEVEL,
+      </if>
+      <if test="isSchool != null" >
+        IS_SCHOOL,
+      </if>
+      <if test="isDepartment != null" >
+        IS_DEPARTMENT,
+      </if>
+      <if test="isProfession != null" >
+        IS_PROFESSION,
+      </if>
+      <if test="isAssess != null" >
+        IS_ASSESS,
+      </if>
+      <if test="notice != null" >
+        NOTICE,
+      </if>
+      <if test="equation != null" >
+        EQUATION,
+      </if>
+      <if test="states != null" >
+        STATES,
+      </if>
+      <if test="isQuery != null" >
+        IS_QUERY,
+      </if>
+      <if test="indexClassificationId != null" >
+        INDEX_CLASSIFICATION_ID,
+      </if>
+      <if test="methods != null" >
+        METHODS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="measureId != null" >
+        #{measureId,jdbcType=NVARCHAR},
+      </if>
+      <if test="measureName != null" >
+        #{measureName,jdbcType=NVARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=NVARCHAR},
+      </if>
+      <if test="classify != null" >
+        #{classify,jdbcType=NVARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=NVARCHAR},
+      </if>
+      <if test="isSchool != null" >
+        #{isSchool,jdbcType=NVARCHAR},
+      </if>
+      <if test="isDepartment != null" >
+        #{isDepartment,jdbcType=NVARCHAR},
+      </if>
+      <if test="isProfession != null" >
+        #{isProfession,jdbcType=NVARCHAR},
+      </if>
+      <if test="isAssess != null" >
+        #{isAssess,jdbcType=NVARCHAR},
+      </if>
+      <if test="notice != null" >
+        #{notice,jdbcType=NVARCHAR},
+      </if>
+      <if test="equation != null" >
+        #{equation,jdbcType=NVARCHAR},
+      </if>
+      <if test="states != null" >
+        #{states,jdbcType=INTEGER},
+      </if>
+      <if test="isQuery != null" >
+        #{isQuery,jdbcType=INTEGER},
+      </if>
+      <if test="indexClassificationId != null" >
+        #{indexClassificationId,jdbcType=NVARCHAR},
+      </if>
+      <if test="methods != null" >
+        #{methods,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 我是分割线 -->
+  
+  <sql id="where_query_sql">
+		<where>
+			<if test="data.measureId != null and data.measureId !=''">
+				and MEASURE_ID = #{data.measureId}
+			</if>
+			<if test="data.measureName != null and data.measureName != ''">
+				and MEASURE_NAME like '%'+ #{data.measureName} +'%'
+			</if>
+			<if test="data.categoryId != null">
+				and m.CATEGORY_ID = #{data.categoryId}
+			</if>
+			<if test="data.level != null and data.level !=''">
+				and level = #{data.level}
+			</if>
+			<if test="data.isSchool != null and data.isSchool !=''">
+				and IS_SCHOOL = #{data.isSchool}
+			</if>
+			<if test="data.isDepartment != null and data.isDepartment !=''">
+				and is_Department = #{data.isDepartment}
+			</if>
+			<if test="data.isProfession != null and data.isProfession !=''">
+				and is_Profession = #{data.isProfession}
+			</if>
+			<if test="data.isAssess != null and data.isAssess !=''">
+				and is_Assess = #{data.isAssess}
+			</if>
+		</where>
+			
+	</sql>
+  
+  <select id="selectCountByQuery" resultType="java.lang.Integer" parameterType="audit.model.quality.query.IndicatorQuery">
+	select count(*) from AS_ACCESS_INDEX_BASE m
+	<include refid="where_query_sql"></include>
+	</select>
+	
+	<select id="getListByQuery" parameterType="audit.model.quality.query.IndicatorQuery" resultMap="BaseResultMap">
+	SELECT * FROM(
+    SELECT TOP (#{endIndex,jdbcType=INTEGER}) ROW_NUMBER() OVER(ORDER BY MEASURE_ID ASC) AS ROWID,
+    	m.MEASURE_ID,m.MEASURE_NAME,m.CATEGORY_ID,m.CLASSIFY,m.LEVEL,
+		m.IS_SCHOOL,m.IS_DEPARTMENT,m.IS_PROFESSION,m.IS_ASSESS,ca.CATEGORY_NAME
+        FROM AS_ACCESS_INDEX_BASE m
+        inner join AS_M_CATEGORY ca on ca.CATEGORY_CODE = m.CATEGORY_ID
+	<include refid="where_query_sql"></include>) AS TEMP1 
+	 where ROWID > #{startIndex,jdbcType=INTEGER}
+	</select>
+</mapper>

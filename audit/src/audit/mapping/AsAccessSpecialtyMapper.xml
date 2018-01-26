@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="audit.dao.AsAccessSpecialtyMapper">
+  <resultMap id="BaseResultMap" type="audit.model.assess.AsAccessSpecialty">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="specialty_id" jdbcType="INTEGER" property="specialtyId" />
+    <result column="specialty_name" jdbcType="VARCHAR" property="specialtyName" />
+    <result column="access_id" jdbcType="INTEGER" property="accessId" />
+    <result column="participate_type" jdbcType="TINYINT" property="participateType" />
+    <result column="start_datetime" jdbcType="TIMESTAMP" property="startDatetime" />
+    <result column="end_datetime" jdbcType="TIMESTAMP" property="endDatetime" />
+    <result column="is_complete" jdbcType="TINYINT" property="isComplete" />
+    <result column="default_standart_id" jdbcType="VARCHAR" property="defaultStandartId" />
+    <result column="academy_id" jdbcType="INTEGER" property="academyId" />
+    <result column="academy_name" jdbcType="VARCHAR" property="academyName" />
+    <result column="user_group_id" jdbcType="INTEGER" property="userGroupId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, specialty_id, specialty_name, access_id, participate_type, start_datetime, end_datetime, 
+    is_complete, default_standart_id, academy_id, academy_name, user_group_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from AS_ACCESS_SPECIALTY
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from AS_ACCESS_SPECIALTY
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.assess.AsAccessSpecialty">
+    insert into AS_ACCESS_SPECIALTY (id, specialty_id, specialty_name, 
+      access_id, participate_type, start_datetime, 
+      end_datetime, is_complete, default_standart_id, 
+      academy_id, academy_name, user_group_id)
+    values (#{id,jdbcType=INTEGER}, #{specialtyId,jdbcType=INTEGER}, #{specialtyName,jdbcType=VARCHAR}, 
+      #{accessId,jdbcType=INTEGER}, #{participateType,jdbcType=TINYINT}, #{startDatetime,jdbcType=TIMESTAMP}, 
+      #{endDatetime,jdbcType=TIMESTAMP}, #{isComplete,jdbcType=TINYINT}, #{defaultStandartId,jdbcType=VARCHAR}, 
+      #{academyId,jdbcType=INTEGER}, #{academyName,jdbcType=VARCHAR}, #{userGroupId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.assess.AsAccessSpecialty">
+    insert into AS_ACCESS_SPECIALTY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="specialtyId != null">
+        specialty_id,
+      </if>
+      <if test="specialtyName != null">
+        specialty_name,
+      </if>
+      <if test="accessId != null">
+        access_id,
+      </if>
+      <if test="participateType != null">
+        participate_type,
+      </if>
+      <if test="startDatetime != null">
+        start_datetime,
+      </if>
+      <if test="endDatetime != null">
+        end_datetime,
+      </if>
+      <if test="isComplete != null">
+        is_complete,
+      </if>
+      <if test="defaultStandartId != null">
+        default_standart_id,
+      </if>
+      <if test="academyId != null">
+        academy_id,
+      </if>
+      <if test="academyName != null">
+        academy_name,
+      </if>
+      <if test="userGroupId != null">
+        user_group_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="specialtyId != null">
+        #{specialtyId,jdbcType=INTEGER},
+      </if>
+      <if test="specialtyName != null">
+        #{specialtyName,jdbcType=VARCHAR},
+      </if>
+      <if test="accessId != null">
+        #{accessId,jdbcType=INTEGER},
+      </if>
+      <if test="participateType != null">
+        #{participateType,jdbcType=TINYINT},
+      </if>
+      <if test="startDatetime != null">
+        #{startDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDatetime != null">
+        #{endDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isComplete != null">
+        #{isComplete,jdbcType=TINYINT},
+      </if>
+      <if test="defaultStandartId != null">
+        #{defaultStandartId,jdbcType=VARCHAR},
+      </if>
+      <if test="academyId != null">
+        #{academyId,jdbcType=INTEGER},
+      </if>
+      <if test="academyName != null">
+        #{academyName,jdbcType=VARCHAR},
+      </if>
+      <if test="userGroupId != null">
+        #{userGroupId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.assess.AsAccessSpecialty">
+    update AS_ACCESS_SPECIALTY
+    <set>
+      <if test="specialtyId != null">
+        specialty_id = #{specialtyId,jdbcType=INTEGER},
+      </if>
+      <if test="specialtyName != null">
+        specialty_name = #{specialtyName,jdbcType=VARCHAR},
+      </if>
+      <if test="accessId != null">
+        access_id = #{accessId,jdbcType=INTEGER},
+      </if>
+      <if test="participateType != null">
+        participate_type = #{participateType,jdbcType=TINYINT},
+      </if>
+      <if test="startDatetime != null">
+        start_datetime = #{startDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDatetime != null">
+        end_datetime = #{endDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isComplete != null">
+        is_complete = #{isComplete,jdbcType=TINYINT},
+      </if>
+      <if test="defaultStandartId != null">
+        default_standart_id = #{defaultStandartId,jdbcType=VARCHAR},
+      </if>
+      <if test="academyId != null">
+        academy_id = #{academyId,jdbcType=INTEGER},
+      </if>
+      <if test="academyName != null">
+        academy_name = #{academyName,jdbcType=VARCHAR},
+      </if>
+      <if test="userGroupId != null">
+        user_group_id = #{userGroupId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.assess.AsAccessSpecialty">
+    update AS_ACCESS_SPECIALTY
+    set specialty_id = #{specialtyId,jdbcType=INTEGER},
+      specialty_name = #{specialtyName,jdbcType=VARCHAR},
+      access_id = #{accessId,jdbcType=INTEGER},
+      participate_type = #{participateType,jdbcType=TINYINT},
+      start_datetime = #{startDatetime,jdbcType=TIMESTAMP},
+      end_datetime = #{endDatetime,jdbcType=TIMESTAMP},
+      is_complete = #{isComplete,jdbcType=TINYINT},
+      default_standart_id = #{defaultStandartId,jdbcType=VARCHAR},
+      academy_id = #{academyId,jdbcType=INTEGER},
+      academy_name = #{academyName,jdbcType=VARCHAR},
+      user_group_id = #{userGroupId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 我是分割线 -->
+  
+  <select id="getSpecialtyByYearAndUserId" parameterType="java.util.Map" resultType="java.util.Map">
+    select sp.specialty_name,sp.start_datetime,sp.end_datetime,sp.id,sp.default_standart_id,sp.user_group_id
+     from AS_ACCESS_SPECIALTY sp
+	inner join AS_ACCESS_USER_GROUP ug on sp.user_group_id = ug.id
+	inner join AS_ACCESS_USER ui on ui.user_group_id = ug.id
+	inner join AS_ACCESS_INFO ai on ai.Id = sp.access_id
+	where ui.user_id =#{userId,jdbcType=INTEGER} and ai.access_year =#{year,jdbcType=VARCHAR}
+	<if test="orgId != null">
+	and academy_id = #{orgId,jdbcType=INTEGER}
+	</if>
+	<if test="speId != null">
+	and specialty_id = #{speId,jdbcType=INTEGER}
+	</if>
+	<if test="type == 4">
+	and sp.participate_type in (1,2,3)
+	</if>
+	<if test="type != 4">
+	and sp.participate_type = #{type,jdbcType=INTEGER} 
+	</if>
+	<if test="type == 1">
+	and ui.user_type = 1
+	</if>
+  </select>
+  
+  <select id="getSpecialtyByYearAndSpecialtyId" parameterType="java.util.Map" resultMap="BaseResultMap">
+      select 
+        sp.id, specialty_id, specialty_name, access_id, participate_type, sp.start_datetime, sp.end_datetime, 
+    is_complete, default_standart_id, academy_id, academy_name, user_group_id
+    from AS_ACCESS_SPECIALTY sp
+    inner join AS_ACCESS_INFO ai on ai.Id = sp.access_id
+    where sp.specialty_id = #{specialtyId,jdbcType=INTEGER} and ai.access_year =#{year,jdbcType=VARCHAR} 
+    and participate_type =  #{type,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getUserGroup" parameterType="java.util.Map" resultType="java.util.Map">
+  select academy_id,academy_name
+     from AS_ACCESS_SPECIALTY sp
+	inner join AS_ACCESS_USER_GROUP ug on sp.user_group_id = ug.id
+	inner join AS_ACCESS_USER ui on ui.user_group_id = ug.id
+	inner join AS_ACCESS_INFO ai on ai.Id = sp.access_id
+	where ui.user_id =#{userId,jdbcType=INTEGER} and ai.access_year =#{year,jdbcType=VARCHAR}
+	and sp.participate_type = #{type,jdbcType=TINYINT} group by academy_id,academy_name
+  </select>
+  
+  <select id="findAsAccessApecialtyBySidAndType" resultMap="BaseResultMap">
+        <!--    select * from as_access_specialty where specialty_id=#{0} and participate_type=1 -->
+     select * from as_access_specialty a
+        left join AS_ACCESS_INFO  b on a.access_id= b.id
+        where specialty_id=#{0} and participate_type=1 and b.access_year=#{1}
+           
+  </select>
+  
+  <select id="getSpecialtyByYearAndStandardId" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select 
+        sp.id, specialty_id, specialty_name, access_id, participate_type, sp.start_datetime, sp.end_datetime, 
+    is_complete, default_standart_id, academy_id, academy_name, user_group_id
+    from AS_ACCESS_SPECIALTY sp
+    inner join AS_ACCESS_INFO ai on ai.Id = sp.access_id
+        where sp.default_standart_id=#{standardId,jdbcType=INTEGER}  and ai.access_year =#{year,jdbcType=VARCHAR} 
+    and participate_type = 3
+  </select>
+  
+  <select id="getSpeScore" parameterType="java.util.Map" resultType="java.util.Map">
+  select academy_name,specialty_name,sd.name,sd.id,ser.score ,sd2.parent_id
+from AS_ACCESS_SPECIALTY sp 
+left join AS_ACCESS_SITE_CHECK_RECORD ser 
+on ser.access_specialty_id = sp.id and ser.record_type = 1
+left join AS_ACCESS_STANDARD_DETAIL sd on sd.id = ser.standard_detail_id
+left join AS_ACCESS_STANDARD_DETAIL sd2 on sd2.id = sd.parent_id
+where sp.default_standart_id = #{standardId,jdbcType=INTEGER} 
+and sp.participate_type=3 and sp.id = #{accessSpecialtyId,jdbcType=INTEGER};
+  </select>
+</mapper>

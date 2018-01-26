@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="/audit/FlexPaper/js/jquery.js"></script>
+<script type="text/javascript" src="/audit/FlexPaper/js/flexpaper_flash_debug.js"></script>
+<script type="text/javascript" src="../../../FlexPaper/js/flexpaper_flash.js"></script>
+<script type="text/javascript" src="/audit/FlexPaper/js/jquery.js"></script>
+<script type="text/javascript" src="/audit/commonjs/common1.js"></script>
+</head>
+
+<script type="text/javascript">
+$(function(){
+
+validateLogin();
+	var onlineurl = parent.$('#userOnlineId').val();
+	 var filetype=onlineurl.substring(onlineurl.lastIndexOf(".")+1);
+	 var a="/audit/upload/"+onlineurl;
+	 alert(filetype);
+	 if(filetype=="jpg" || filetype=="png" || filetype=="JPG" || filetype=="bmp"){
+		 var str="<img src='/audit/upload/"+onlineurl+"' style='height:500px;width:900px'></img>";
+		 $("#viewerPlaceHolder").html(str);
+	 }else{
+		 var a="/audit/upload/"+onlineurl;
+		/* var a="/audit/upload/1494612113207.swf"; */
+		 alert(a);
+		 var fp = new FlexPaperViewer(    
+	             '/audit/FlexPaper/swfFiles/FlexPaperViewer', 
+	            //  对应于p 标签的id
+	             'viewerPlaceHolder',   
+	             { config : { 
+	            SwfFile : escape(a), 
+	            Scale : 1.6, 
+	             ZoomTransition : 'easeOut',
+	             ZoomTime : 0.5,
+	             ZoomInterval : 0.2,
+	             FitPageOnLoad : true,
+	             FitWidthOnLoad : true,
+	             PrintEnabled : true,// 是否可以打印  
+	             FullScreenAsMaxWindow : false,
+	             ProgressiveLoading : false,
+	             MinZoomSize : 0.2,
+	             MaxZoomSize : 10,
+	             SearchMatchAll : false,
+	             InitViewMode : 'Portrait',
+	             
+	             ViewModeToolsVisible : true,
+	             ZoomToolsVisible : true,
+	             NavToolsVisible : true,
+	             CursorToolsVisible : true,
+	             SearchToolsVisible : true,
+	               localeChain: 'en_US'
+	             }});
+	 }
+	});
+</script>
+<body>
+<div>预览
+	<p id='viewerPlaceHolder'style='width:95%;height:550px;display:block;margin-left: 14px;z-index: 500000000'></p>
+</div>
+</body>
+</html>

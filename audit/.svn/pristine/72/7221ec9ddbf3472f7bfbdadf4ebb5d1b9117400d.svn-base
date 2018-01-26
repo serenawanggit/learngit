@@ -1,0 +1,130 @@
+@charset "utf-8";
+*{margin:0px;padding:0px}
+li{list-style: none;}
+.mask{margin:0;padding:0;border:none;width:100%;height:610px;background:#77887E;opacity:0.8;filter:alpha(opacity=60);z-index:9999;position:fixed;top:0;left:0;display:none;}
+.md{position:absolute;left:365px;top:70px;background:white;width:630px;height:460px;border:3px solid #EEEEEE;border-radius:7px;z-index:10000;display:none;}
+#md2{position:absolute;left:365px;top:80px;background:white;width:630px;height:460px;border:3px solid #EEEEEE;border-radius:7px;z-index:10000;display:none;}
+.row1{background:#f7f7f7;padding:0px 20px;line-height:30px;height:30px;font-weight:bold;color:#4490F7;font-size:15px;}
+.row{height:77px;line-height:77px;padding:0px 30px;font-family:华文楷体;font-size:x-large;}
+.close_btn{font-family:arial;font-size:25px;font-weight:700;color:#999;text-decoration:none;float:right;padding-right:-10px;}
+.inputBox{border:1px solid #c3c3c3;padding:1px 3px 6px 3px;border-radius:5px;margin-left:5px;}
+#txtName{height:27px;width:230px;border:none;}
+#txtPwd{height:27px;width:230px;border:none;}
+.warning{float:right;color:Red;text-decoration:none;font-size:20px;font-weight:bold;margin-right:20px;display:none;}
+
+.mymd{
+	position: absolute; 
+	top: 100px; 
+	left: 412.5px; 
+	height: 230px; 
+	width: 624px; 
+	z-index: 10000;
+	display:none;
+}
+
+.ysjs{margin-left:-280px;overflow: auto;position:absolute;background:white;width:380px;height:160px;border:1px solid #77887E;font-size:12px;padding:5px;padding-top:0px;line-height: 20px;border-radius:1px;z-index:10000;display:none;}
+.buttom_tips01{height:30px; float:none; margin-top:0px; clear:both;width: 100%;}
+.buttom_tips01 a{text-decoration: none;height:30px;  padding:4 15px; line-height:30px; color:#FFF; background:#2e8ae6; float:center; text-align:center; -webkit-border-radius: 3px;-moz-border-radius: 3px; border-radius: 3px;font-size: 12px;}
+.buttom_tips01 a:hover{ background:#41a0ff;}
+
+.hr1{ height:1px;border:none;border-top:1px solid #DADADA;}
+
+.f_l{ float:left!important;}
+.f_r{ float:right!important;}
+
+.font_style{font-size:12px;font-family:Arial, Helvetica, sans-serif;}
+.select_tips01{ border:solid 1px #cdcdcd; height:24px; line-height:24px; min-width:80px;}
+
+.input_tm{border:0px;background:transparent;width: 200px;}
+.input_zc{background:#FFFFFF;font-size:12px;font-family: Arial,Helvetica,sans-serif;width: 200px;}
+table{width:100%;}
+.tab_top{
+	width:98%;margin:0px 10px 0px 10px;
+}
+.tab_data{
+	font-size:12px;border:#DADADA 1px solid;width: 100%;
+}
+.tab_data thead{
+	background-color:#E6E6E6;color:#333333;font-weight:bold;font-size:12px;
+}
+.tab_data td{
+	width:8.3%;height:30px;border-top:#DADADA 1px solid;text-align: center;
+}
+
+
+/*新增弹出层*/
+.add_show{
+	position: absolute;
+	left: 125px;
+	top: 19px;
+	background: white;
+	width: 1100px;
+	border: 3px solid #EEEEEE;
+	border-radius: 7px;
+	z-index: 10000;
+	display: none;
+}
+	
+.add_show2 {
+    background: white none repeat scroll 0 0;
+    border: 3px solid #eeeeee;
+    border-radius: 7px;
+    display: none;
+    left: 410px;
+    position: absolute;
+    top: 100px;
+    z-index: 10001;
+	position: absolute;
+	margin: auto;
+}
+
+.id_title {
+	background: #f7f7f7;
+	padding: 0px 20px;
+	line-height: 30px;
+	height: 30px;
+	font-weight: bold;
+	color: #4490F7;
+	font-size: 15px;
+}
+
+.add_show_footer{width:100%; float: left; margin-top: 10px;}
+.add_show_footer ul{width: 180px;  float: left; margin-left:38%; }
+.add_show_footer ul li{float: left;}
+.add_show_footer ul li a{height: 24px;padding: 4px 20px;line-height: 24px;color: #FFF;background: #519E6C none repeat scroll 0% 0%;margin-left: 10px;text-align: center;border-radius: 3px; cursor: pointer;}
+
+/* 选择指标弹出层 */
+.index_pool{
+	width: 350px;
+	height: 450px;
+	position: absolute;
+	left: 530px;
+	top: 40px;
+	margin: auto;
+	z-index: 10004;
+	background-color: #fff;
+	/* border-left:1px dashed #333; */
+	display: none;
+	border-radius: 7px;
+	border: 3px solid #eeeeee;
+}
+
+.indexPool_head { width: 100%; float: left;}
+.indexPool_head .indexPool_title{width: 100%; float: left; background-color: #DAE0E6; }
+.indexPool_head .indexPool_title span{font-weight:bold; padding-left:10px; height:27px; line-height:27px;}
+.close_icon{float: right; margin:3px 2px 0 0; cursor:pointer;}
+.close_icon img{width: 29px;height: 22px;}
+
+.choice{width: 80%; float: left; }
+.choice ul{float: left; margin-left: 18px; margin-top: 7px;}
+.choice ul li{ float: left; height: 20px; margin-bottom: 7px;}
+.choice ul li input{border: 1px solid #D9D99D; line-height:20px; height:20px; padding-left:10px;}
+.choice ul li select{ border: 1px solid #D9D99D; line-height: 22px;height: 22px;width: 162px;margin-left: -3px; }
+
+.search_icon{width:19%; height:25px; float: left;}
+.search_icon a{width:25px; height:25px; margin:18px 0px 0px 2px!important; cursor: pointer;}
+
+.index_pool_content{width:95%; margin-left:2.5%; float: left;}
+.index_pool_content table tr td{text-align: center;}
+
+.index_pool_footer{width:100%;}

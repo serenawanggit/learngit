@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsAssessRetificationMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.report.Retification" >
+    <id column="id" property="id" jdbcType="DECIMAL" />
+    <result column="FILES_NAME" property="filesName" jdbcType="VARCHAR" />
+    <result column="FILE_TYPE" property="fileType" jdbcType="VARCHAR" />
+    <result column="FILE_ADDRESS" property="fileAddress" jdbcType="VARCHAR" />
+    <result column="UPLOAD_TIME" property="uploadTime" jdbcType="VARCHAR" />
+    <result column="UPLOAD_PERSON" property="uploadPerson" jdbcType="DECIMAL" />
+    <result column="SPECIALTY_ID" property="specialtyId" jdbcType="DECIMAL" />
+    <result column="RYEAR" property="rYear" jdbcType="VARCHAR" />
+   <result column="BLACKCONTENT" property="blackContent" jdbcType="VARCHAR"/>
+  </resultMap>
+
+<insert id="insert" parameterType="audit.model.report.Retification" >
+insert into AS_ASSESS_RECTIFICATION(FILES_NAME,FILE_TYPE,FILE_ADDRESS,UPLOAD_TIME,UPLOAD_PERSON,SPECIALTY_ID,RYEAR)
+values(#{filesName,jdbcType=VARCHAR},#{fileType,jdbcType=VARCHAR},#{fileAddress,jdbcType=VARCHAR},#{uploadTime,jdbcType=VARCHAR},
+#{uploadPerson,jdbcType=DECIMAL},#{specialtyId,jdbcType=DECIMAL},#{rYear,jdbcType=VARCHAR})
+
+</insert>
+<select id="getAllFiles" resultMap="BaseResultMap">
+select * from AS_ASSESS_RECTIFICATION where specialty_id = #{0} and rYear = #{1} and UPLOAD_PERSON =#{2}
+
+</select>
+<delete id="delete" parameterType="java.lang.Integer">
+delete from AS_ASSESS_RECTIFICATION where id = #{1} 
+</delete>
+<select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+select * from AS_ASSESS_RECTIFICATION where id = #{1}
+</select>
+
+
+
+</mapper>
+
+

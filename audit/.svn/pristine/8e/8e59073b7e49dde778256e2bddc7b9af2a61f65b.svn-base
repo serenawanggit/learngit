@@ -1,0 +1,91 @@
+@charset "utf-8";
+/*专业评估导航页样式表*/
+/*div{border: 0.1em solid red;border-collapse: collapse;}*/
+table,tr,td{
+	border: 1px solid #D3D3D3;
+	border-collapse: collapse;
+	text-align: center;
+}
+td{
+	height: 4em;
+	font-size: 17px;	
+}
+.container {
+	float: right;
+	width: 100%;
+	height: 98%;
+}
+/*头部*/
+.header{
+	
+	width: 100%;
+	height: 7em;
+	background-color: #2C4754;
+}
+.header-container{
+	/* width: 128em;
+	height: 7em; */
+	margin: 0em auto;
+}
+.header-logo{
+	float: left;
+	/* border-radius:3em ; */
+	/* width: 5em;
+	height: 5em; */
+	margin: 0em 0px 0em 3em;
+}
+.header-logo img{margin-top:1em;}
+.header-title{
+	float: left;
+	width:30em;
+	height: 3em;
+	margin: 3em 0em 0em 2em;
+}
+.header-title-li{
+	line-height:13px;
+	font-size: 2.3em;
+	color: #FFFFFF;
+}
+.header-btn{
+	float: right;
+	min-width: 11em;
+	max-width: 12em;
+	height: 2em;
+	margin: 3.5em 0em 1.5em 3em;
+}
+.header-btn-li{
+	font-size: 1.5em;
+	color: #FFFFEE;
+	cursor: pointer;
+	margin-top:-13px;
+}
+.header-btn-li img{
+	width: 0.9em;
+	height: 0.8em;
+}
+/*主体内容*/
+.iframe-main{
+	border: ;
+	width: 100%;
+	height: 80%;
+}
+
+
+/* 专业评估logo */
+.logoclass{
+	margin-left:10px;
+	margin-top:13px;
+	float:left;
+	cursor: pointer;
+}
+.logoclass img{float:left;}
+.logoclass label{
+	cursor: pointer;
+	float:left;
+	margin-left:15px;
+	height: 70px;
+	line-height: 70px;
+	font-family: "微软雅黑";
+	color: #FFF;
+	font-size:18px;
+}

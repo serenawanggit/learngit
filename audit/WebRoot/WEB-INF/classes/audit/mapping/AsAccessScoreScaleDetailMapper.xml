@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsAccessScoreScaleDetailMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.assess.AsAccessScoreScaleDetail" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="scor_scale_id" property="scorScaleId" jdbcType="INTEGER" />
+    <result column="conformity" property="conformity" jdbcType="INTEGER" />
+    <result column="self_score" property="selfScore" jdbcType="FLOAT" />
+    <result column="general_score_id" property="generalScoreId" jdbcType="INTEGER" />
+  </resultMap>
+   <insert id="insertPeneralSelfScore" parameterType="audit.model.assess.AsaccessSelfScore" >
+     insert into AS_ACCESS_SCORE_SCALE_DETAIL values(
+     #{0},
+     #{1},
+     #{2},
+     #{3});
+  </insert>
+    <update id="updatePeneralSelfScore" parameterType="audit.model.assess.AsaccessSelfScore">
+       update AS_ACCESS_SCORE_SCALE_DETAIL set conformity=#{0},self_score=#{1} 
+          where scor_scale_id=#{2} and general_score_id=#{3}
+   </update>
+</mapper>

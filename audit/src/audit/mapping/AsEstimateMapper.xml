@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsEstimateMapper">
+	<resultMap id="BaseResultMap" type="audit.model.AsEstimate">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="level" property="level" jdbcType="INTEGER" />
+		<result column="parent" property="parent" jdbcType="INTEGER" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="pid" property="pid" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<!-- 用来定义可重用的sql代码段 -->
+	<sql id="Base_Column_mList">
+	    id,name,level,parent,content,pid
+	</sql>
+	
+	<!-- 查询所有数据 -->
+	<select id="selectAll" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		select * from as_e_estimate
+	</select>
+	
+	<!-- 查询父节点 -->
+	<select id="selectRoot" resultMap="BaseResultMap">
+		select * from as_e_estimate where level = 1 and parent = 0
+	</select>
+	
+	<select id="selectRoot2" resultMap="BaseResultMap">
+		select * from as_e_estimate where level = 2 and parent = 1
+	</select>
+	
+	<!--根据父节点查询子节点  -->
+	<select id="selectSub" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select * from as_e_estimate where level = 2 and parent = #{parent}
+	</select>
+	
+	<select id="selectSub2" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select * from as_e_estimate where level = 3 and parent = #{parent}
+	</select>
+	
+	<!-- 查询某个计划 -->
+	<select id="selectSingleById" parameterType="java.lang.Integer" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		select * from as_e_estimate e where e.id = #{id} 
+	</select>
+	
+	<!--增加一个节点  -->
+	<insert id="save" parameterType="audit.model.AsEstimate" useGeneratedKeys="true" keyProperty="id">
+		insert into as_e_estimate (name,level,parent) values(
+			#{name,jdbcType=VARCHAR},#{level,jdbcType=INTEGER},#{parent,jdbcType=INTEGER})
+	</insert>
+	
+	<!-- 更新一个节点-->  
+    <update id="update" parameterType="audit.model.AsEstimate">  
+        update as_e_estimate set level = #{level},parent = #{parent},name=#{name} where id = #{id}  
+    </update>  
+    
+    <!-- 删除一条记录 -->  
+    <delete id="delete" parameterType="int">  
+        delete from as_e_estimate where id = #{id}  
+    </delete> 
+    
+    <update id="updateContent">
+      update as_e_estimate set content = #{0} where id = #{1}  
+    </update>
+    
+</mapper>

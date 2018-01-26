@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsCjRwxxMapper">
+	<resultMap id="BaseResultMap" type="audit.model.AsCjRwxx">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="CJRWMC" property="cjrwmc" jdbcType="VARCHAR" />
+		<result column="FBSJ" property="fbsj" jdbcType="DATE" />
+		<result column="JZSJ" property="jzsj" jdbcType="DATE" />
+		<result column="RWZT" property="rwzt" jdbcType="INTEGER" />
+		<result column="FBRDM" property="fbrdm" jdbcType="INTEGER" />
+	</resultMap>
+	
+	
+	<resultMap id="BaseRwxx2" type="audit.model.AsCjRwxx2">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="CJRWMC" property="cjrwmc" jdbcType="VARCHAR" />
+		<result column="FBSJ" property="fbsj" jdbcType="VARCHAR" />
+		<result column="JZSJ" property="jzsj" jdbcType="VARCHAR" />
+		<result column="RWZT" property="rwzt" jdbcType="INTEGER" />
+		<result column="FBRDM" property="fbrdm" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<resultMap id="BaseResultMap2" type="audit.model.AsCjRwxxGL">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="CJRWMC" property="cjrwmc" jdbcType="VARCHAR" />
+		<result column="ztbid" property="ztbid" jdbcType="INTEGER" />
+		<result column="FBSJ" property="fbsj" jdbcType="VARCHAR" />
+		<result column="JZSJ" property="jzsj" jdbcType="VARCHAR" />
+		<result column="ZID" property="zid" jdbcType="INTEGER" />
+		<result column="CATEGORY_NAME" property="category_name" jdbcType="VARCHAR" />
+		<result column="SJBMC" property="sjbmc" jdbcType="VARCHAR" />
+		<result column="cjbmmc" property="cjbmmc" jdbcType="VARCHAR" />
+		<result column="CTEMPLATE_NAME" property="ctemplate_name" jdbcType="VARCHAR" />
+		<result column="syfwmc" property="syfwmc" jdbcType="VARCHAR" />
+		<result column="TIME_TYPE" property="time_type" jdbcType="VARCHAR" />
+		<result column="CJBMDM" property="cjbmdm" jdbcType="INTEGER" />
+		<result column="CJRWNF" property="cjrwnf" jdbcType="VARCHAR" />
+		<result column="CJR" property="cjr" jdbcType="INTEGER" />
+		<result column="SHR" property="shr" jdbcType="INTEGER" />
+		<result column="CJZT" property="cjzt" jdbcType="INTEGER" />
+		<result column="SHZT" property="shzt" jdbcType="INTEGER" />
+		<result column="cjrm" property="cjrm" jdbcType="VARCHAR" />
+		<result column="shrm" property="shrm" jdbcType="VARCHAR" />
+		<result column="shbmdm" property="shbmdm" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="ResultMapJd" type="audit.model.AsCjRwJinDu">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="CATEGORY_NAME" property="category_name" jdbcType="VARCHAR" />
+		<result column="SJBMC" property="sjbmc" jdbcType="VARCHAR" />
+		<result column="cjbmmc" property="cjbmmc" jdbcType="VARCHAR" />
+		<result column="showname1" property="showname1" jdbcType="VARCHAR" />
+		<result column="showname2" property="showname2" jdbcType="VARCHAR" />
+		<result column="CJZT" property="cjzt" jdbcType="INTEGER" />
+		<result column="SHZT" property="shzt" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<!-- 用来定义可重用的sql代码段 -->
+	<sql id="Base_Column_mList">
+		r.ID,r.CJRWMC,r.FBSJ,r.JZSJ,r.RWZT,r.FBRDM
+	</sql>
+	
+	<!-- 根据任务标题查询任务 -->
+	<select id="selectRwByMC" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		SELECT * 
+		FROM AS_CJ_RWXX r 
+		WHERE r.CJRWMC like '%'+ #{parameter1} +'%'
+	</select>
+	
+	<!-- 分页查询任务 -->
+	<select id="findPageRwxx" resultMap="BaseRwxx2">
+		 select * from( select
+		    ROW_NUMBER() over(order by r.ID) as rownum,	r.ID,r.CJRWMC,CONVERT(varchar(100),r.FBSJ,23) AS FBSJ,CONVERT(varchar(100),r.JZSJ,23) as JZSJ,r.RWZT,r.FBRDM 
+			from AS_CJ_RWXX r 
+			where r.CJRWMC like '%'+ #{0}+'%' ) as a where rownum between #{1} and #{2}
+	</select>
+	<!-- 根据条件查询count数据条数 -->
+	<select id="findCount" parameterType="java.lang.String" resultType="INTEGER">
+		select count(*)  
+		from AS_CJ_RWXX m
+		where m.CJRWMC like '%${_parameter}%'
+	</select>
+	
+	<!-- 查询新增的任务 -->
+	<select id="findMaxId" parameterType="java.lang.String" resultType="INTEGER">
+		select MAX(id) from AS_CJ_RWXX
+	</select>
+	
+	<!-- 更新任务	-->
+	<update id="updateRW" parameterType="audit.model.AsCjRwxx">
+		update AS_CJ_RWXX 
+		set CJRWMC=#{cjrwmc,jdbcType=VARCHAR},
+		FBSJ=#{fbsj,jdbcType=DATE},
+		JZSJ=#{jzsj,jdbcType=DATE},
+		RWZT=#{rwzt,jdbcType=INTEGER},
+		FBRDM=#{fbrdm,jdbcType=INTEGER} 
+		where ID=#{id,jdbcType=INTEGER}
+	</update>
+	
+	<!-- 插入 -->
+	<insert id="insertRW" parameterType="audit.model.AsCjRwxx">
+		insert into AS_CJ_RWXX(CJRWMC,FBSJ,JZSJ,RWZT,FBRDM) 
+		values(#{cjrwmc,jdbcType=VARCHAR},
+		#{fbsj,jdbcType=DATE},#{jzsj,jdbcType=DATE},
+		#{rwzt,jdbcType=INTEGER},
+		#{fbrdm,jdbcType=INTEGER})
+	</insert>
+	
+	<!-- 插入状态表关联表 -->
+	<insert id="insertRWglZTB" parameterType="audit.model.AsCjCjrwztb">
+		insert into AS_CJ_CJRWZTB(CJRWDM,ZTBDM,CJR,CJZT,SHR,SHZT,SFTJSH,cjrwnf) 
+		values(#{cjrwdm,jdbcType=INTEGER},
+		#{ztbdm,jdbcType=INTEGER},
+		#{cjr,jdbcType=INTEGER},
+		#{cjzt,jdbcType=INTEGER},
+		#{shr,jdbcType=INTEGER},
+		#{shzt,jdbcType=INTEGER},
+		#{sftjsh,jdbcType=INTEGER},
+		#{cjrwnf,jdbcType=VARCHAR})
+	</insert>
+	
+	<!-- 删除任务 -->
+	<delete id="deleteRwxx" parameterType="java.lang.Integer">
+		delete from AS_CJ_RWXX
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<!-- 删除任务关联表 -->
+	<delete id="deleteRwxxGL" parameterType="java.lang.Integer">
+		delete from AS_CJ_CJRWZTB
+		where CJRWDM = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<!-- 查询任务详细信息 -->
+	<select id="findRwxxById" resultMap="BaseResultMap2" parameterType="java.lang.Integer">
+	    select rz.id as ztbid, r.ID,r.CJRWMC,r.FBSJ,r.JZSJ,Z.ID as ZID,CC.CATEGORY_NAME,Z.SJBMC,
+		CJCJ.name as CJBMMC ,CT.CTEMPLATE_NAME,CJSY.SYFWMC,CT.TIME_TYPE,CJCJ.id as CJBMDM,rz.CJRWNF
+		,rz.CJR,rz.SHR ,shsh.name as shbmdm
+		from AS_CJ_RWXX r
+		LEFT join AS_CJ_CJRWZTB rz on r.ID=rz.CJRWDM
+		LEFT join AS_CJ_ZTSJBXX Z on Z.ID=rz.ZTBDM
+		LEFT join AS_C_TEMPLATE CT ON Z.CJMBDM=CT.CTEMPLATE_ID
+		LEFT JOIN AS_C_CATEGORY CC ON CT.CATEGORY_ID=CC.CATEGORY_ID
+		LEFT JOIN organization CJCJ ON Z.CJBMDM=CJCJ.id
+		LEFT JOIN AS_CJ_SYFW CJSY ON Z.SYFWDM=CJSY.ID
+	    LEFT JOIN organization shsh ON Z.shbmdm=shsh.id 
+		where r.ID=#{id,jdbcType=INTEGER}
+	</select>
+	
+	<!-- 查询任务详细信息进度 -->
+	<select id="findRwxxByIdforSchedule" resultMap="BaseResultMap2" parameterType="java.lang.Integer">
+	  	select rz.id as ztbid, r.ID,r.CJRWMC,r.FBSJ,r.JZSJ,Z.ID as ZID,CC.CATEGORY_NAME,Z.SJBMC,
+		CJCJ.name as CJBMMC ,CT.CTEMPLATE_NAME,CJSY.SYFWMC,CT.TIME_TYPE,CJCJ.id as CJBMDM,rz.CJRWNF
+		,rz.CJR,u.showname as cjrm  , rz.SHR ,s.showname as shrm,rz.CJZT,rz.SHZT
+		from AS_CJ_RWXX r
+		LEFT join AS_CJ_CJRWZTB rz on r.ID=rz.CJRWDM
+		LEFT join AS_CJ_ZTSJBXX Z on Z.ID=rz.ZTBDM
+		LEFT join AS_C_TEMPLATE CT ON Z.CJMBDM=CT.CTEMPLATE_ID
+		LEFT JOIN AS_C_CATEGORY CC ON CT.CATEGORY_ID=CC.CATEGORY_ID
+		LEFT JOIN organization CJCJ ON Z.CJBMDM=CJCJ.id
+		LEFT JOIN AS_CJ_SYFW CJSY ON Z.SYFWDM=CJSY.ID
+		left join userinfo u on u.id=rz.CJR
+		left join userinfo s on s.id=rz.SHR
+		where r.ID=#{0} order by Z.SJBMC asc
+	</select>
+	
+	<!-- 分页查询任务的状态表 -->
+	<select id="findPageRwxxZtb" resultMap="ResultMapJd">
+		select top 8 
+		rz.ID,CC.CATEGORY_NAME,Z.SJBMC,CJCJ.CJBMMC,u1.showname as showname1,u2.showname as showname2,rz.CJZT,rz.SHZT 
+		from AS_CJ_ZTSJBXX Z 
+		LEFT join AS_CJ_CJRWZTB rz on Z.ID=rz.ZTBDM 
+		LEFT join AS_C_TEMPLATE CT ON Z.CJMBDM=CT.CTEMPLATE_ID
+		LEFT JOIN AS_C_CATEGORY CC ON CT.CATEGORY_ID=CC.CATEGORY_ID
+		LEFT JOIN AS_CJ_CJBMXX CJCJ ON Z.CJBMDM=CJCJ.CJBMDM 
+		left join userinfo u1 on u1.id=rz.cjr 
+		left join userinfo u2 on u2.id=rz.SHR 
+		where Z.ID not in(
+		select top ${pagestar} Z2.ID 
+		from AS_CJ_ZTSJBXX Z2 
+		LEFT join AS_CJ_CJRWZTB rz2 on Z2.ID=rz2.ZTBDM 
+		LEFT join AS_C_TEMPLATE CT2 ON Z2.CJMBDM=CT2.CTEMPLATE_ID
+		LEFT JOIN AS_C_CATEGORY CC2 ON CT2.CATEGORY_ID=CC2.CATEGORY_ID
+		LEFT JOIN AS_CJ_CJBMXX CJCJ2 ON Z2.CJBMDM=CJCJ2.CJBMDM 
+		left join userinfo u12 on u12.id=rz2.cjr 
+		left join userinfo u22 on u22.id=rz2.SHR 
+		where rz2.CJRWDM=#{parameter1} and Z2.SJBMC like '%'+ #{parameter2} +'%'
+		) 
+		and rz.CJRWDM=#{parameter1} and Z.SJBMC like '%'+ #{parameter2} +'%'
+		
+	</select>
+	
+	<!-- 根据条件查询任务进度count数据条数 -->
+	<select id="findRwJdCount" resultType="INTEGER">
+		select count(*)  
+		from AS_CJ_ZTSJBXX Z 
+		LEFT join AS_CJ_CJRWZTB rz on Z.ID=rz.ZTBDM 
+		LEFT join AS_C_TEMPLATE CT ON Z.CJMBDM=CT.CTEMPLATE_ID
+		LEFT JOIN AS_C_CATEGORY CC ON CT.CATEGORY_ID=CC.CATEGORY_ID
+		LEFT JOIN AS_CJ_CJBMXX CJCJ ON Z.CJBMDM=CJCJ.CJBMDM 
+		left join userinfo u1 on u1.id=rz.cjr 
+		left join userinfo u2 on u2.id=rz.SHR 
+		where rz.CJRWDM=#{parameter1} and Z.SJBMC like '%'+ #{parameter2} +'%'
+	</select>
+	
+	<!-- 根据任务id查询任务 -->
+	<select id="findRwById" parameterType="java.lang.Integer" resultType="audit.model.AsCjRwxx2">
+		select ID, CJRWMC,CONVERT(varchar(100),FBSJ,23) as FBSJ,CONVERT(varchar(100),JZSJ,23) as JZSJ,RWZT,FBRDM from AS_CJ_RWXX where id=#{id,jdbcType=INTEGER}
+	</select>
+	
+	<!-- 根据条件查询已经审核状态表条数 -->
+	<select id="findYshCount" resultType="INTEGER">
+		select count(*)  
+		from AS_CJ_ZTSJBXX Z 
+		LEFT join AS_CJ_CJRWZTB rz on Z.ID=rz.ZTBDM 
+		LEFT join AS_C_TEMPLATE CT ON Z.CJMBDM=CT.CTEMPLATE_ID
+		LEFT JOIN AS_C_CATEGORY CC ON CT.CATEGORY_ID=CC.CATEGORY_ID
+		LEFT JOIN AS_CJ_CJBMXX CJCJ ON Z.CJBMDM=CJCJ.CJBMDM 
+		left join userinfo u1 on u1.id=rz.cjr 
+		left join userinfo u2 on u2.id=rz.SHR 
+		where rz.CJRWDM=#{parameter1} and rz.SHZT=1
+	</select>
+	
+	<!-- 更新审核状态 退回	-->
+	<update id="updateRwZtb" parameterType="audit.model.AsCjCjrwztb">
+		update AS_CJ_CJRWZTB 
+		set SHZT=#{shzt,jdbcType=INTEGER} 
+		where ID=#{id,jdbcType=INTEGER}
+	</update>
+	
+	<select id="findCjztbCount"  resultType="INTEGER">
+		select COUNT(*) from AS_CJ_CJRWZTB where CJRWDM=#{0} and ZTBDM=#{1}
+	</select>
+	
+	<update id="updateCjrwztb">
+	    update AS_CJ_CJRWZTB set CJR=#{0},SHR=#{1},CJRWNF=#{2} where CJRWDM=#{3} and ZTBDM=#{4};
+	</update>
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsAccessWebFiledInvestMapper" >
+  <resultMap id="WebFiledInvestList" type="audit.model.assess.AsAccessWebFiledInvest" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="invest_point" property="invest_point" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+    <resultMap id="WebFiledInvestContentList" type="audit.model.assess.AsAccessWebFiledInvestContent" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="field_invest_ID" property="field_invest_ID" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="getAccessWebFiledInvest" resultMap="WebFiledInvestList" >
+    select id,invest_point,description
+    from AS_ACCESS_WEB_FIELD_INVEST
+    
+  </select>
+
+<select id="getMyContentList" resultMap="WebFiledInvestContentList" parameterType="java.lang.Integer" >
+select ID,field_invest_ID,content from AS_ACCESS_WEB_FIELD_INVEST_CONTENT
+where specialty_ID= #{specialty_ID,jdbcType=INTEGER} and user_id=#{user_id,jdbcType=INTEGER} and year=#{year,jdbcType=INTEGER}
+</select>
+
+  <insert id="addAccessWebFiledInvestContent" parameterType="audit.model.assess.AsAccessWebFiledInvestContent" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ACCESS_WEB_FIELD_INVEST_CONTENT(field_invest_ID,content,specialty_ID,user_id,create_datetime,year)  
+    values (#{field_invest_ID,jdbcType=INTEGER},
+    #{content,jdbcType=VARCHAR},
+    #{specialty_ID,jdbcType=INTEGER},
+    #{user_id,jdbcType=INTEGER},
+    #{create_datetime,jdbcType=TIMESTAMP},
+    #{year,jdbcType=TIMESTAMP})
+ 
+  </insert>
+
+  <update id="updateAccessWebFiledInvestContent" parameterType="audit.model.assess.AsAccessWebFiledInvestContent" >
+  update AS_ACCESS_WEB_FIELD_INVEST_CONTENT set content=#{content,jdbcType=VARCHAR},create_datetime=#{create_datetime,jdbcType=TIMESTAMP} 
+   where id= #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.ViewPicMapper">
+	<resultMap id="BaseResultMap" type="audit.model.ViewPic">
+		<id column="vpid" property="vpid" jdbcType="INTEGER" />
+		<result column="picname" property="picname" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="rtid" property="rtid" jdbcType="INTEGER" />
+		<result column="paths" property="paths" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- 用来定义可重用的sql代码段 -->
+	<sql id="Base_Column_mList">
+	    vpid,picname,type,rtid
+	</sql>
+	
+	<!-- 查询所有数据 -->
+	<select id="select" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		select * from tqc_view_pic
+	</select>
+	
+	<insert id="save" parameterType="audit.model.ViewPic" useGeneratedKeys="true" keyProperty="id">
+		insert into tqc_view_pic (picname,type,rtid) values(
+			#{picname,jdbcType=VARCHAR},#{type,jdbcType=VARCHAR},#{rtid,jdbcType=INTEGER})
+	</insert>
+	
+	<!-- 根据条件查询count数据条数 -->
+	<select id="findCount" parameterType="java.lang.String" resultType="INTEGER">
+		select count(*)  
+		from tqc_view_pic 
+		where picname like '%${_parameter}%'
+	</select>
+	
+	<!-- 分页查询指标 -->
+	<select id="findPageVp" resultMap="BaseResultMap">
+		select top 10 *
+		from tqc_view_pic m 
+		where m.vpid not in(
+		select top ${pagestar} m2.vpid from tqc_view_pic m2 
+		where m2.picname like '%'+ #{parameter1} +'%'
+		) 
+		and m.picname like '%'+ #{parameter1} +'%'
+	</select>
+	
+	<!-- 根据方案ID查询观测指标 -->
+	<select id="findByVpid" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		select * from tqc_view_pic where vpid=#{vpid}
+	</select>
+	
+</mapper>

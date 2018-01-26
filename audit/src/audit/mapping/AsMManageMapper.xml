@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsMManageMapper">
+	<resultMap id="BaseResultMap" type="audit.model.AsMManage">
+		<id column="MEASURE_ID" property="measureId" jdbcType="VARCHAR" />
+		<result column="MEASURE_NAME" property="measureName" jdbcType="VARCHAR" />
+		<result column="CATEGORY_ID" property="categoryId" jdbcType="INTEGER" />
+		<result column="classify" property="classify" jdbcType="VARCHAR" />
+		<result column="level" property="level" jdbcType="VARCHAR" />
+		<result column="IS_SCHOOL" property="isSchool" jdbcType="VARCHAR" />
+		<result column="is_Department" property="isDepartment" jdbcType="VARCHAR"/>
+		<result column="is_Profession" property="isProfession" jdbcType="VARCHAR" />
+		<result column="is_Assess" property="isAssess" jdbcType="VARCHAR" />
+		<result column="notice" property="notice" jdbcType="VARCHAR" />
+		<result column="equation" property="equation" jdbcType="VARCHAR" />
+		<result column="states" property="states" jdbcType="INTEGER" />
+		<result column="is_Query" property="isQuery" jdbcType="INTEGER" />
+		<result column="indexClassificationId" property="indexClassificationId" jdbcType="INTEGER" />
+		<result column="CATEGORY_NAME" property="categoryName" jdbcType="VARCHAR" />
+		<!-- 指标所属分类 -->
+        <association property="indexClassFication" javaType="audit.model.AsIIndexClassification" >  
+            <id column="id" property="id" jdbcType="VARCHAR"/>  
+            <result column="parent_Id" property="parentId" jdbcType="VARCHAR"/>  
+            <result column="index_Name" property="indexName" jdbcType="VARCHAR"/>  
+        </association>
+	</resultMap>
+	
+	<!-- 用来定义可重用的sql代码段 -->
+	<sql id="Base_Column_mList">
+	    m.MEASURE_ID,m.MEASURE_NAME,m.CATEGORY_ID,m.CLASSIFY,m.LEVEL,
+		m.IS_SCHOOL,m.IS_DEPARTMENT,m.IS_PROFESSION,m.IS_ASSESS,
+		c.ID,c.PARENT_ID,c.INDEX_NAME 
+	</sql>
+	
+	<!-- 查询所有数据 -->
+	<select id="selectAllManage" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		select m.MEASURE_ID,m.MEASURE_NAME,m.CATEGORY_ID,m.CLASSIFY,m.LEVEL,
+		m.IS_SCHOOL,m.IS_DEPARTMENT,m.IS_PROFESSION,m.IS_ASSESS,
+		c.ID,c.PARENT_ID,c.INDEX_NAME 
+		from AS_M_MANAGE m
+		left join AS_I_INDEX_CLASSIFICATION c on m.INDEX_CLASSIFICATION_ID=c.ID 
+		where m.STATES=1
+	</select>
+	
+	<select id="selectByName" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		select * from AS_M_MANAGE m where m.MEASURE_NAME= #{MEASURE_NAME}
+	</select>
+	
+	<!-- 根据多个指标ID查询指标 -->
+	<select id="findQuotaByIDs" resultMap="BaseResultMap">
+		select m.MEASURE_ID,m.MEASURE_NAME,m.CATEGORY_ID,m.CLASSIFY,m.LEVEL,
+		m.IS_SCHOOL,m.IS_DEPARTMENT,m.IS_PROFESSION,m.IS_ASSESS,m.INDEX_CLASSIFICATION_ID,
+		c.PARENT_ID,c.INDEX_NAME 
+		from AS_M_MANAGE m
+		left join AS_I_INDEX_CLASSIFICATION c on m.INDEX_CLASSIFICATION_ID=c.ID 
+		where m.STATES=1 and m.MEASURE_ID in 
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+		  #{item}  
+		</foreach>   
+		
+	</select>
+	
+	
+	
+	<!-- 根据条件查询count数据条数 -->
+	<select id="findCount" parameterType="java.lang.String" resultType="INTEGER">
+		select count(*)  
+		from AS_M_MANAGE m
+		left join AS_I_INDEX_CLASSIFICATION c on m.INDEX_CLASSIFICATION_ID=c.ID 
+		where m.STATES=1 and m.MEASURE_NAME like '%${_parameter}%'
+	</select>
+	
+	<!-- 分页查询指标 -->
+	<select id="findPageQuota" resultMap="BaseResultMap">
+		select top 10 
+		<include refid="Base_Column_mList" /> 
+		from AS_M_MANAGE m 
+		left join AS_I_INDEX_CLASSIFICATION c on m.INDEX_CLASSIFICATION_ID=c.ID 
+		where m.MEASURE_ID not in(
+		select top ${pagestar} m2.MEASURE_ID from AS_M_MANAGE m2 
+		where m2.STATES!=9 and m2.MEASURE_NAME like '%'+ #{parameter1} +'%'
+		) 
+		and m.STATES!=9 and m.MEASURE_NAME like '%'+ #{parameter1} +'%'
+	
+	</select>
+	
+	<sql id="where_query_sql">
+		<where>
+			<if test="data.measureId != null and data.measureId !=''">
+				and MEASURE_ID = #{data.measureId}
+			</if>
+			<if test="data.measureName != null and data.measureName != ''">
+				and MEASURE_NAME like '%'+ #{data.measureName} +'%'
+			</if>
+			<if test="data.categoryId != null">
+				and m.CATEGORY_ID = #{data.categoryId}
+			</if>
+			<if test="data.level != null and data.level !=''">
+				and level = #{data.level}
+			</if>
+			<if test="data.isSchool != null and data.isSchool !=''">
+				and IS_SCHOOL = #{data.isSchool}
+			</if>
+			<if test="data.isDepartment != null and data.isDepartment !=''">
+				and is_Department = #{data.isDepartment}
+			</if>
+			<if test="data.isProfession != null and data.isProfession !=''">
+				and is_Profession = #{data.isProfession}
+			</if>
+			<if test="data.isAssess != null and data.isAssess !=''">
+				and is_Assess = #{data.isAssess}
+			</if>
+		</where>
+			
+	</sql>
+	
+	<select id="selectCountByQuery" resultType="java.lang.Integer" parameterType="audit.model.quality.query.IndicatorQuery">
+	select count(*) from AS_M_MANAGE m
+	<include refid="where_query_sql"></include>
+	</select>
+	
+	<select id="getListByQuery" parameterType="audit.model.quality.query.IndicatorQuery" resultMap="BaseResultMap">
+	SELECT * FROM(
+    SELECT TOP (#{endIndex,jdbcType=INTEGER}) ROW_NUMBER() OVER(ORDER BY MEASURE_ID ASC) AS ROWID,
+    	m.MEASURE_ID,m.MEASURE_NAME,m.CATEGORY_ID,m.CLASSIFY,m.LEVEL,
+		m.IS_SCHOOL,m.IS_DEPARTMENT,m.IS_PROFESSION,m.IS_ASSESS,ca.CATEGORY_NAME
+        FROM AS_M_MANAGE m
+        inner join AS_M_CATEGORY ca on ca.CATEGORY_CODE = m.CATEGORY_ID
+	<include refid="where_query_sql"></include>) AS TEMP1 
+	 where ROWID > #{startIndex,jdbcType=INTEGER}
+	</select>
+	
+</mapper>

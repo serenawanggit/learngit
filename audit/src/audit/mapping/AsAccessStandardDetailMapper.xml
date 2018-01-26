@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsAccessStandardDetailMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.assess.AsAccessStandardDetail" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="standard_id" property="standardId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="DOUBLE" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, standard_id, name, score, parent_id, description
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from AS_ACCESS_STANDARD_DETAIL
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from AS_ACCESS_STANDARD_DETAIL
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.assess.AsAccessStandardDetail" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ACCESS_STANDARD_DETAIL (id, standard_id, name, 
+      score, parent_id, description
+      )
+    values (#{id,jdbcType=INTEGER}, #{standardId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{score,jdbcType=DOUBLE}, #{parentId,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.assess.AsAccessStandardDetail" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ACCESS_STANDARD_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="standardId != null" >
+        standard_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="standardId != null" >
+        #{standardId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.assess.AsAccessStandardDetail" >
+    update AS_ACCESS_STANDARD_DETAIL
+    <set >
+      <if test="standardId != null" >
+        standard_id = #{standardId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.assess.AsAccessStandardDetail" >
+    update AS_ACCESS_STANDARD_DETAIL
+    set standard_id = #{standardId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      score = #{score,jdbcType=DOUBLE},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 我是分割线 -->
+  
+  <select id="getDetailList" parameterType="java.util.Map" resultType="java.util.Map">
+  select asd.id, asd.standard_id as standardId, asd.name, asd.score, parent_id as parentId,asi.calculate_type,
+   asd.description,aser.score as realScore
+  from AS_ACCESS_STANDARD_DETAIL asd 
+    inner join AS_ACCESS_STANDARD_INFO asi on asi.Id = asd.standard_id
+   left join AS_ACCESS_SELF_EVALUTION_RECORD aser on aser.detail_id = asd.id 
+  and aser.access_specialty_id=#{specialtyId,jdbcType=INTEGER}
+  where asd.standard_id = #{standardId,jdbcType=INTEGER} and parent_id = #{parentId,jdbcType=INTEGER}
+  </select>
+  
+    <select id="getChildList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from AS_ACCESS_STANDARD_DETAIL
+  where standard_id = #{standardId,jdbcType=INTEGER} and parent_id = #{parentId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="findAll" resultMap="BaseResultMap">
+     select * from AS_ACCESS_STANDARD_DETAIL
+  </select>
+</mapper>

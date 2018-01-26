@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsAccessSiteCheckRecordideaMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.assess.AsAccessSiteCheckRecordidea" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="access_specialty_id" property="accessSpecialtyId" jdbcType="INTEGER" />
+    <result column="standard_detail_id" property="standardDetailId" jdbcType="INTEGER" />
+    <result column="record_type" property="recordType" jdbcType="INTEGER" />
+    <result column="personalIdea" property="personalidea" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, access_specialty_id, standard_detail_id, record_type, personalIdea, 
+    user_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from AS_ACCESS_SITE_CHECK_RECORDIDEA
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from AS_ACCESS_SITE_CHECK_RECORDIDEA
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.assess.AsAccessSiteCheckRecordidea" >
+    insert into AS_ACCESS_SITE_CHECK_RECORDIDEA (id, user_id, access_specialty_id, 
+      standard_detail_id, record_type, personalIdea, 
+      user_name)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{accessSpecialtyId,jdbcType=INTEGER}, 
+      #{standardDetailId,jdbcType=INTEGER}, #{recordType,jdbcType=INTEGER}, #{personalidea,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.assess.AsAccessSiteCheckRecordidea" >
+    insert into AS_ACCESS_SITE_CHECK_RECORDIDEA
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="accessSpecialtyId != null" >
+        access_specialty_id,
+      </if>
+      <if test="standardDetailId != null" >
+        standard_detail_id,
+      </if>
+      <if test="recordType != null" >
+        record_type,
+      </if>
+      <if test="personalidea != null" >
+        personalIdea,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="accessSpecialtyId != null" >
+        #{accessSpecialtyId,jdbcType=INTEGER},
+      </if>
+      <if test="standardDetailId != null" >
+        #{standardDetailId,jdbcType=INTEGER},
+      </if>
+      <if test="recordType != null" >
+        #{recordType,jdbcType=INTEGER},
+      </if>
+      <if test="personalidea != null" >
+        #{personalidea,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.assess.AsAccessSiteCheckRecordidea" >
+    update AS_ACCESS_SITE_CHECK_RECORDIDEA
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="accessSpecialtyId != null" >
+        access_specialty_id = #{accessSpecialtyId,jdbcType=INTEGER},
+      </if>
+      <if test="standardDetailId != null" >
+        standard_detail_id = #{standardDetailId,jdbcType=INTEGER},
+      </if>
+      <if test="recordType != null" >
+        record_type = #{recordType,jdbcType=INTEGER},
+      </if>
+      <if test="personalidea != null" >
+        personalIdea = #{personalidea,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateBySelectiveSelective" parameterType="audit.model.assess.AsAccessSiteCheckRecordidea" >
+    update AS_ACCESS_SITE_CHECK_RECORDIDEA
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="accessSpecialtyId != null" >
+        access_specialty_id = #{accessSpecialtyId,jdbcType=INTEGER},
+      </if>
+      <if test="standardDetailId != null" >
+        standard_detail_id = #{standardDetailId,jdbcType=INTEGER},
+      </if>
+      <if test="recordType != null" >
+        record_type = #{recordType,jdbcType=TINYINT},
+      </if>
+      <if test="personalidea != null" >
+        personalIdea = #{personalidea,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=NUMERIC},
+      </if>
+    </set>
+     <where>
+           <if test="userId != null" >
+             and  user_id = #{userId,jdbcType=INTEGER}
+          </if>
+	      <if test="accessSpecialtyId != null" >
+	         and  access_specialty_id = #{accessSpecialtyId}
+	      </if>
+	      <if test="standardDetailId != null" >
+	         and standard_detail_id = #{standardDetailId}
+	      </if>
+	      <if test="recordType != null" >
+	         and record_type = #{recordType}
+	      </if>
+     </where>
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.assess.AsAccessSiteCheckRecordidea" >
+    update AS_ACCESS_SITE_CHECK_RECORDIDEA
+    set user_id = #{userId,jdbcType=INTEGER},
+      access_specialty_id = #{accessSpecialtyId,jdbcType=INTEGER},
+      standard_detail_id = #{standardDetailId,jdbcType=INTEGER},
+      record_type = #{recordType,jdbcType=INTEGER},
+      personalIdea = #{personalidea,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <insert id="insertSceneIdeas" parameterType="java.util.List">
+  	insert into AS_ACCESS_SITE_CHECK_RECORDIDEA
+  	(user_id,access_specialty_id, standard_detail_id, record_type,personalidea ,user_name)
+  	 values
+  	 <foreach collection="list" item="item" index="index" separator=",">
+  	 	(#{item.userId},#{item.accessSpecialtyId},#{item.standardDetailId},#{item.recordType},#{item.personalidea},#{item.userName})
+  	 </foreach>
+  </insert>
+    <select id="getListByRecord" parameterType="audit.model.assess.AsAccessSiteCheckRecordidea"  resultMap="BaseResultMap">
+      select  distinct
+		    user_id, access_specialty_id, standard_detail_id, record_type, personalIdea, 
+		    user_name
+      from AS_ACCESS_SITE_CHECK_RECORDIDEA
+           <where>
+	      <if test="accessSpecialtyId != null" >
+	         and  access_specialty_id = #{accessSpecialtyId}
+	      </if>
+	      <if test="recordType != null" >
+	         and record_type = #{recordType}
+	      </if>
+	      order by user_id
+     </where>
+  </select>
+</mapper>

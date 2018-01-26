@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsAccessSiteCheckRecordMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.assess.AsAccessSiteCheckRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="access_specialty_id" property="accessSpecialtyId" jdbcType="INTEGER" />
+    <result column="standard_detail_id" property="standardDetailId" jdbcType="INTEGER" />
+    <result column="record_type" property="recordType" jdbcType="TINYINT" />
+    <result column="score" property="score" jdbcType="NUMERIC" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, access_specialty_id, standard_detail_id, record_type, score, user_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from AS_ACCESS_SITE_CHECK_RECORD
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from AS_ACCESS_SITE_CHECK_RECORD
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.assess.AsAccessSiteCheckRecord" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ACCESS_SITE_CHECK_RECORD (id, user_id, access_specialty_id, 
+      standard_detail_id, record_type, score, user_name
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{accessSpecialtyId,jdbcType=INTEGER}, 
+      #{standardDetailId,jdbcType=INTEGER}, #{recordType,jdbcType=TINYINT}, #{score,jdbcType=NUMERIC}, #{userName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.assess.AsAccessSiteCheckRecord" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ACCESS_SITE_CHECK_RECORD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="accessSpecialtyId != null" >
+        access_specialty_id,
+      </if>
+      <if test="standardDetailId != null" >
+        standard_detail_id,
+      </if>
+      <if test="recordType != null" >
+        record_type,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="userName != null" >
+        user_name
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="accessSpecialtyId != null" >
+        #{accessSpecialtyId,jdbcType=INTEGER},
+      </if>
+      <if test="standardDetailId != null" >
+        #{standardDetailId,jdbcType=INTEGER},
+      </if>
+      <if test="recordType != null" >
+        #{recordType,jdbcType=TINYINT},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=NUMERIC},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.assess.AsAccessSiteCheckRecord" >
+    update AS_ACCESS_SITE_CHECK_RECORD
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="accessSpecialtyId != null" >
+        access_specialty_id = #{accessSpecialtyId,jdbcType=INTEGER},
+      </if>
+      <if test="standardDetailId != null" >
+        standard_detail_id = #{standardDetailId,jdbcType=INTEGER},
+      </if>
+      <if test="recordType != null" >
+        record_type = #{recordType,jdbcType=TINYINT},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=NUMERIC},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=NUMERIC},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="updateBySelectiveSelective" parameterType="audit.model.assess.AsAccessSiteCheckRecord" >
+    update AS_ACCESS_SITE_CHECK_RECORD
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="accessSpecialtyId != null" >
+        access_specialty_id = #{accessSpecialtyId,jdbcType=INTEGER},
+      </if>
+      <if test="standardDetailId != null" >
+        standard_detail_id = #{standardDetailId,jdbcType=INTEGER},
+      </if>
+      <if test="recordType != null" >
+        record_type = #{recordType,jdbcType=TINYINT},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=NUMERIC},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=NUMERIC},
+      </if>
+    </set>
+     <where>
+           <if test="userId != null" >
+             and  user_id = #{userId,jdbcType=INTEGER}
+          </if>
+	      <if test="accessSpecialtyId != null" >
+	         and  access_specialty_id = #{accessSpecialtyId}
+	      </if>
+	      <if test="standardDetailId != null" >
+	         and standard_detail_id = #{standardDetailId}
+	      </if>
+	      <if test="recordType != null" >
+	         and record_type = #{recordType}
+	      </if>
+     </where>
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.assess.AsAccessSiteCheckRecord" >
+    update AS_ACCESS_SITE_CHECK_RECORD
+    set user_id = #{userId,jdbcType=INTEGER},
+      access_specialty_id = #{accessSpecialtyId,jdbcType=INTEGER},
+      standard_detail_id = #{standardDetailId,jdbcType=INTEGER},
+      record_type = #{recordType,jdbcType=TINYINT},
+      score = #{score,jdbcType=NUMERIC},
+      user_name = #{userName,jdbcType=NUMERIC}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <insert id="insertSceneScores" parameterType="java.util.List">
+  	insert into AS_ACCESS_SITE_CHECK_RECORD
+  	(user_id,access_specialty_id, standard_detail_id, record_type,score ,user_name)
+  	 values
+  	 <foreach collection="list" item="item" index="index" separator=",">
+  	 	(#{item.userId},#{item.accessSpecialtyId},#{item.standardDetailId},#{item.recordType},#{item.score},#{item.userName})
+  	 </foreach>
+  </insert>
+  <select id="getListByRecord" parameterType="audit.model.assess.AsAccessSiteCheckRecord"  resultMap="BaseResultMap">
+      select  distinct
+         user_id, access_specialty_id, standard_detail_id, record_type, score, user_name
+      from AS_ACCESS_SITE_CHECK_RECORD
+           <where>
+	      <if test="accessSpecialtyId != null" >
+	         and  access_specialty_id = #{accessSpecialtyId}
+	      </if>
+	      <if test="recordType != null" >
+	         and record_type = #{recordType}
+	      </if>
+	      order by user_id
+     </where>
+  </select>
+    <select id="findIsRecord" parameterType="java.util.Map"  resultMap="BaseResultMap">
+      select 
+      <include refid="Base_Column_List" />
+      from AS_ACCESS_SITE_CHECK_RECORD
+           <where>
+	      <if test="accessSpecialtyId != null" >
+	         and  access_specialty_id = #{accessSpecialtyId}
+	      </if>
+	      <if test="userId != null" >
+	         and  user_id = #{userId}
+	      </if>
+	      <if test="recordType != null" >
+	         and record_type = #{recordType}
+	      </if>
+	      order by user_id
+     </where>
+  </select>
+  <!-- 我是分割线 -->
+  
+  <select id="getListByQuery" parameterType="java.util.Map" resultMap="BaseResultMap">
+      select 
+    <include refid="Base_Column_List" />
+    from AS_ACCESS_SITE_CHECK_RECORD
+    where access_specialty_id = #{accessSpecialtyId,jdbcType=INTEGER} and  standard_detail_id = #{detailId,jdbcType=INTEGER}
+    and record_type = #{recordType,jdbcType=TINYINT}
+  </select>
+</mapper>

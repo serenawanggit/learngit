@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.SupportMaterialLibraryMapper">
+	 <resultMap id="BaseResultMap" type="audit.model.SupportMaterialLibraryTreeNode">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="treename" property="treename" jdbcType="VARCHAR" />
+		<result column="level" property="level" jdbcType="INTEGER" />
+		<result column="parent" property="parentId" jdbcType="INTEGER" />
+		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
+		<result column="isenabled" property="isenabled" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="UserResultMap" type="audit.model.SupportMaterialLibraryUserInfo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="treendid" property="treeNdId" jdbcType="INTEGER" />
+		<result column="dutypersonid" property="dutyPersonId" jdbcType="INTEGER" />
+		<result column="dutypersonname" property="dutyPersonName" jdbcType="VARCHAR" />
+		<result column="organizationname" property="organizationName" jdbcType="VARCHAR" />
+		<result column="starttime" property="startTime" jdbcType="TIMESTAMP" />
+		<result column="endtime" property="endTime" jdbcType="TIMESTAMP" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap id="FileResultMap" type="audit.model.SupportMaterialLibraryFile">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="userid" property="userId" jdbcType="INTEGER" />
+		<result column="file_name" property="fileName" jdbcType="VARCHAR" />
+		<result column="file_type" property="fileType" jdbcType="VARCHAR" />
+		<result column="file_url" property="fileUrl" jdbcType="VARCHAR" />
+		<result column="file_online_url" property="fileOnlineUrl" jdbcType="VARCHAR" />
+		<result column="file_online_name" property="fileOnlineName" jdbcType="VARCHAR" />
+		<result column="upload_time" property="uploadTime" jdbcType="VARCHAR" />
+		<result column="table_sort" property="tableSort" jdbcType="INTEGER" />
+		<result column="tree_node_id" property="treeNodeId" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap type="audit.model.SupportMaterialLibraryTemplate" id="TmplateResultMap">
+ 		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="userid" property="userId" jdbcType="INTEGER" />
+		<result column="SDT_id" property="sdtId" jdbcType="INTEGER" />
+		<result column="treendid" property="treeNdId" jdbcType="INTEGER" />
+		<result column="sort" property="sort" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap id="BaseResultMap1" type="audit.model.DataTemplate" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="TABLE_NAME" property="tableName" jdbcType="VARCHAR" />
+    <result column="OBJECT_NAME" property="objectName" jdbcType="VARCHAR" />
+    <result column="TIME_TYPE" property="timeType" jdbcType="CHAR" />
+    <result column="CATEGORY_ID" property="categoryId" jdbcType="DECIMAL" />
+    <result column="IS_DEL" property="isDel" jdbcType="CHAR" />
+    <result column="TABLE_SOURCE" property="tableSource" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="TABLE_STYLE" property="tableStyle" jdbcType="VARCHAR" />
+    <result column="TABLE_TYPE" property="tableType" jdbcType="DECIMAL" />
+    <result column="IS_BASE" property="isBase" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List1" >
+    ID, TABLE_NAME, OBJECT_NAME, TIME_TYPE, CATEGORY_ID, IS_DEL, TABLE_SOURCE, REMARK, 
+    TABLE_STYLE, TABLE_TYPE, IS_BASE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap1" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List1" />
+    from SHUTCM_DATA_TEMPLATE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+	<insert id="saveTemplate" parameterType="java.util.List">
+		insert into support_material_library_datafield
+		(userid,SDT_id,treendid)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >  
+        	(#{item.userId,jdbcType=INTEGER},#{item.sdtId,jdbcType=INTEGER},#{item.treeNdId,jdbcType=INTEGER})  
+    	</foreach> 
+	</insert>
+	<!-- 插入 -->
+	<insert id="saveTreeNode" parameterType="audit.model.SupportMaterialLibraryTreeNode" >
+		insert into dbo.support_material_library_treenode_table 
+		(treename,level,parent,remarks,isenabled)
+		values (#{treename,jdbcType=VARCHAR},#{level,jdbcType=INTEGER},#{parentId,jdbcType=INTEGER},
+		#{remarks,jdbcType=VARCHAR},#{isenabled,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	<select id="selectDataFieldById"  resultType="int" parameterType="audit.model.SupportMaterialLibraryTemplate">
+		select COUNT(id)
+		from support_material_library_datafield
+		where treendid = #{treeNdId} and SDT_id = #{sdtId} and userid = #{userId}
+	</select>
+	<insert id="saveUserInfo" parameterType="audit.model.SupportMaterialLibraryUserInfo" >
+		insert into support_material_library_userinfo 
+		(treendid,dutypersonid,dutypersonname,organizationname,starttime,endtime,status)
+		values 
+		(
+			#{treeNdId,jdbcType=VARCHAR},#{dutyPersonId,jdbcType=INTEGER},
+			#{dutyPersonName,jdbcType=INTEGER},#{organizationName,jdbcType=VARCHAR},
+			#{startTime,jdbcType=TIMESTAMP},#{endTime,jdbcType=TIMESTAMP},
+			#{status,jdbcType=INTEGER}
+		)
+	</insert>
+	
+	<insert id="saveUploadFile" parameterType="audit.model.SupportMaterialLibraryFile" >
+		insert into dbo.support_material_library_file 
+		(userid,file_name,file_type,file_url,file_online_url,file_online_name,upload_time,table_sort,tree_node_id)
+		values 
+		(#{userId,jdbcType=INTEGER},#{fileName,jdbcType=VARCHAR},#{fileType,jdbcType=VARCHAR},
+		 #{fileUrl,jdbcType=VARCHAR},#{fileOnlineUrl,jdbcType=VARCHAR},#{fileOnlineName,jdbcType=VARCHAR},
+		 #{uploadTime,jdbcType=VARCHAR},#{tableSort,jdbcType=INTEGER},#{treeNodeId,jdbcType=INTEGER}
+		)
+	</insert>
+	
+	<!-- <select id="selectAllFileByNodeIdAndUserId" parameterType="hashmap" resultType="audit.model.SupportMaterialLibraryFile">
+		select * from support_material_library_userinfo
+		where dutypersonid = #{userId} 
+		and treendid = #{treeNodeId}
+		and status = 0
+	</select> -->
+	<!-- <select id="selectAllFieldByTreeNodeId" parameterType="Integer" resultType="Integer">
+		select SDT_id from support_material_library_datafield
+		where treendid = #{treeNdId,jdbcType=INTEGER}
+	</select> -->
+	<select id="selectAllFieldByTreeNodeIdTO" parameterType="Integer" resultType="java.util.HashMap">
+		select id,SDT_id,sort from support_material_library_datafield
+		where treendid = #{treeNdId,jdbcType=INTEGER}
+		order by sort
+	</select>
+	<select id="selectUserIsStatus" parameterType="hashmap" resultType="audit.model.SupportMaterialLibraryFile">
+		select * from support_material_library_userinfo
+		where dutypersonid = #{userId} 
+		and treendid = #{treeNodeId}
+		and status = 0
+	</select>
+	<select id="selectUserInfoById" parameterType="Integer" resultMap="UserResultMap">
+		<!-- select * from support_material_library_userinfo
+		where dutypersonid = #{dutyPersonId} -->
+		select min(id),dutypersonname
+		from support_material_library_userinfo
+		where dutypersonid = #{dutyPersonId}
+		group by dutypersonname
+	</select>
+	<select id="selectAllFileByUserId" parameterType="Integer" resultMap="FileResultMap">
+		select * from support_material_library_file
+		where tree_node_id = #{treeNodeId}
+		<!-- where userid = #{userId}  -->
+		order by table_sort
+	</select>
+	<select id="selectFileById" parameterType="Integer" resultMap="FileResultMap">
+		select * from support_material_library_file
+		where id = #{id} 
+	</select>
+	<select id="selectUserByTreeNodeIdTo" parameterType="Integer" resultMap="UserResultMap">
+		select id,treendid,dutypersonid,dutypersonname,organizationname,starttime,endtime,
+		<!-- CONVERT(VARCHAR(10),starttime,121) as starttime,
+		CONVERT(VARCHAR(10),endtime,121) as endtime, -->
+		status
+		from support_material_library_userinfo
+		where treendid=#{id}
+	</select>
+	<select id="selectUserByTreeNodeId" parameterType="Integer" resultMap="UserResultMap">
+	　　	select id,treendid,dutypersonid,dutypersonname,organizationname,starttime,endtime,status 
+		from support_material_library_userinfo 
+		where treendid in
+	　　<foreach item="userItem" collection="list" open="(" separator="," close=")">  
+			#{userItem}
+		</foreach>
+	</select> 
+	<select id="selectFilesUseDeletes" parameterType="Integer" resultMap="FileResultMap">
+		select * from support_material_library_file
+		where id in
+		<foreach item="fileItem" collection="array" open="(" separator="," close=")">
+            #{fileItem}
+        </foreach>
+	</select>
+	<select id="selectAllSupportFile" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		select * from support_material_library_treenode_table
+	</select>
+	<update id="updateTreeNode" parameterType="audit.model.SupportMaterialLibraryTreeNode">
+		UPDATE support_material_library_treenode_table 
+		SET 
+		treename=#{treename},  
+		level=#{level},
+		parent=#{parentId}
+		WHERE id=#{id}  
+	</update>
+	<update id="updateFileById" parameterType="audit.model.SupportMaterialLibraryFile">
+		update support_material_library_file
+  		set table_sort = #{tableSort}
+  		where id = #{id}
+	</update>
+	<update id="updateDataField" parameterType="audit.model.SupportMaterialLibraryTemplate">
+		update support_material_library_datafield 
+		set sort = #{sort}
+		where id = #{id}
+	</update>
+	<delete id="deleteFiles" parameterType="Integer">
+		delete support_material_library_file
+		where id in 
+		<foreach item="fileItem" collection="array" open="(" separator="," close=")">
+            #{fileItem}
+        </foreach>
+	</delete>
+	<delete id="deleteFileById" parameterType="Integer">
+		delete support_material_library_file
+		where id = #{id} 
+	</delete>
+	<delete id="deleteTreeNode" parameterType="Integer" >
+		delete from support_material_library_treenode_table
+		where id=#{id} 
+	</delete>
+	<delete id="deleteUserById" parameterType="Integer" >
+		delete from support_material_library_userinfo
+		where id=#{id}
+	</delete>
+	
+	<delete id="deleteDataFieldById" parameterType="Integer">
+		delete support_material_library_datafield
+		where id = #{id} 
+	</delete>
+	<delete id="deleteDataFields" parameterType="Integer">
+		delete support_material_library_datafield
+		where id in 
+		<foreach item="dataItem" collection="array" open="(" separator="," close=")">
+            #{dataItem}
+        </foreach>
+	</delete>
+	<delete id="deleteUsers" parameterType="Integer">
+		delete support_material_library_userinfo
+		where id in 
+		<foreach item="userItem" collection="array" open="(" separator="," close=")">
+            #{userItem}
+        </foreach>
+	</delete>
+	<sql id="Base_Column_List">
+		id,treename,level,parent,remarks,isenabled,
+		CONVERT(NVARCHAR(100),creatime,20) as createTime
+	</sql>
+	<sql id="Base_Column_List_UserInfo">
+		id,treendid,dutypersonid,dutypersonname,organizationname,
+		CONVERT(VARCHAR(10),starttime,121),
+		CONVERT(VARCHAR(10),endtime,121),
+		status
+	</sql>
+	<select id="selectTreeNodeById" parameterType="Integer" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List" />
+		from support_material_library_treenode_table
+		where id=#{id}
+	</select>
+	
+	<!-- 根据条件查询SHUTCM_DATA_TEMPLATE信息 -->
+	<select id="findDataTemplateByWhere" parameterType="map" resultType="map">
+		select p.TABLE_NAME,(select showname from userinfo where id=t.TBR) as tbr,(select showname from userinfo where id=t.SHR) shr,(select showname from userinfo where id=t.XJSHR) xjshr,t.TBZT,t.SHZT
+		 from SHUTCM_DATA_TEMPLATE p,SHUTCM_DATA_TASKINFO t where p.ID=t.TEMPLATE_ID 
+		<if test="INSERT_VSERSION!=null">
+			and t.INSERT_VSERSION=#{INSERT_VSERSION} 
+		</if>
+		<if test="CATEGORY_ID!=null">
+			and p.CATEGORY_ID=#{CATEGORY_ID} 
+		</if>
+		<if test="TABLE_NAME!=null">
+			and p.TABLE_NAME like #{TABLE_NAME}
+		</if>
+	</select>
+	
+	<select id="findDataTemplateByOrganizationid" parameterType="map" resultType="map">
+		select t.TABLE_NAME,(select showname from userinfo where id=ti.TBR) as tbr,(select showname from userinfo where id=ti.SHR) shr,(select showname from userinfo where id=ti.XJSHR) xjshr,ti.TBZT,ti.SHZT from SHUTCM_DATA_TEMPLATE t,SHUTCM_DATA_TASKINFO ti,organization o,userinfo u where t.ID=ti.TEMPLATE_ID and ti.TBR=u.id and u.organization=o.id
+		 <if test="UTYPE!=null">
+		 	 and o.UTYPE=#{UTYPE} 
+		 </if>
+		 <if test="INSERT_VSERSION!=null">
+		 	 and ti.INSERT_VSERSION=#{INSERT_VSERSION}
+		 </if>
+	</select>
+	
+	
+	<!--用来定义可重用的sql代码段
+	<sql id="Base_Column_List">
+		sid,filename,dir,uploader,uploadername,uploadtime,flag ,status,pid
+	</sql>
+	
+	查询所有数据
+	<select id="selectAll_data" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		SELECT * FROM AS_P_SUPPORTFILE
+	</select>
+	
+	查询单个
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM AS_P_SUPPORTFILE
+		WHERE sID = #{sid,jdbcType=INTEGER}
+	</select>
+	
+	插入
+	<insert id="insert" parameterType="audit.model.Support_File">
+		insert into AS_P_SUPPORTFILE (filename,dir,uploader,uploadername,uploadtime,flag,status,pid
+		)
+		values (#{filename,jdbcType=VARCHAR},#{dir,jdbcType=VARCHAR},#{uploader,jdbcType=INTEGER},
+		#{uploadername,jdbcType=VARCHAR},#{uploadtime,jdbcType=TIMESTAMP}, #{flag,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
+		#{pid,jdbcType=INTEGER}
+		)
+	</insert>
+	删除
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from AS_P_SUPPORTFILE
+		where sid = #{sid,jdbcType=INTEGER}
+	</delete>
+	
+	更新
+	<update id="update_supportfile" parameterType="audit.model.Support_File">  
+        UPDATE AS_P_SUPPORTFILE SET STATUS=#{STATUS}  WHERE sID=#{sID}  
+    </update>  
+    
+    根据方案id查询支撑材料
+	<select id="selectFileByPid" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		SELECT * FROM AS_P_SUPPORTFILE where pid = #{pid}
+	</select>
+	 -->
+</mapper>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsAccessProfileDataMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.assess.AsAccessProfileData" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="specialty_id" property="specialtyId" jdbcType="INTEGER" />
+    <result column="specialty_name" property="specialtyName" jdbcType="VARCHAR" />
+    <result column="YEAR" property="year" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="save_time" property="saveTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, specialty_id, specialty_name, YEAR, state, save_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from AS_ACCESS_PROFILE_DATA
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from AS_ACCESS_PROFILE_DATA
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.assess.AsAccessProfileData" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ACCESS_PROFILE_DATA (id, specialty_id, specialty_name, 
+      YEAR, state, save_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{specialtyId,jdbcType=INTEGER}, #{specialtyName,jdbcType=VARCHAR}, 
+      #{year,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{saveTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.assess.AsAccessProfileData" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ACCESS_PROFILE_DATA
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="specialtyId != null" >
+        specialty_id,
+      </if>
+      <if test="specialtyName != null" >
+        specialty_name,
+      </if>
+      <if test="year != null" >
+        YEAR,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="saveTime != null" >
+        save_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="specialtyId != null" >
+        #{specialtyId,jdbcType=INTEGER},
+      </if>
+      <if test="specialtyName != null" >
+        #{specialtyName,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null" >
+        #{year,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="saveTime != null" >
+        #{saveTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.assess.AsAccessProfileData" >
+    update AS_ACCESS_PROFILE_DATA
+    <set >
+      <if test="specialtyId != null" >
+        specialty_id = #{specialtyId,jdbcType=INTEGER},
+      </if>
+      <if test="specialtyName != null" >
+        specialty_name = #{specialtyName,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null" >
+        YEAR = #{year,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="saveTime != null" >
+        save_time = #{saveTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.assess.AsAccessProfileData" >
+    update AS_ACCESS_PROFILE_DATA
+    set specialty_id = #{specialtyId,jdbcType=INTEGER},
+      specialty_name = #{specialtyName,jdbcType=VARCHAR},
+      YEAR = #{year,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      save_time = #{saveTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 我是分割线 -->
+  
+  <select id="getAllVersion" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from AS_ACCESS_PROFILE_DATA
+    where specialty_id = #{specialtyId,jdbcType=INTEGER} and  YEAR = #{year,jdbcType=INTEGER} 
+    and state = 0
+    order by id desc
+  </select>
+</mapper>

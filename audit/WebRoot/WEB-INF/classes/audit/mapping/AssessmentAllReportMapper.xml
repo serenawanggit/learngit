@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AssessmentAllReportMapper" >
+
+  <select id="getAllReports"  resultType="map">
+  select id, upload_time, upload_address, upload_files from ASSESSMENT_ALLREPORT where USERID=#{0} 
+  and tYear =#{1} and specialty_id = #{2}
+  </select>
+  <select id="getById" resultType="map">
+  select id, upload_time, upload_address, upload_files  from ASSESSMENT_ALLREPORT where id =#{0}
+  
+  </select>
+  <insert id="insert" parameterType="map">
+  insert into ASSESSMENT_ALLREPORT(tYear,specialty_id,userid,upload_files,upload_address,upload_time)
+  values(#{tYear,jdbcType=VARCHAR},#{specialty_id,jdbcType=DECIMAL},#{userid,jdbcType=DECIMAL},#{upload_files,jdbcType=VARCHAR},
+  #{upload_address,jdbcType=VARCHAR},#{upload_time,jdbcType=VARCHAR})
+  </insert>
+  
+  <delete id="delete">
+  delete from ASSESSMENT_ALLREPORT where id = #{0}
+  </delete>
+  
+</mapper>

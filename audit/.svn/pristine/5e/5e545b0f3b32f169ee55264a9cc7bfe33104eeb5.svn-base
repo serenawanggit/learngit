@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsAccessExamineScheduleVoMapper">
+  <resultMap id="AccessYearResultMap" type="audit.model.assess.AsAccessInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="access_year" property="accessYear" jdbcType="VARCHAR" />
+    <result column="start_datetime" property="startDatetime" jdbcType="TIMESTAMP" />
+    <result column="end_datetime" property="endDatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+	<resultMap id="BaseResultMap" type="audit.model.assess.vo.AsAccessExamineScheduleVo">
+		<result column="id" property="id" jdbcType="INTEGER"/>
+		<result column="accessId" property="accessId" jdbcType="INTEGER"/>
+		<result column="accessName" property="accessName" jdbcType="VARCHAR"/>
+		<result column="academyId" property="academyId" jdbcType="INTEGER"/>
+		<result column="academyName" property="academyName" jdbcType="VARCHAR"/>
+		<result column="specialtyId" property="specialtyId" jdbcType="INTEGER"/>
+		<result column="specialtyName" property="specialtyName" jdbcType="VARCHAR"/>
+		<result column="expertId" property="expertId" jdbcType="INTEGER"/>
+		<result column="expertName" property="expertName" jdbcType="VARCHAR"/>
+		<result column="scheduleDate" property="scheduleDate" jdbcType="DATE"/>
+		<result column="scheduleTime" property="scheduleTime" jdbcType="VARCHAR"/>
+		<result column="scheduleTask" property="scheduleTask" jdbcType="VARCHAR"/>
+	</resultMap>
+    <resultMap id="AsAccessSpecialtyResultMap" type="audit.model.assess.AsAccessSpecialty">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="specialty_id" jdbcType="INTEGER" property="specialtyId" />
+    <result column="specialty_name" jdbcType="VARCHAR" property="specialtyName" />
+    <result column="access_id" jdbcType="INTEGER" property="accessId" />
+    <result column="participate_type" jdbcType="TINYINT" property="participateType" />
+    <result column="start_datetime" jdbcType="TIMESTAMP" property="startDatetime" />
+    <result column="end_datetime" jdbcType="TIMESTAMP" property="endDatetime" />
+    <result column="is_complete" jdbcType="TINYINT" property="isComplete" />
+    <result column="default_standart_id" jdbcType="VARCHAR" property="defaultStandartId" />
+    <result column="academy_id" jdbcType="INTEGER" property="academyId" />
+    <result column="academy_name" jdbcType="VARCHAR" property="academyName" />
+    <result column="user_group_id" jdbcType="INTEGER" property="userGroupId" />
+  </resultMap>
+    <resultMap id="AsAccessUserResultMap" type="audit.model.assess.AsAccessUser" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_type" property="userType" jdbcType="TINYINT" />
+    <result column="user_group_id" property="userGroupId" jdbcType="INTEGER" />
+  </resultMap> 
+  <sql id="Specialty_Column_List">
+    id, specialty_id, specialty_name, access_id, participate_type, start_datetime, end_datetime, 
+    is_complete, default_standart_id, academy_id, academy_name, user_group_id
+  </sql>
+  <sql id="AccessYear_Column_List">
+    id,name,access_year,start_datetime,end_datetime
+  </sql>
+   <select id="findAccessYear"  useCache="false" flushCache="false" resultMap="AccessYearResultMap">
+   		select
+   		<include refid="AccessYear_Column_List"/>
+   		from AS_ACCESS_INFO  order by access_year desc
+   </select>
+   <select id="findSpecialtyByAccessIdAndAcademyIdAndSpecialtyId"  useCache="false" flushCache="false" resultMap="AsAccessSpecialtyResultMap">
+  	select 
+    <include refid="Specialty_Column_List" />
+    from AS_ACCESS_SPECIALTY
+    <where>
+         participate_type = 3
+    	<if test="accessId!=null and accessId!=''">
+    	   and access_id = #{accessId}
+    	</if>
+    	<if test="academyId!=null and academyId!=''">
+    	   and academy_id = #{academyId}
+    	</if>
+    	<if test="specialtyId!=null and specialtyId!=''">
+    	   and specialty_id = #{specialtyId}
+    	</if>
+    </where>
+  </select>
+  <select id="selectValues" useCache="false" flushCache="false" resultMap="BaseResultMap">
+	        Select distinct
+	        	aaes.id as id,
+	        	aaes.expert_id as expertId,
+	        	convert(varchar(20), aaes.schedule_date,120) as showScheduleDate,
+	        	aaes.schedule_time as scheduleTime,
+	        	aaes.schedule_task as scheduleTask,
+	        	aau.user_name as expertName,
+	        	aai.id as accessId,
+	        	aai.name as accessName,
+	        	aas.academy_id as academyId,
+	        	aas.academy_name as academyName,
+	        	aas.specialty_id as specialtyId,
+	        	aas.specialty_name as specialtyName
+	        From           AS_ACCESS_EXAMINE_SCHEDULE aaes
+	             left join AS_ACCESS_SPECIALTY        aas on aaes.access_specialty_id = aas.id
+	             left join AS_ACCESS_USER             aau on aas.user_group_id = aau.user_group_id  and aaes.expert_id = aau.user_id
+	             left join AS_ACCESS_INFO             aai on aas.access_id = aai.id
+    <where>
+    	<if test="accessId!=null and accessId!=''">
+    	   and access_id = #{accessId}
+    	</if>
+    	<if test="academyId!=null and academyId!=''">
+    	   and academy_id = #{academyId}
+    	</if>
+    	<if test="specialtyId!=null and specialtyId!=''">
+    	   and specialty_id = #{specialtyId}
+    	</if>
+    </where>
+	</select>
+		<select id="getExamineExpert" useCache="false" flushCache="false" resultMap="AsAccessUserResultMap">
+	 select 
+	  a.id,a.user_id,
+ 	  case when a.user_type = 3
+	  then
+		a.user_name +'(组长)'
+		else
+	   a.user_name
+	   end as user_name,
+	  a.user_name,a.user_type,a.user_group_id,a.operate_type
+	  from AS_ACCESS_USER a
+	  left join AS_ACCESS_SPECIALTY b on a.user_group_id = b.user_group_id
+	  <where>
+	        user_type in (3,4) and operate_type = 1
+	     <if test="accessSpecialtyId!=null and accessSpecialtyId!=''">
+	      and b.id = #{accessSpecialtyId}
+	     </if>
+	  </where>
+	</select>
+</mapper>

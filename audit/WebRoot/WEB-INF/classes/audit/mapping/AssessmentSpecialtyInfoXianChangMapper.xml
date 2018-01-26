@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AssessmentSpecialtyInfoXianchangMapper">
+	<!-- 听课看课总体情况记录表 -->
+	<insert id="insertAssess_lecture_table" parameterType="audit.model.quality.vo.Assess_lecture_tableVo">
+		insert
+		into ASSESS_LECTURE_TABLE(
+		COURSE_SHITUATION,
+		TEACHER_SHITUATION,
+		FROM_INSPECTION,
+		OVERALL_EVALUA,
+		PROBLEMS_AND_SUGGESTTIONS,
+		USERID,
+		SYEAR,
+		OBJECTID,
+		TYPE,
+		EVELUATION_DATE
+		) values (
+		#{COURSE_SHITUATION},
+		#{TEACHER_SHITUATION},
+		#{FROM_INSPECTION},
+		#{OVERALL_EVALUA},
+		#{PROBLEMS_AND_SUGGESTTIONS},
+		#{USERID},
+		#{SYEAR},
+		#{OBJECTID},
+		#{TYPE},
+		#{EVELUATION_DATE}
+		)
+	</insert>
+
+	<select id="selectAssess_lecture_tableVo" resultType="audit.model.quality.vo.Assess_lecture_tableVo"
+		parameterType="audit.model.quality.vo.Assess_lecture_tableVo">
+		select * from ASSESS_LECTURE_TABLE
+		where 1=1
+		<if test="SYEAR!=null and SYEAR!=''">
+			and ASSESS_LECTURE_TABLE.SYEAR like '%'+#{SYEAR}+'%'
+		</if>
+		
+		
+		<if test="sp_name==null">
+			and ASSESS_LECTURE_TABLE.OBJECTID =#{OBJECTID}
+		</if>
+		<if test="sp_name!=null and sp_name!=''">
+			and  ASSESS_LECTURE_TABLE.OBJECTID in (
+					select ID from  ASSESSMENT_SPECIALTY_INFO
+						where  ASSESSMENT_SPECIALTY_INFO.SPECIALTY_NAME = #{sp_name}
+			)
+		</if>
+		
+		<if test="user_name!=null and  user_name!=''">
+			and	ASSESS_LECTURE_TABLE.USERID in(
+				select id from userinfo
+				where userinfo.showname like '%'+#{user_name}+'%'
+			)
+		</if>
+		<if test="user_name==null">
+			and ASSESS_LECTURE_TABLE.USERID =#{USERID}
+		</if>
+		
+		
+		<if test="TYPE!=null and TYPE!=''">
+			and ASSESS_LECTURE_TABLE.TYPE =#{TYPE}
+		</if>
+	</select>
+
+	<delete id="deleteAssess_lecture_tableById">
+		delete ASSESS_LECTURE_TABLE where
+		ASSESS_LECTURE_TABLE.ID=#{0}
+	</delete>
+
+	<select id="assess_lecture_tableIsHashById" resultType="int">
+		select
+		COUNT(id) from ASSESS_LECTURE_TABLE
+		where ASSESS_LECTURE_TABLE.id=#{0}
+	</select>
+
+	<update id="updateAssess_lecture_tableById">
+		update ASSESS_LECTURE_TABLE set
+		ASSESS_LECTURE_TABLE.COURSE_SHITUATION=#{0},
+		ASSESS_LECTURE_TABLE.TEACHER_SHITUATION=#{1},
+		ASSESS_LECTURE_TABLE.FROM_INSPECTION=#{2},
+		ASSESS_LECTURE_TABLE.OVERALL_EVALUA=#{3},
+		ASSESS_LECTURE_TABLE.EVELUATION_DATE=#{4},
+		ASSESS_LECTURE_TABLE.PROBLEMS_AND_SUGGESTTIONS=#{6}
+		where
+		ASSESS_LECTURE_TABLE.id=#{5}
+	</update>
+	<!-- 查询专业对应的现场考察时间 -->
+	<select id="selectSite_visits" resultType="String">
+		select ASSESSMAENT_DATE_SPECIALTY.SITE_VISITS from ASSESSMAENT_DATE_SPECIALTY
+		where ASSESSMAENT_DATE_SPECIALTY.SPECIALTY_INFO_ID=#{0}
+	</select>
+	<!-- 试卷情况总体评价表 -->
+	<select id="select_assessment_examination_paper_situation_Vo"
+		resultType="audit.model.quality.vo.Assessment_examination_paper_situation_Vo"
+		parameterType="audit.model.quality.vo.Assessment_examination_paper_situation_Vo">
+		
+		select * from ASSESSMENT_EXAMINATION_PAPER_SITUATION
+		where 1=1
+		<if test="SYEAR!=null and SYEAR!=''">
+			and ASSESSMENT_EXAMINATION_PAPER_SITUATION.SYEAR like
+			'%'+#{SYEAR}+'%'
+		</if>
+		<if test="sp_name==null">
+			and ASSESSMENT_EXAMINATION_PAPER_SITUATION.OBJECTID
+			=#{OBJECTID}
+		</if>
+		<if test="sp_name!=null and sp_name!=''">
+			and  ASSESSMENT_EXAMINATION_PAPER_SITUATION.OBJECTID in (
+					select ID from  ASSESSMENT_SPECIALTY_INFO
+						where  ASSESSMENT_SPECIALTY_INFO.SPECIALTY_NAME like '%'+#{sp_name}+'%' 
+			)
+		</if>
+		<if test="user_name!=null and  user_name!=''">
+			and	ASSESSMENT_EXAMINATION_PAPER_SITUATION.USERID in(
+				select id from userinfo
+				where userinfo.showname  like '%'+#{user_name}+'%' 
+			)
+		</if>
+		<if test="user_name==null">
+			and ASSESSMENT_EXAMINATION_PAPER_SITUATION.USERID
+			=#{USERID}
+		</if>
+		<if test="TYPE!=null and TYPE!=''">
+			and ASSESSMENT_EXAMINATION_PAPER_SITUATION.TYPE =#{TYPE}
+		</if>
+	</select>
+
+	<insert id="insertAssessment_examination_paper_situation">
+		insert
+		into ASSESSMENT_EXAMINATION_PAPER_SITUATION(
+		EXAMINATION_PAPER_SITUATION,
+		WAYS_READING,
+		GENERAL_EVALUATION_EXAMINATION,
+		PROBLEMS_AND_SUGGESTTIONS,
+		USERID ,
+		SYEAR ,
+		OBJECTID ,
+		TYPE ,
+		EVELUATION_DATE
+		)values(
+		#{0},
+		#{1},
+		#{2},
+		#{3},
+		#{4},
+		#{5},
+		#{6},
+		#{7},
+		#{8}
+		)
+	</insert>
+	<update id="updateAssessment_examination_paper_situation">
+		update ASSESSMENT_EXAMINATION_PAPER_SITUATION set
+		EXAMINATION_PAPER_SITUATION=#{0},
+		WAYS_READING=#{1},
+		GENERAL_EVALUATION_EXAMINATION=#{2},
+		PROBLEMS_AND_SUGGESTTIONS=#{3},
+		EVELUATION_DATE=#{4}
+		where ASSESSMENT_EXAMINATION_PAPER_SITUATION.ID=#{5}
+	</update>
+	
+	<select id="assess_examination_paper_situationIsHashById" resultType="int">
+		select
+		COUNT(id) from ASSESSMENT_EXAMINATION_PAPER_SITUATION
+		where ASSESSMENT_EXAMINATION_PAPER_SITUATION.id=#{0}
+	</select>
+	
+	<delete id="deleteAssess_examination_paper_situation">
+		delete ASSESSMENT_EXAMINATION_PAPER_SITUATION 
+		where ASSESSMENT_EXAMINATION_PAPER_SITUATION.ID=#{0}
+	</delete>
+	
+</mapper>

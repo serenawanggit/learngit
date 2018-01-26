@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="GB2312" ?>
+<resource>
+
+	<result>
+		<key>ASDS_table1-a</key>
+		<value>
+	         <![CDATA[
+	         	declare @date date
+				 set @date = ?
+
+select 
+	COUNT(distinct FIELD2) as [学院数],
+	SUM(CAST(FIELD3 as int)) as [应参评价人数],
+	SUM(CAST(FIELD4 as int)) as [完全评价人数],
+	CAST(case when SUM(CAST(FIELD4 as float)) is null or SUM(CAST(FIELD4 as float))=0 then 0 else  (SUM(CAST(FIELD4 as float))/SUM(CAST(FIELD3 as float)))*100 end as decimal(18,2)) as [评教率]
+from ODS_B1_2015_2016XNDEXQXBBGXYXSPJCPL
+where REPORT_DATE=@date and FIELD2<>'总计'
+			 ]]>
+		</value>
+	</result>
+	<result>
+		<key>ASDS_table1-b</key>
+		<value>
+	         <![CDATA[
+	         	declare @date date
+				 set @date = ?
+
+select 
+	FIELD2 as [学院],
+	FIELD3 as [需要评价人数],
+	FIELD4 as [完全评价人数],
+	FIELD5 as [部分评价人数],
+	FIELD6 as [完全未评价人数],
+	FIELD7 as [评教率]
+from ODS_B1_2015_2016XNDEXQXBBGXYXSPJCPL
+where REPORT_DATE=@date
+			 ]]>
+		</value>
+	</result>
+	<result>
+		<key>ASDS_table2-a</key>
+		<value>
+	         <![CDATA[
+	         	declare @date date
+				 set @date = ?
+
+select
+	FIELD1 as [优],
+	FIELD2 as [良],
+	FIELD3 as [中],
+	FIELD4 as [可],
+	FIELD5 as [差],
+	FIELD6 as [2优],
+	FIELD7 as [2良],
+	FIELD8 as [2中],
+	FIELD9 as [2可],
+	FIELD10 as [2差],
+	FIELD11 as [3优],
+	FIELD12 as [3良],
+	FIELD13 as [3中],
+	FIELD14 as [3可],
+	FIELD15 as [3差],
+	FIELD16 as [4优],
+	FIELD17 as [4良],
+	FIELD18 as [4中],
+	FIELD19 as [4可],
+	FIELD20 as [4差],
+	FIELD21 as [5优],
+	FIELD22 as [5良],
+	FIELD23 as [5中],
+	FIELD24 as [5可],
+	FIELD25 as [5差],
+	FIELD26 as [6优],
+	FIELD27 as [6良],
+	FIELD28 as [6中],
+	FIELD29 as [6可],
+	FIELD30 as [6差],
+	FIELD31 as [7优],
+	FIELD32 as [7良],
+	FIELD33 as [7中],
+	FIELD34 as [7可],
+	FIELD35 as [7差],
+	FIELD36 as [8优],
+	FIELD37 as [8良],
+	FIELD38 as [8中],
+	FIELD39 as [8可],
+	FIELD40 as [8差],
+	FIELD41 as [9优],
+	FIELD42 as [9良],
+	FIELD43 as [9中],
+	FIELD44 as [9可],
+	FIELD45 as [9差],
+	FIELD46 as [10优],
+	FIELD47 as [10良],
+	FIELD48 as [10中],
+	FIELD49 as [10可],
+	FIELD50 as [10差],
+	FIELD51 as [11优],
+	FIELD52 as [11良],
+	FIELD53 as [11中],
+	FIELD54 as [11可],
+	FIELD55 as [11差],
+	FIELD56 as [12优],
+	FIELD57 as [12良],
+	FIELD58 as [12中],
+	FIELD59 as [12可],
+	FIELD60 as [12差],
+	FIELD61 as [13优],
+	FIELD62 as [13良],
+	FIELD63 as [13中],
+	FIELD64 as [13可],
+	FIELD65 as [13差],
+	FIELD66 as [14优],
+	FIELD67 as [14良],
+	FIELD68 as [14中],
+	FIELD69 as [14可],
+	FIELD70 as [14差],
+	FIELD71 as [15优],
+	FIELD72 as [15良],
+	FIELD73 as [15中],
+	FIELD74 as [15可],
+	FIELD75 as [15差],
+	FIELD76 as [16],
+	FIELD77 as [17],
+	FIELD78 as [18]
+from ODS_B2_BJGYDXKCJXPJLB_XS_
+where REPORT_DATE=@date
+			 ]]>
+		</value>
+	</result>
+	<result>
+		<key>ASDS_table2-b</key>
+		<value>
+	         <![CDATA[
+	         	declare @date date
+				 set @date = ?
+
+select
+	FIELD1 as [平均得分],
+	FIELD2 as [2平均得分],
+	FIELD3 as [3平均得分],
+	FIELD4 as [4平均得分],
+	FIELD5 as [5平均得分],
+	FIELD6 as [6平均得分],
+	FIELD7 as [7平均得分],
+	FIELD8 as [8平均得分],
+	FIELD9 as [9平均得分],
+	FIELD10 as [10平均得分],
+	FIELD11 as [11平均得分],
+	FIELD12 as [12平均得分],
+	FIELD13 as [13平均得分],
+	FIELD14 as [14平均得分],
+	FIELD15 as [15平均得分],
+	FIELD16 as [综合评价均分]
+from ODS_B3_2015_2016XNDEXQXBBXSPJDFQK
+where REPORT_DATE=@date
+			 ]]>
+		</value>
+	</result>
+	<result>
+		<key>ASDS_table2-c</key>
+		<value>
+	         <![CDATA[
+	         	declare @date date
+				 set @date = ?
+
+select
+	FIELD1 as [学年学期],
+	AVG(cast(FIELD11 as float)) as [平均得分]
+from ODS_XSPJSJB
+where REPORT_DATE=@date
+group by FIELD1
+			 ]]>
+		</value>
+	</result>
+	<result>
+		<key>ASDS_table2-d</key>
+		<value>
+	         <![CDATA[
+	         	declare @date date
+				 set @date = ?
+
+select
+	[学年学期],
+	[学生有效评价课堂数],
+	[任课教师],
+	[评价得分≥90分课堂数],
+	cast((case when [学生有效评价课堂数] is null or [学生有效评价课堂数]=0 then 0 else (CAST([评价得分≥90分课堂数] as float)/CAST([学生有效评价课堂数] as float))*100 end) as decimal(18,2)) as [评价得分≥90分课堂数占有效评价课堂数],
+	[评价得分<90且≥85课堂数],
+	cast((case when [学生有效评价课堂数] is null or [学生有效评价课堂数]=0 then 0 else (CAST([评价得分<90且≥85课堂数] as float)/CAST([学生有效评价课堂数] as float))*100 end) as decimal(18,2)) as [评价得分<90且≥85课堂数占有效评价课堂数],
+	[评价得分<85分课堂数],
+	cast((case when [学生有效评价课堂数] is null or [学生有效评价课堂数]=0 then 0 else (CAST([评价得分<85分课堂数] as float)/CAST([学生有效评价课堂数] as float))*100 end) as decimal(18,2)) as [评价得分<85分课堂数占有效评价课堂数]	
+from
+(
+select
+	FIELD1 as [学年学期],
+	COUNT(FIELD5) as [学生有效评价课堂数],
+	COUNT(distinct FIELD8) as [任课教师],
+	COUNT(case when FIELD11>=90 then FIELD5 end) as [评价得分≥90分课堂数],
+	COUNT(case when FIELD11>=85 and FIELD11<90 then FIELD5 end) as [评价得分<90且≥85课堂数],
+	COUNT(case when FIELD11<85 then FIELD5 end) as [评价得分<85分课堂数]
+from ODS_XSPJSJB
+where REPORT_DATE=@date
+group by FIELD1
+)a
+			 ]]>
+		</value>
+	</result>
+	<result>
+		<key>ASDS_table2-e</key>
+		<value>
+	         <![CDATA[
+	         	declare @date date
+				 set @date = ?
+
+select
+	[评价得分≥90分课堂数],
+	cast((case when [学生有效评价课堂数] is null or [学生有效评价课堂数]=0 then 0 else (CAST([评价得分≥90分课堂数] as float)/CAST([学生有效评价课堂数] as float))*100 end) as decimal(18,2)) as [评价得分≥90分课堂数占有效评价课堂数],
+	[评价得分<90且≥85课堂数],
+	cast((case when [学生有效评价课堂数] is null or [学生有效评价课堂数]=0 then 0 else (CAST([评价得分<90且≥85课堂数] as float)/CAST([学生有效评价课堂数] as float))*100 end) as decimal(18,2)) as [评价得分<90且≥85课堂数占有效评价课堂数],
+	[评价得分<85分课堂数],
+	cast((case when [学生有效评价课堂数] is null or [学生有效评价课堂数]=0 then 0 else (CAST([评价得分<85分课堂数] as float)/CAST([学生有效评价课堂数] as float))*100 end) as decimal(18,2)) as [评价得分<85分课堂数占有效评价课堂数]	
+from
+(
+select
+	COUNT(FIELD5) as [学生有效评价课堂数],
+	COUNT(case when FIELD11>=90 then FIELD5 end) as [评价得分≥90分课堂数],
+	COUNT(case when FIELD11>=85 and FIELD11<90 then FIELD5 end) as [评价得分<90且≥85课堂数],
+	COUNT(case when FIELD11<85 then FIELD5 end) as [评价得分<85分课堂数]
+from ODS_XSPJSJB
+where REPORT_DATE=@date
+group by FIELD1
+)a
+			 ]]>
+		</value>
+	</result>
+	<result>
+		<key>ASDS_table3-a</key>
+		<value>
+	         <![CDATA[
+	         	declare @date date
+				 set @date = ?
+
+select
+	AVG(CAST(FIELD11 as float)) as [全校平均分] 
+from ODS_XSPJSJB
+where REPORT_DATE=@date
+			 ]]>
+		</value>
+	</result>
+	<result>
+		<key>ASDS_table3-b</key>
+		<value>
+	         <![CDATA[
+	         	declare @date date
+				 set @date = ?
+
+select
+	FIELD2 as [学院],
+	AVG(CAST(FIELD11 as float)) as [平均得分] 
+from ODS_XSPJSJB
+where REPORT_DATE=@date
+group by FIELD2
+			 ]]>
+		</value>
+	</result>
+	<result>
+		<key>ASDS_table4-a</key>
+		<value>
+	         <![CDATA[
+	         	declare @date date
+				 set @date = ?
+
+select
+	MAX(FIELD4) as [最大值],
+	MIN(FIELD4) as [最小值]
+from ODS_B6_2015_2016XNDEXQXSPJH50MKTQKTJB
+where REPORT_DATE=@date
+			 ]]>
+		</value>
+	</result>
+	<result>
+		<key>ASDS_table4-b</key>
+		<value>
+	         <![CDATA[
+	         	declare @date date
+				 set @date = ?
+
+select
+	FIELD6 as [学院],
+	COUNT(FIELD3) as [课堂数]
+from ODS_B6_2015_2016XNDEXQXSPJH50MKTQKTJB
+where REPORT_DATE=@date
+group by FIELD6
+			 ]]>
+		</value>
+	</result>
+	<result>
+		<key>ASDS_table4-c</key>
+		<value>
+	         <![CDATA[
+	         	declare @date date
+				 set @date = ?
+
+select
+	FIELD1 as [倒数排序],
+	FIELD2 as [教师姓名],
+	FIELD3 as [课程名称],
+	FIELD4 as [教师得分],
+	FIELD5 as [学生评语中的主要问题],
+	FIELD6 as [所在学院]
+from ODS_B6_2015_2016XNDEXQXSPJH50MKTQKTJB
+where REPORT_DATE=@date
+			 ]]>
+		</value>
+	</result>
+	<result>
+		<key>ASDS_table4-d</key>
+		<value>
+	         <![CDATA[
+	         	declare @date date
+				 set @date = ?
+
+select
+	FIELD6 as [所在学院],
+	FIELD2 as [教师姓名],
+	FIELD3 as [课程名称],
+	FIELD4 as [教师得分],
+	FIELD5 as [学生评语中的主要问题]
+from ODS_B6_2015_2016XNDEXQXSPJH50MKTQKTJB
+where REPORT_DATE=@date
+order by FIELD6,FIELD2
+			 ]]>
+		</value>
+	</result>
+	<result>
+		<key>ASDS_table5-a</key>
+		<value>
+	         <![CDATA[
+	         	declare @date date
+				 set @date = ?
+
+select
+	COUNT(FIELD6) as [满分门数]
+from ODS_XSPJSJB
+where REPORT_DATE=@date and FIELD11='95'
+			 ]]>
+		</value>
+	</result>
+	<result>
+		<key>ASDS_table5-b</key>
+		<value>
+	         <![CDATA[
+	         	declare @date date
+				 set @date = ?
+
+select
+	FIELD7 as [教师姓名],
+	FIELD5 as [课程代码],
+	FIELD3 as [课程名称],
+	FIELD11 as [对教师评分],
+	FIELD2 as [学院]
+from ODS_XSPJSJB
+where REPORT_DATE=@date and FIELD11='95'
+			 ]]>
+		</value>
+	</result>
+	<result>
+		<key>ASDS_table5-c</key>
+		<value>
+	         <![CDATA[
+	         	declare @date date
+				 set @date = ?
+
+select
+	FIELD2 as [学院],
+	COUNT(FIELD6) as [课堂数]
+from ODS_XSPJSJB
+where REPORT_DATE=@date and FIELD11='95'
+group by FIELD2
+			 ]]>
+		</value>
+	</result>
+	<result>
+		<key>ASDS_table5-b</key>
+		<value>
+	         <![CDATA[
+	         	declare @date date
+				 set @date = ?
+
+select
+	FIELD2 as [学院],
+	COUNT(FIELD6) as [课堂数]
+from ODS_XSPJSJB
+where REPORT_DATE=@date and FIELD11='95'
+group by FIELD2
+			 ]]>
+		</value>
+	</result>
+	<result>
+		<key>ASDS_table6-a</key>
+		<value>
+	         <![CDATA[
+	         	declare @date date
+				 set @date = ?
+
+select
+	FIELD1 as [教师所在部门],
+	FIELD2 as [教师姓名],
+	FIELD3 as [课程名称],
+	FIELD4 as [2015-2016学年第一学期学生评教],
+	FIELD5 as [2015-2016学年第二学期学生评教],
+	FIELD6 as [是否在2015-2016学年第二学期学生评教后50名]
+from ODS_B9_2015_2016XNDYXQXSPJH50MKT
+where REPORT_DATE=@date
+			 ]]>
+		</value>
+	</result>
+	<result>
+		<key>ASDS_table6-b</key>
+		<value>
+	         <![CDATA[
+	         	declare @date date
+				 set @date = ?
+
+select
+	FIELD1 as [学院],
+	FIELD2 as [教师姓名],
+	FIELD3 as [课程名称],
+	FIELD4 as [主要问题与建议]
+from ODS_B10_2015_2016XNDYXQXSPJH50MKTBFRKJSBXQDDZJPY
+where REPORT_DATE=@date
+			 ]]>
+		</value>
+	</result>
+	<result>
+		<key>ASDS_table7-a</key>
+		<value>
+	         <![CDATA[
+	         	declare @date date
+				 set @date = ?
+
+select
+	FIELD1 as [学期],
+	COUNT(FIELD6) as [课堂数],
+	COUNT(case when FIELD4='公共基础课' then FIELD6 end) as [公共基础课课堂数],
+	COUNT(case when FIELD4='学科基础课' then FIELD6 end) as [学科基础课课堂数],
+	COUNT(case when FIELD4='专业课' then FIELD6 end) as [专业课课堂数],
+	COUNT(case when FIELD4='通识教育选修课/校选课' then FIELD6 end) as [通识教育选修课/校选课课堂数],
+	COUNT(case when FIELD4='实践环节' then FIELD6 end) as [实践环节课堂数],
+	COUNT(case when FIELD4='双语课程' then FIELD6 end) as [双语课程课堂数]
+from ODS_XSPJSJB
+where REPORT_DATE=@date
+group by FIELD1
+			 ]]>
+		</value>
+	</result>
+	<result>
+		<key>ASDS_table7-b</key>
+		<value>
+	         <![CDATA[
+	         	declare @date date
+				 set @date = ?
+
+select
+	FIELD6 as [课程性质],
+	SUM(CAST(FIELD11 as float)) as [评价评分]
+from ODS_XSPJSJB
+where REPORT_DATE=@date
+group by FIELD6
+			 ]]>
+		</value>
+	</result>
+	<result>
+		<key>ASDS_table8</key>
+		<value>
+	         <![CDATA[
+	         	declare @date date
+				 set @date = ?
+
+select
+	FIELD1 as [排序],
+	FIELD2 as [姓名],
+	FIELD3 as [所在学院],
+	FIELD4 as [课程],
+	FIELD5 as [学生评分]
+from ODS_B11_2015_2016XNDEXQXSPJZXAJSQK
+where REPORT_DATE=@date
+			 ]]>
+		</value>
+	</result>
+</resource>

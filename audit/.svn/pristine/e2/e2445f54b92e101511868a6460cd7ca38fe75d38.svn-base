@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsPModuleMapper">
+	<resultMap id="BaseResultMap" type="audit.model.AsPModule">
+		<id column="pmid" property="pmid" jdbcType="INTEGER" />
+		<result column="parentId" property="parentId" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="mno" property="mno" jdbcType="VARCHAR" />
+		<result column="grade" property="grade" jdbcType="VARCHAR" />
+		<result column="stat" property="stat" jdbcType="INTEGER" />
+		<!-- 方案 -->
+		<collection property="asPlan" javaType="java.util.ArrayList" column="mid" ofType="audit.model.AsPlan">    
+            <id column="pid" property="id" jdbcType="INTEGER" />
+			<result column="mid" property="mid" jdbcType="INTEGER" />
+			<result column="pname" property="name" jdbcType="VARCHAR" />
+			<result column="no" property="no" jdbcType="VARCHAR" />
+			<result column="content" property="content" jdbcType="VARCHAR" />
+			<result column="description" property="description" jdbcType="VARCHAR" />
+			<result column="isrelate" property="isrelate" jdbcType="INTEGER"/>
+			<result column="scid" property="scid" jdbcType="INTEGER" />
+        </collection>  
+        <!-- 考察重点 -->
+	</resultMap>
+	
+	<!-- 用来定义可重用的sql代码段 -->
+	<sql id="Base_Column_one">
+	    pmid,parentId,name,mno,grade,stat
+	</sql>
+	
+	<!-- 查询所有数据 -->
+	<select id="findAllModule" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_one" /> 
+		from AS_P_MODULE 
+		where stat=1
+	</select>
+	
+	<!-- 查询所有数据 -->
+	<select id="findModulePlan" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		  SELECT m.pmid,m.parentId,m.name,m.mno,m.grade,m.stat,
+		  P.PID,P.mid,P.NAME as pname,P.NO,P.CONTENT,P.DESCRIPTION,P.ISRELATE
+		  FROM AS_P_MODULE m 
+		  LEFT JOIN AS_P_PLAN P ON P.mID = m.PmID 
+		  where m.parentId=1 and m.stat=1
+	</select>
+	
+</mapper>

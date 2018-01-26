@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.OdsTTeachTemplatenameMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.ods.OdsTTeachTemplatename" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="teach_templatename" property="teachTemplatename" jdbcType="VARCHAR" />
+    <result column="standard_templatename" property="standardTemplatename" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, teach_templatename, standard_templatename
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ODS_T_TEACH_TEMPLATENAME
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ODS_T_TEACH_TEMPLATENAME
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.ods.OdsTTeachTemplatename" useGeneratedKeys="true" keyProperty="Id">
+    insert into ODS_T_TEACH_TEMPLATENAME (Id, teach_templatename, standard_templatename
+      )
+    values (#{id,jdbcType=INTEGER}, #{teachTemplatename,jdbcType=VARCHAR}, #{standardTemplatename,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.ods.OdsTTeachTemplatename" useGeneratedKeys="true" keyProperty="Id">
+    insert into ODS_T_TEACH_TEMPLATENAME
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="teachTemplatename != null" >
+        teach_templatename,
+      </if>
+      <if test="standardTemplatename != null" >
+        standard_templatename,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="teachTemplatename != null" >
+        #{teachTemplatename,jdbcType=VARCHAR},
+      </if>
+      <if test="standardTemplatename != null" >
+        #{standardTemplatename,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.ods.OdsTTeachTemplatename" >
+    update ODS_T_TEACH_TEMPLATENAME
+    <set >
+      <if test="teachTemplatename != null" >
+        teach_templatename = #{teachTemplatename,jdbcType=VARCHAR},
+      </if>
+      <if test="standardTemplatename != null" >
+        standard_templatename = #{standardTemplatename,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.ods.OdsTTeachTemplatename" >
+    update ODS_T_TEACH_TEMPLATENAME
+    set teach_templatename = #{teachTemplatename,jdbcType=VARCHAR},
+      standard_templatename = #{standardTemplatename,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 我是分割线 -->
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+      select 
+    <include refid="Base_Column_List" />
+    from ODS_T_TEACH_TEMPLATENAME
+  </select>
+</mapper>

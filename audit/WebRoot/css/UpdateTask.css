@@ -1,0 +1,43 @@
+* {margin: 0; /*��������*/padding: 0;-moz-background-size:margin: 0;padding: 0;}
+html {width: 100%;height: 98%;margin: 0;}
+body {width: 99%;height: 99%;margin: 0;border: none;background-color: #FFFFFF;font-size: 12px;font-family:tahoma;font-family: Arial, Helvetica, sans-serif;
+	  filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";-moz-background-size: 100% 100%;margin: 0px;}
+a {text-decoration: none;}
+li{list-style-type: none;}
+
+/* ȫ��div */
+/* div{border: 1px solid red;} */
+div.wrap{width: 100%;height: 100%;}
+div.header{width: 100%;height: 32px;margin-top: 10px}
+div.header-label{float:left;width: 50%;height: 32px;}
+div.header-return{float:left;width: 45%;height: 32px;}
+div.main-top{width: 100%;height: 40px;margin-top: 20px; margin-bottom: 30px}
+div.main{float:left;width: 90%;height: 330px;margin-left: 5%;border: 1px solid #474747;}
+
+/* ͼ�μ�ͷ�ֲ�div */
+.box1{float:left;width:80px;height: 40px;line-height:40px;margin-left: 10%;color:white;font-weight:bolder;vertical-align:middle;text-align: center; background-image: url("../images/QualityTask/arrows-gray.png");background-repeat: no-repeat;}
+.box2{float:left;width:80px;height: 40px;margin-left: 15%; line-height:40px;color:white;font-weight:bolder;vertical-align:middle;text-align: center;background-image: url("../images/QualityTask/arrows-gray.png");background-repeat: no-repeat;}
+.box3{float:left;width:80px;height: 40px;margin-left: 15%; line-height:40px;color:white;font-weight:bolder;vertical-align:middle;text-align: center;background-image: url("../images/QualityTask/arrows-green.png");background-repeat: no-repeat;}
+.box4{float:left;width:80px;height: 40px;margin-left: 15%; line-height:40px;color:white;font-weight:bolder;vertical-align:middle;text-align: center;background-image: url("../images/QualityTask/arrows-white.png");background-repeat: no-repeat;}
+.box{float:none;width:90%;height: 20px;margin-left:5%;border-bottom: 2px solid #474747;}
+.box-hr{width:100%;height: 2px;color:#B2B2A8;}
+
+/* ��Ҫ���� */
+div.main-title{float:left;width:100%;height:30px;background-color: #F5F6F5;}
+div.main-title-left{float:left;width:50%;height:30px;border-right: 1px solid #474747;}
+div.main-title-right{float:left;width:49%;height:30px;}
+div.main-bottom{float:left;width:100%;height:82%;}
+div.main-foot{float:left;width:224px;height:24px;margin-left: 78%}
+hr{float:left;width:100%;height: 2px;}
+
+li.header-label{width:40em;height: 30px;line-height:30px;margin-left: 2em;font-weight:bold;}
+li.header-return{float: right;width:3em;height: 24px;}
+li.main-title-left{float:left;width:100%;height: 30px;line-height:30px;border-right: 1x solid #474747;vertical-align:middle;text-align: center;}
+li.main-title-right{float:left;width:190%;height: 30px;line-height:30px;vertical-align:middle;text-align: center;}
+li.main-bottom-label{float:left;width:30%;height: 26px;line-height:39px;margin-left: 5%;}
+li.main-bottom-li{float:left;width:20%;height: 26px;line-height:39px;}
+li.main-foot{float:left;width:2em;height: 26px;line-height:0px;margin-left: 10px}
+li.main-foot-page{float:left;width:38px;height: 26px;margin-left: 10px}
+li.main-foot-text{float:left;width:28px;height: 26px;margin-left: 10px}
+input.main-foot-text{width:28px;height: 24px;vertical-align:middle;text-align: center;}
+label.header-label{font-weight:normal;margin-left: 2em;}

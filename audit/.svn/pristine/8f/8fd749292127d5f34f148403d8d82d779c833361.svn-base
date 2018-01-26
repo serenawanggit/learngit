@@ -1,0 +1,141 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@include file="/page/common/lib.jsp"%>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	
+	<link rel="stylesheet" href="${chartCtx }/css/ASDSReport.css" type="text/css"></link>
+	
+	<script type="text/javascript" src="${chartCtx }/js/ASDSReport/ASDSReportFormat2.js"></script>
+</head>
+
+<body>
+	<div class='loadding'><img src='${chartCtx}/images/lodding.gif'/></div> 
+	<div class="tb_box">
+		<div class="tb_top">
+			<div class="tb_title"><h4>教师队伍</h4>
+			</div>
+		</div>
+		<div class="tb_main">
+			<table>
+				<thead>
+					<tr>
+						<td colspan="4">
+							<h4>2.5 教授、副教授讲授本科课程比例</h4>
+							<div class="chocieYear">
+								<ul>
+									<li>年份：
+										<select class="select_tips tb_select" id="year">
+<!-- 												<option>2014</option> -->
+<!-- 												<option>2013</option> -->
+<!-- 												<option>2012</option> -->
+<!-- 												<option>2011</option> -->
+										</select>
+									</li>
+								</ul>
+							</div>
+						</td>
+					</tr> 
+					<tr>
+						<td colspan="2">项目</td> 
+						<td>数量</td> 
+						<td>百分比(%)</td>
+					</tr>
+				</thead>
+				
+				<tbody>
+					
+					<tr>
+						<td rowspan="6">全校课程总门次数</td> 
+					</tr>
+					
+					<tr>
+						<td>总计</td> 
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>其中：教授授课门次数（门次）</td> 
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>副教授授课门次数（门次）</td> 
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>教授所授专业课程门次数（门次）</td> 
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>教授所授公共必修课门次数（门次）</td> 
+						<td></td>
+						<td></td>
+					</tr>
+				</tbody>
+				
+				<tfoot>
+					<tr>
+						<td colspan="4">
+							<font color="red">※ 数据来源：表 5-1-1 开课情况，表 3-1-1 专任教师基本信息， 3-1-3 其他师资信息。<br>
+							【注】：<br>
+							1. 此表不含外聘教师。<br>
+							2. 课程门次数 = COUNT（开课课号），不查重		</font>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+	
+	<script type="text/javascript">
+		$(function(){
+			formatEndYear("year");
+			
+			 $("#year").change(function(){
+			    // show
+				showLodding();
+				$.ajax({
+					url : "/CHART/qualityReport/qualityReport_ASDSGetListByYear.htm",
+					type : "POST",
+					data : {
+						key : "ASDS_table2-5",
+						year : $("#year").val(),
+						num:2
+					},
+					success : function(data){
+						var result = eval("("+data+")");
+						
+						$("table tbody tr:eq(1) td:eq(1)").html(result[0][0]);
+						$("table tbody tr:eq(1) td:eq(2)").html("/");
+						
+						$("table tbody tr:eq(2) td:eq(1)").html(result[0][1]);
+						$("table tbody tr:eq(2) td:eq(2)").html(valueFormat(result[0][2],1));
+						
+						$("table tbody tr:eq(3) td:eq(1)").html(result[0][3]);
+						$("table tbody tr:eq(3) td:eq(2)").html(valueFormat(result[0][4],1));
+						
+						$("table tbody tr:eq(4) td:eq(1)").html(result[0][5]);
+						$("table tbody tr:eq(4) td:eq(2)").html(valueFormat(result[0][6],1));
+						
+						$("table tbody tr:eq(5) td:eq(1)").html(result[0][7]);
+						$("table tbody tr:eq(5) td:eq(2)").html(valueFormat(result[0][8],1));
+						// hide
+						hideLodding();
+					},
+					error : function(){
+						hideLodding();alert("系统忙，请稍后重试！！！");
+					}
+				});
+			}); 
+			
+			// 调用方法
+			$("#year").change(); 
+		});
+	</script>
+</body>
+</html>

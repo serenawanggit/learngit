@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AssessmentSpecialtyInfoWangpingMapper" >
+	<select id="findWangPingList"  resultType="audit.model.quality.vo.ZgList" >
+		SELECT s_info.ID AS s_info_id,
+	       t_task.ID AS t_task_id,
+	       s_info.SPECIALTY_CODE,
+	       s_info.SPECIALTY_NAME,
+	       s_info.IS_RZ,
+	       t_task.item,
+	       date_s.COMMENT_DATE,
+	       date_s.SITE_VISITS,
+	       s_info.IS_ENGINEERING as engineering
+		FROM ASSESSMENT_TASK AS t_task
+		LEFT JOIN ASSESSMENT_SPECIALTY_INFO AS s_info ON t_task.specialty_id=s_info.ID
+		LEFT JOIN ASSESSMAENT_DATE_SPECIALTY AS date_s ON s_info.ID=date_s.SPECIALTY_INFO_ID
+		LEFT JOIN ASSESSMENT_USER_INFO AS user_info ON user_info.DATE_SPECIALTY_ID=date_s.ID
+		WHERE t_task.tYear LIKE '%'+#{0}+'%'
+			  AND user_info.ASSESS_SELF_USER in
+			    (SELECT ASSESS_SELF_USER
+			     FROM ASSESSMENT_USER_INFO b
+			     WHERE DATE_SPECIALTY_ID in
+			         (SELECT DATE_SPECIALTY_ID
+			          FROM ASSESSMENT_USER_INFO a
+			          WHERE ASSESS_SELF_USER=#{1}
+			            AND ASSESS_TYPE>=3)
+			       AND ASSESS_TYPE=1)
+			  AND t_task.audit_zt=1  and s_info.PG_TYPE=#{2}
+	</select>
+	<!-- 网评状态表  查询 -->
+	<select id="selcteWangPStruts" parameterType="map" resultType="map">
+		select * from wangPStruts
+		where wangPStruts.userid=#{userid}
+		and  wangPStruts.SPECIALTY_ID=#{specialty_id}
+	</select>
+	<!-- 修改 -->
+	<update id="updateWangPStruts" parameterType="map">
+		update wangPStruts set  wangPStruts.struts=#{struts}
+		where   wangPStruts.userid=#{userid}
+		and  wangPStruts.SPECIALTY_ID=#{specialty_id}
+	</update>
+	
+	<!-- 插入 -->
+	<insert id="insertWangPStruts" parameterType="map">
+		insert into  wangPStruts values(#{specialty_id},#{userid},#{struts})	
+	</insert>
+	
+	
+	<!-- 查询当用户，对应专业的身份 -->
+	<select id="getTypeForSpecialty" resultType="String">
+		SELECT u_info.ASSESS_TYPE
+		FROM ASSESSMENT_USER_INFO as u_info
+		left join  ASSESSMAENT_DATE_SPECIALTY  AS date_s
+		on date_s.ID=u_info.DATE_SPECIALTY_ID
+		WHERE ASSESS_SELF_USER=#{0}
+		and date_s.SPECIALTY_INFO_ID=#{1}
+	</select>
+	
+	 <select id="findRectificationConentInfo"   resultType="audit.model.quality.vo.ContentInfo">
+        select 
+			SPECIALTY_NAME,
+			ASSESSMENT_TASK.ID as task_id,
+			AS_ASSESS_RECTIFICATION.FILES_NAME,
+			AS_ASSESS_RECTIFICATION.FILE_address,
+			AS_ASSESS_RECTIFICATION.FILE_TYPE,
+			AS_ASSESS_RECTIFICATION.ID as rectification_id
+		from  ASSESSMENT_SPECIALTY_INFO
+		left join AS_ASSESS_RECTIFICATION
+		on ASSESSMENT_SPECIALTY_INFO.ID=AS_ASSESS_RECTIFICATION.SPECIALTY_ID
+		left join  ASSESSMENT_TASK
+		on ASSESSMENT_TASK.specialty_id=ASSESSMENT_SPECIALTY_INFO.ID
+		where ASSESSMENT_TASK.item=1 and ASSESSMENT_SPECIALTY_INFO.ID=#{0}
+		AND AS_ASSESS_RECTIFICATION.UPLOAD_PERSON in
+	    (SELECT ASSESS_SELF_USER
+	     FROM ASSESSMENT_USER_INFO b
+	     WHERE DATE_SPECIALTY_ID in
+	         (SELECT DATE_SPECIALTY_ID
+	          FROM ASSESSMENT_USER_INFO a
+	          WHERE ASSESS_SELF_USER=#{1}
+	          )
+	       AND ASSESS_TYPE=1)
+	    AND AS_ASSESS_RECTIFICATION.RYEAR=#{2}
+	</select>
+	
+	<insert id="insertAssess_comment_rectification">
+		insert into ASSESS_COMMENT_RECTIFICATION(
+		SYSID,
+		COMMENT_USERID,
+		COMMENT_TIME,
+		COMMENT_CONTENT,
+		ITEM,
+		SYEAR,
+		COMMENT_TYPE,
+		COMMENT_SUGGESTIONS,
+		specialty_id,
+		syscore,
+		grade
+		) values(#{0},#{1},#{2},#{3},#{4},#{5},#{6},#{7},#{8},#{9},#{10});
+	</insert>
+	<select id="findIsHaveAssess_comment_rectification_Zong" resultType="int">
+		select  COUNT(ID) from ASSESS_COMMENT_RECTIFICATION
+		where ASSESS_COMMENT_RECTIFICATION.COMMENT_USERID=#{0}
+		and  ASSESS_COMMENT_RECTIFICATION.specialty_id=#{1}
+		and  ASSESS_COMMENT_RECTIFICATION.ITEM=#{2}
+		and  ASSESS_COMMENT_RECTIFICATION.COMMENT_TYPE=2
+	</select>
+	<!-- 查询网评总意见回复信息 -->
+	<select id="getWangPingZongComment" resultType="audit.model.quality.vo.Assess_comment_rectificationVo">
+		select * from ASSESS_COMMENT_RECTIFICATION
+		where ASSESS_COMMENT_RECTIFICATION.COMMENT_USERID in (SELECT ASSESS_SELF_USER
+	     FROM ASSESSMENT_USER_INFO b
+	     WHERE DATE_SPECIALTY_ID in
+	         (SELECT DATE_SPECIALTY_ID
+	          FROM ASSESSMENT_USER_INFO a
+	          WHERE ASSESS_SELF_USER=#{0}
+	          )
+	       AND ASSESS_TYPE=3)
+		and  ASSESS_COMMENT_RECTIFICATION.specialty_id=#{1}
+		and  ASSESS_COMMENT_RECTIFICATION.ITEM=#{2}
+		and  ASSESS_COMMENT_RECTIFICATION.COMMENT_TYPE=2
+	</select>
+	
+	
+	<select id="findIsHaveAssess_comment_rectification_TiXi" resultType="int">
+		select  COUNT(ID) from ASSESS_COMMENT_RECTIFICATION
+		where ASSESS_COMMENT_RECTIFICATION.COMMENT_USERID=#{0}
+		and  ASSESS_COMMENT_RECTIFICATION.specialty_id=#{1}
+		and  ASSESS_COMMENT_RECTIFICATION.ITEM=#{2}
+		and ASSESS_COMMENT_RECTIFICATION.SYSID=#{3}
+	</select>
+	<select id="getWangPingTiXiComment" resultType="audit.model.quality.vo.Assess_comment_rectificationVo">
+		select  * from ASSESS_COMMENT_RECTIFICATION
+		where ASSESS_COMMENT_RECTIFICATION.COMMENT_USERID=#{0}
+		and  ASSESS_COMMENT_RECTIFICATION.specialty_id=#{1}
+		and  ASSESS_COMMENT_RECTIFICATION.ITEM=#{2}
+		and ASSESS_COMMENT_RECTIFICATION.SYSID=#{3}
+		and  ASSESS_COMMENT_RECTIFICATION.COMMENT_TYPE=1
+	</select>
+	<!-- 修改信息 -->
+	 <update id="updateAssess_comment_rectification_comment_content">
+		update ASSESS_COMMENT_RECTIFICATION set  
+			ASSESS_COMMENT_RECTIFICATION.COMMENT_CONTENT=''+#{0}+'',
+			ASSESS_COMMENT_RECTIFICATION.syscore = #{5},
+			ASSESS_COMMENT_RECTIFICATION.grade = #{6}
+		where  ASSESS_COMMENT_RECTIFICATION.COMMENT_USERID=#{1}
+		and ASSESS_COMMENT_RECTIFICATION.specialty_id=#{2}
+		and  ASSESS_COMMENT_RECTIFICATION.ITEM=#{3}
+		and ASSESS_COMMENT_RECTIFICATION.SYSID=#{4}
+		and  ASSESS_COMMENT_RECTIFICATION.COMMENT_TYPE=1
+	</update>
+	<update id="updateAssess_comment_rectification_comment_suggestions">
+		update ASSESS_COMMENT_RECTIFICATION set  
+			ASSESS_COMMENT_RECTIFICATION.COMMENT_SUGGESTIONS=''+#{4}+''
+		where  ASSESS_COMMENT_RECTIFICATION.COMMENT_USERID=#{1}
+		and ASSESS_COMMENT_RECTIFICATION.specialty_id=#{2}
+		and  ASSESS_COMMENT_RECTIFICATION.ITEM=#{3}
+		and  ASSESS_COMMENT_RECTIFICATION.COMMENT_TYPE=2
+	</update>
+	
+	<select id="findReport" resultType="audit.model.assess.vo.As_assess_reportVo" >
+		select  
+			AS_ASSESS_REPORT.ID as report_id,
+			ASSESSMENT_SYSTEM_INFO.ID as sysId,
+			ASSESSMENT_SYSTEM_INFO.SYSTEM_NAME,
+			AS_ASSESS_REPORT.ENTER_CONTENT,
+			AS_ASSESS_REPORT.UPLOAD_FILES,
+			AS_ASSESS_REPORT.UPLOAD_ADDRESS,
+			AS_ASSESS_REPORT.UPLOAD_CONTENT
+		from ASSESSMENT_SYSTEM_INFO
+		inner join 
+		AS_ASSESS_REPORT 
+		on ASSESSMENT_SYSTEM_INFO.ID=AS_ASSESS_REPORT.SYSID
+		where 
+		    AS_ASSESS_REPORT.SYSID=#{sysId}
+		AND AS_ASSESS_REPORT.RYEAR like '%'+#{rYear}+'%'
+		
+		<if test="specialty_id!=null and  specialty_id!='' ">
+			AND AS_ASSESS_REPORT.SPECIALTY_ID=#{specialty_id}
+		</if>
+		AND AS_ASSESS_REPORT.USERID in
+		<if test="specialty_name !=null and specialty_name!='' ">
+			( SELECT ASSESS_SELF_USER
+			      FROM ASSESSMENT_USER_INFO b
+			      WHERE DATE_SPECIALTY_ID in
+					(select id from  ASSESSMAENT_DATE_SPECIALTY		
+						where ASSESSMAENT_DATE_SPECIALTY.SPECIALTY_INFO_ID in
+						 (select ID from ASSESSMENT_SPECIALTY_INFO
+						  where ASSESSMENT_SPECIALTY_INFO.SPECIALTY_NAME=#{specialty_name}
+						 )
+					 ) 
+				)
+		</if>
+		<if test="specialty_name ==null or specialty_name ==''">
+			(SELECT ASSESS_SELF_USER
+			 FROM ASSESSMENT_USER_INFO b
+			 WHERE DATE_SPECIALTY_ID in
+				 (SELECT DATE_SPECIALTY_ID
+				  FROM ASSESSMENT_USER_INFO a
+				  WHERE ASSESS_SELF_USER=#{userid}
+				  AND ASSESS_TYPE>=3
+				  )
+			   AND ASSESS_TYPE=1)
+		</if>
+	</select>
+	
+	<select id="findAs_assess_support" resultType="audit.model.assess.vo.As_Assess_SupportVo">
+		select AS_ASSESS_SUPPORT.ID,
+		   AS_ASSESS_SUPPORT.SUPPORT_NAME,
+		   AS_ASSESS_SUPPORT.SUPPORT_ADDRESS
+		from AS_ASSESS_SUPPORT
+		where AS_ASSESS_SUPPORT.SYSID=#{Sysid}
+		  and AS_ASSESS_SUPPORT.RYEAR =''+#{Ryear}+''
+		  and AS_ASSESS_SUPPORT.USERID  in
+		 <if test="specialty_name !=null and specialty_name!=''">
+			 ( SELECT ASSESS_SELF_USER
+			      FROM ASSESSMENT_USER_INFO b
+			      WHERE DATE_SPECIALTY_ID in
+					(select id from  ASSESSMAENT_DATE_SPECIALTY		
+						where ASSESSMAENT_DATE_SPECIALTY.SPECIALTY_INFO_ID in
+						 (select ID from ASSESSMENT_SPECIALTY_INFO
+						  where ASSESSMENT_SPECIALTY_INFO.SPECIALTY_NAME=#{specialty_name}
+						 )
+					 ) 
+				)
+		 </if>
+		 <if test="specialty_name ==null or  specialty_name==''">
+			(SELECT ASSESS_SELF_USER
+		     FROM ASSESSMENT_USER_INFO b
+		     WHERE DATE_SPECIALTY_ID in
+		         (SELECT DATE_SPECIALTY_ID
+		          FROM ASSESSMENT_USER_INFO a
+		          WHERE ASSESS_SELF_USER=#{Userid}
+		          AND ASSESS_TYPE>=3
+		          )
+		       AND ASSESS_TYPE=1)			
+			  and AS_ASSESS_SUPPORT.SPECIALTY_ID=#{Specialty_id}
+		 </if>
+	</select>
+	<select id="getAllReports" resultType="audit.model.quality.vo.LookReportVo" parameterType="map">
+		select id, upload_time, upload_address, upload_files from ASSESSMENT_ALLREPORT 
+		 where tYear like '%'+#{tYear}+'%' 
+		 <if test="specialty_name ==null or specialty_name=='' ">
+		     and USERID in
+			 (SELECT ASSESS_SELF_USER
+		     FROM ASSESSMENT_USER_INFO b
+		     WHERE DATE_SPECIALTY_ID in
+		         (SELECT DATE_SPECIALTY_ID
+		          FROM ASSESSMENT_USER_INFO a
+		          WHERE
+		             ASSESS_TYPE=3)
+		       AND ASSESS_TYPE=1)
+			 and specialty_id = #{specialty_id}
+		 </if>
+		 <if test="specialty_name !=null and specialty_name!='' ">
+			 and specialty_id= 
+				 		(select ID from ASSESSMENT_SPECIALTY_INFO
+						  where ASSESSMENT_SPECIALTY_INFO.SPECIALTY_NAME=#{specialty_name}
+						 )
+		 </if>
+	</select>
+	<!-- 导出获得学院名称 -->
+	<select id="selectOrganizationName" resultType="String" >
+	select o.name 
+	  from  userinfo
+	       left join organization  o
+	       on userinfo.organization=o.id
+		   left join ROLE r
+		   on userinfo.role = r.id
+		   left join rolecategory c
+		   on r.rolecategory = c.id
+		   left join ASSESSMENT_USER_INFO  u_info
+		   on u_info.ASSESS_SELF_USER=userinfo.id
+		   left join ASSESSMAENT_DATE_SPECIALTY date_sp
+		   on  date_sp.ID=u_info.DATE_SPECIALTY_ID
+		where userinfo.id in
+		    (SELECT ASSESS_SELF_USER
+		     FROM ASSESSMENT_USER_INFO b
+		     WHERE DATE_SPECIALTY_ID in
+		         (SELECT DATE_SPECIALTY_ID
+		          FROM ASSESSMENT_USER_INFO a
+		          WHERE ASSESS_SELF_USER=#{0}
+		          AND ASSESS_TYPE=3
+		          )
+		       AND ASSESS_TYPE=1)
+		    and date_sp.SPECIALTY_INFO_ID=#{1}
+	</select>
+	
+	
+	<!-- 查询支撑材料 -->
+	<select id="getAs_assess_supportById" resultType="audit.model.assess.vo.As_Assess_SupportVo">
+		select * from AS_ASSESS_SUPPORT 
+		where  AS_ASSESS_SUPPORT.ID=#{0}	
+	</select>
+	
+	
+	<!-- 网评提交 -->
+	<update id="updateAssessment_task_pass" >
+		update  ASSESSMENT_TASK set ASSESSMENT_TASK.inter_people_zt=1,
+		ASSESSMENT_TASK.inter_people_time=''+#{0}+''
+		where ASSESSMENT_TASK.ID=#{1}
+	</update>
+	
+	
+	<select id="getAllData" resultType="map" parameterType="map">
+		SELECT specialty_name,
+	       is_engineering,
+	       is_rz,
+	       self_assessment_date,
+	       comment_date,
+	       site_visits,
+	       u.showName,
+	       o.name
+		FROM ASSESSMENT_USER_INFO i
+		LEFT JOIN ASSESSMAENT_DATE_SPECIALTY d ON i.date_specialty_id = d.id
+		LEFT JOIN ASSESSMENT_SPECIALTY_INFO s ON s.id = d.specialty_info_id
+		LEFT JOIN userinfo u ON u.id = i.assess_self_user
+		LEFT JOIN organization o ON o.id = u.organization
+		WHERE 1=1
+		<if test="SYEAR !=null and SYEAR!=''">
+		 	and  d.SYEAR like '%'+#{SYEAR}+'%'
+		 </if>
+		 and i.assess_self_user in
+		<if test="specialty_name !=null and specialty_name!='' ">
+			( SELECT ASSESS_SELF_USER
+			      FROM ASSESSMENT_USER_INFO b
+			      WHERE DATE_SPECIALTY_ID in
+					(select id from  ASSESSMAENT_DATE_SPECIALTY		
+						where ASSESSMAENT_DATE_SPECIALTY.SPECIALTY_INFO_ID in
+						 (select ID from ASSESSMENT_SPECIALTY_INFO
+						  where ASSESSMENT_SPECIALTY_INFO.SPECIALTY_NAME=#{specialty_name}
+						 )
+					 ) 
+				)
+		</if>
+		<if test="specialty_name ==null or specialty_name ==''">
+		    (SELECT ASSESS_SELF_USER
+		     FROM ASSESSMENT_USER_INFO b
+		     WHERE DATE_SPECIALTY_ID in
+		         (SELECT DATE_SPECIALTY_ID
+		          FROM ASSESSMENT_USER_INFO a
+		          WHERE ASSESS_SELF_USER=#{userid}
+		          )
+		       AND ASSESS_TYPE=1)
+			  AND s.id = #{specialtyId}
+		 </if>
+	</select>
+	
+	<select id="getUserName" resultType="String">
+		 select showname from userinfo
+	 	 where userinfo.id=#{0}
+	</select>
+	<select id="selectSysName" resultType="String">
+		select ASSESSMENT_SYSTEM_INFO.SYSTEM_NAME from ASSESSMENT_SYSTEM_INFO
+		where  ID=#{0}
+	</select>
+	
+	
+	
+	<select id="selectUserType" resultType="String">
+		select ASSESSMENT_USER_INFO.ASSESS_TYPE from ASSESSMENT_USER_INFO
+			where ASSESSMENT_USER_INFO.ASSESS_SELF_USER=#{0}
+	</select>
+	
+	<!-- 初始化所有的专业名称 -->
+	<select id="selectZyName" resultType="String">
+		select ASSESSMENT_SPECIALTY_INFO.SPECIALTY_NAME  from ASSESSMENT_SPECIALTY_INFO
+	</select>
+	<!--查看网评信息但是节点的时候 -->
+	<select id="selectWpr" resultType="map" parameterType="map">
+		select ac.id,u.name,u.showname,ac.grade from ASSESS_COMMENT_RECTIFICATION ac left join userinfo u on u.id=ac.COMMENT_USERID where SYSID=#{sysid} and SYEAR=#{syear} 
+	</select>
+	
+	<select id="selectWpID" resultType="map" parameterType="map">
+		select * from ASSESS_COMMENT_RECTIFICATION  where id=#{id}
+	</select>
+	<select id="selectWprTx" resultType="map" parameterType="map">
+	select * from ASSESS_COMMENT_RECTIFICATION where item=#{item} and SYEAR=#{syear} and COMMENT_USERID=#{wpid}
+	</select>
+	
+	<!--添加现场考查数据信息  -->
+	<insert id="insertRecord" parameterType="map">
+		insert into  ASSESS_COMMENT_RECORD(sysid,kc_userid,kc_time,kc_content,item,syear,kc_type,kc_suggestions,specialtyId,ranks) values(#{sysid},#{userid},#{time},#{content},#{item},#{syear},#{type},#{suggestions},#{specialtyId},#{ranks})
+	</insert>
+	<!--修改现场考查数据信息  -->
+	<update id="updateRecord" parameterType="map">
+		update ASSESS_COMMENT_RECORD 
+		<set>
+			<if test="content!=null">
+				kc_content=#{content},
+			</if>
+			<if test="suggestions!=null">
+			kc_suggestions=#{suggestions},
+			</if>
+			<if test="ranks!=null">
+			 ranks=#{ranks},
+			</if>
+		</set> 
+		where 1=1
+		<if test="sysid!=null">
+			and	sysid=#{sysid}
+		</if>
+		<!--根据模块查询  -->
+		<if test="item!=null">
+			and	item=#{item}
+		</if>
+		<if test="specialtyId!=null">
+			and specialtyId=#{specialtyId}
+		</if>
+		
+		and syear=#{syear}
+		and kc_userid=#{userid}
+	</update>
+	<!--查询现场考查数据信息  -->
+	 <select id="selectRecord" parameterType="map" resultType="map">
+		select id,sysid,kc_userid,kc_time,kc_content,item,syear,kc_type,kc_suggestions,ranks from ASSESS_COMMENT_RECORD where 1=1
+		<!--根据节点查询  -->
+		<if test="sysid!=null">
+			and	sysid=#{sysid}
+		</if>
+		<!--根据模块查询  -->
+		<if test="item!=null">
+			and	item=#{item}
+		</if>
+		<if test="specialtyId!=null">
+			and specialtyId=#{specialtyId}
+		</if>
+		<if test="xckcid!=null">
+			and kc_userid=#{xckcid}
+		</if>
+		<if test="userid!=null">
+		and kc_userid=#{userid}
+		</if>
+		and syear=#{syear}
+	</select> 
+	<!-- 根据用户，时间，专业类型，模块查询网评数据 -->
+	<select id="findAllWangpingInfo" resultType="audit.model.quality.vo.Assess_comment_rectificationVo">
+		select * from ASSESS_COMMENT_RECTIFICATION where COMMENT_USERID=#{0} and SYEAR=#{3} and ITEM=#{2} and specialty_id=#{1}
+	</select>
+	
+	<!--根据专业ID查询专业信息 selectSpecialtyId -->
+	<select id="selectSpecialtyId" parameterType="map" resultType="map">
+			
+ select *  from ASSESSMENT_SPECIALTY_INFO where id = #{id}
+	</select>
+</mapper>

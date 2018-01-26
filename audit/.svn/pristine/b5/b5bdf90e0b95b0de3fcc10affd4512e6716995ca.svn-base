@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsAccessSelfEvalutionRecordMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.assess.AsAccessSelfEvalutionRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="access_specialty_id" property="accessSpecialtyId" jdbcType="INTEGER" />
+    <result column="standard_id" property="standardId" jdbcType="INTEGER" />
+    <result column="detail_id" property="detailId" jdbcType="INTEGER" />
+    <result column="score" property="score" jdbcType="DOUBLE" />
+    <result column="datas" property="datas" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, access_specialty_id, standard_id, detail_id, score, datas
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from AS_ACCESS_SELF_EVALUTION_RECORD
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from AS_ACCESS_SELF_EVALUTION_RECORD
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.assess.AsAccessSelfEvalutionRecord" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ACCESS_SELF_EVALUTION_RECORD (id, access_specialty_id, standard_id, 
+      detail_id, score, datas
+      )
+    values (#{id,jdbcType=INTEGER}, #{accessSpecialtyId,jdbcType=INTEGER}, #{standardId,jdbcType=INTEGER}, 
+      #{detailId,jdbcType=INTEGER}, #{score,jdbcType=DOUBLE}, #{datas,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.assess.AsAccessSelfEvalutionRecord" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ACCESS_SELF_EVALUTION_RECORD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="accessSpecialtyId != null" >
+        access_specialty_id,
+      </if>
+      <if test="standardId != null" >
+        standard_id,
+      </if>
+      <if test="detailId != null" >
+        detail_id,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="datas != null" >
+        datas,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="accessSpecialtyId != null" >
+        #{accessSpecialtyId,jdbcType=INTEGER},
+      </if>
+      <if test="standardId != null" >
+        #{standardId,jdbcType=INTEGER},
+      </if>
+      <if test="detailId != null" >
+        #{detailId,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="datas != null" >
+        #{datas,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.assess.AsAccessSelfEvalutionRecord" >
+    update AS_ACCESS_SELF_EVALUTION_RECORD
+    <set >
+      <if test="accessSpecialtyId != null" >
+        access_specialty_id = #{accessSpecialtyId,jdbcType=INTEGER},
+      </if>
+      <if test="standardId != null" >
+        standard_id = #{standardId,jdbcType=INTEGER},
+      </if>
+      <if test="detailId != null" >
+        detail_id = #{detailId,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="datas != null" >
+        datas = #{datas,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.assess.AsAccessSelfEvalutionRecord" >
+    update AS_ACCESS_SELF_EVALUTION_RECORD
+    set access_specialty_id = #{accessSpecialtyId,jdbcType=INTEGER},
+      standard_id = #{standardId,jdbcType=INTEGER},
+      detail_id = #{detailId,jdbcType=INTEGER},
+      score = #{score,jdbcType=DOUBLE},
+      datas = #{datas,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 我是分割线 -->
+  
+  <select id="getRecordByDetailIdAndSpecialtyId" parameterType="java.util.Map" resultMap="BaseResultMap">
+  select * from AS_ACCESS_SELF_EVALUTION_RECORD 
+  where access_specialty_id = #{specialtyId,jdbcType=INTEGER} and detail_id = #{detailId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getAllByParentId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  		select aser.id, access_specialty_id, aser.standard_id, detail_id, aser.score, datas 
+		from AS_ACCESS_SELF_EVALUTION_RECORD aser
+		inner join AS_ACCESS_STANDARD_DETAIL asd on aser.detail_id = asd.id
+		where asd.parent_id = #{parentId,jdbcType=INTEGER}
+		and access_specialty_id = #{specialtyId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getScoreByDetailAndYear" parameterType="java.util.Map" resultType="java.util.Map">
+  select sp.access_id,sp.id,sp.academy_name,sp.specialty_name,re.score,sd.score as totalScore
+	from AS_ACCESS_SPECIALTY sp
+	left join AS_ACCESS_SELF_EVALUTION_RECORD re on sp.id = re.access_specialty_id
+	and re.detail_id =#{detailId,jdbcType=INTEGER}
+	left join AS_ACCESS_STANDARD_DETAIL sd on sd.id = re.detail_id
+	left join AS_ACCESS_INFO ai on ai.id = sp.access_id
+	where sp.participate_type=1 and ai.access_year = #{year,jdbcType=VARCHAR}
+  </select>
+</mapper>

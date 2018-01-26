@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.OdsTTeachMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.ods.OdsTTeach" >
+    <result column="TEACHER_ID" property="teacherId" jdbcType="NVARCHAR" />
+    <result column="TEACHER_NUM" property="teacherNum" jdbcType="NVARCHAR" />
+    <result column="TEACHER_NAME" property="teacherName" jdbcType="NVARCHAR" />
+    <result column="GENDER_NAME" property="genderName" jdbcType="NVARCHAR" />
+    <result column="BIRTHDAY_TIME" property="birthdayTime" jdbcType="NVARCHAR" />
+    <result column="POLITICAL_NAME" property="politicalName" jdbcType="NVARCHAR" />
+    <result column="NATIVE_PLACE" property="nativePlace" jdbcType="NVARCHAR" />
+    <result column="COUNTRY_NAME" property="countryName" jdbcType="NVARCHAR" />
+    <result column="NATION_NAME" property="nationName" jdbcType="NVARCHAR" />
+    <result column="JOIN_TIME" property="joinTime" jdbcType="NVARCHAR" />
+    <result column="EDUCATION_ID" property="educationId" jdbcType="INTEGER" />
+    <result column="EDUCATION_NAME" property="educationName" jdbcType="NVARCHAR" />
+    <result column="DEGREE_ID" property="degreeId" jdbcType="INTEGER" />
+    <result column="DEGREE_NAME" property="degreeName" jdbcType="NVARCHAR" />
+    <result column="EDUCATION_COUNTRY_NAME" property="educationCountryName" jdbcType="NVARCHAR" />
+    <result column="PROFESSION_ID" property="professionId" jdbcType="NVARCHAR" />
+    <result column="PROFESSION_NAME" property="professionName" jdbcType="NVARCHAR" />
+    <result column="SUBJECT" property="subject" jdbcType="NVARCHAR" />
+    <result column="POSITION" property="position" jdbcType="NVARCHAR" />
+    <result column="TRANK" property="trank" jdbcType="NVARCHAR" />
+    <result column="DEPARTMENT_ID" property="departmentId" jdbcType="NVARCHAR" />
+    <result column="DEPARTMENT_NAME" property="departmentName" jdbcType="NVARCHAR" />
+    <result column="BIANZHI" property="bianzhi" jdbcType="NVARCHAR" />
+    <result column="STATUS" property="status" jdbcType="NVARCHAR" />
+    <result column="WORK_TYPE" property="workType" jdbcType="NVARCHAR" />
+    <result column="TEACH_TYPE" property="teachType" jdbcType="NVARCHAR" />
+    <result column="PATY" property="paty" jdbcType="NVARCHAR" />
+    <result column="PATY_TIME" property="patyTime" jdbcType="NVARCHAR" />
+    <result column="WORK_TIME" property="workTime" jdbcType="NVARCHAR" />
+    <result column="LAST_SCHOOL" property="lastSchool" jdbcType="NVARCHAR" />
+    <result column="LAST_TIME" property="lastTime" jdbcType="NVARCHAR" />
+    <result column="TPROFESSION_NAME" property="tprofessionName" jdbcType="NVARCHAR" />
+    <result column="TSUBJECT" property="tsubject" jdbcType="NVARCHAR" />
+    <result column="PROMOTE_TIME" property="promoteTime" jdbcType="NVARCHAR" />
+    <result column="GO_ABROAD" property="goAbroad" jdbcType="NVARCHAR" />
+    <result column="GO_SCHOOL" property="goSchool" jdbcType="NVARCHAR" />
+    <result column="GO_TIME" property="goTime" jdbcType="NVARCHAR" />
+    <result column="BACK_TIME" property="backTime" jdbcType="NVARCHAR" />
+    <result column="OUT_TIME" property="outTime" jdbcType="NVARCHAR" />
+    <result column="GO_TYPE" property="goType" jdbcType="NVARCHAR" />
+    <result column="FEDUCATION" property="feducation" jdbcType="NVARCHAR" />
+    <result column="FDEGREE" property="fdegree" jdbcType="NVARCHAR" />
+    <result column="SCHOOLID" property="schoolid" jdbcType="NVARCHAR" />
+    <result column="CNAME" property="cname" jdbcType="NVARCHAR" />
+    <result column="RNAME" property="rname" jdbcType="NVARCHAR" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="insert_version" property="insertVersion" jdbcType="NVARCHAR" />
+    <result column="ID" property="id" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="DATA_STATUS" property="dataStatus" jdbcType="INTEGER" />
+  </resultMap>
+  <insert id="insert" parameterType="audit.model.ods.OdsTTeach" useGeneratedKeys="true" keyProperty="id">
+    insert into ODS_T_TEACH (TEACHER_ID, TEACHER_NUM, TEACHER_NAME, 
+      GENDER_NAME, BIRTHDAY_TIME, POLITICAL_NAME, 
+      NATIVE_PLACE, COUNTRY_NAME, NATION_NAME, 
+      JOIN_TIME, EDUCATION_ID, EDUCATION_NAME, 
+      DEGREE_ID, DEGREE_NAME, EDUCATION_COUNTRY_NAME, 
+      PROFESSION_ID, PROFESSION_NAME, SUBJECT, 
+      POSITION, TRANK, DEPARTMENT_ID, 
+      DEPARTMENT_NAME, BIANZHI, STATUS, 
+      WORK_TYPE, TEACH_TYPE, PATY, 
+      PATY_TIME, WORK_TIME, LAST_SCHOOL, 
+      LAST_TIME, TPROFESSION_NAME, TSUBJECT, 
+      PROMOTE_TIME, GO_ABROAD, GO_SCHOOL, 
+      GO_TIME, BACK_TIME, OUT_TIME, 
+      GO_TYPE, FEDUCATION, FDEGREE, 
+      SCHOOLID, CNAME, RNAME, 
+      userid, insert_version, ID, 
+      state, insert_time, DATA_STATUS
+      )
+    values (#{teacherId,jdbcType=NVARCHAR}, #{teacherNum,jdbcType=NVARCHAR}, #{teacherName,jdbcType=NVARCHAR}, 
+      #{genderName,jdbcType=NVARCHAR}, #{birthdayTime,jdbcType=NVARCHAR}, #{politicalName,jdbcType=NVARCHAR}, 
+      #{nativePlace,jdbcType=NVARCHAR}, #{countryName,jdbcType=NVARCHAR}, #{nationName,jdbcType=NVARCHAR}, 
+      #{joinTime,jdbcType=NVARCHAR}, #{educationId,jdbcType=INTEGER}, #{educationName,jdbcType=NVARCHAR}, 
+      #{degreeId,jdbcType=INTEGER}, #{degreeName,jdbcType=NVARCHAR}, #{educationCountryName,jdbcType=NVARCHAR}, 
+      #{professionId,jdbcType=NVARCHAR}, #{professionName,jdbcType=NVARCHAR}, #{subject,jdbcType=NVARCHAR}, 
+      #{position,jdbcType=NVARCHAR}, #{trank,jdbcType=NVARCHAR}, #{departmentId,jdbcType=NVARCHAR}, 
+      #{departmentName,jdbcType=NVARCHAR}, #{bianzhi,jdbcType=NVARCHAR}, #{status,jdbcType=NVARCHAR}, 
+      #{workType,jdbcType=NVARCHAR}, #{teachType,jdbcType=NVARCHAR}, #{paty,jdbcType=NVARCHAR}, 
+      #{patyTime,jdbcType=NVARCHAR}, #{workTime,jdbcType=NVARCHAR}, #{lastSchool,jdbcType=NVARCHAR}, 
+      #{lastTime,jdbcType=NVARCHAR}, #{tprofessionName,jdbcType=NVARCHAR}, #{tsubject,jdbcType=NVARCHAR}, 
+      #{promoteTime,jdbcType=NVARCHAR}, #{goAbroad,jdbcType=NVARCHAR}, #{goSchool,jdbcType=NVARCHAR}, 
+      #{goTime,jdbcType=NVARCHAR}, #{backTime,jdbcType=NVARCHAR}, #{outTime,jdbcType=NVARCHAR}, 
+      #{goType,jdbcType=NVARCHAR}, #{feducation,jdbcType=NVARCHAR}, #{fdegree,jdbcType=NVARCHAR}, 
+      #{schoolid,jdbcType=NVARCHAR}, #{cname,jdbcType=NVARCHAR}, #{rname,jdbcType=NVARCHAR}, 
+      #{userid,jdbcType=INTEGER}, #{insertVersion,jdbcType=NVARCHAR}, #{id,jdbcType=INTEGER}, 
+      #{state,jdbcType=INTEGER}, #{insertTime,jdbcType=TIMESTAMP}, #{dataStatus,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.ods.OdsTTeach" useGeneratedKeys="true" keyProperty="id">
+    insert into ODS_T_TEACH
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="teacherId != null" >
+        TEACHER_ID,
+      </if>
+      <if test="teacherNum != null" >
+        TEACHER_NUM,
+      </if>
+      <if test="teacherName != null" >
+        TEACHER_NAME,
+      </if>
+      <if test="genderName != null" >
+        GENDER_NAME,
+      </if>
+      <if test="birthdayTime != null" >
+        BIRTHDAY_TIME,
+      </if>
+      <if test="politicalName != null" >
+        POLITICAL_NAME,
+      </if>
+      <if test="nativePlace != null" >
+        NATIVE_PLACE,
+      </if>
+      <if test="countryName != null" >
+        COUNTRY_NAME,
+      </if>
+      <if test="nationName != null" >
+        NATION_NAME,
+      </if>
+      <if test="joinTime != null" >
+        JOIN_TIME,
+      </if>
+      <if test="educationId != null" >
+        EDUCATION_ID,
+      </if>
+      <if test="educationName != null" >
+        EDUCATION_NAME,
+      </if>
+      <if test="degreeId != null" >
+        DEGREE_ID,
+      </if>
+      <if test="degreeName != null" >
+        DEGREE_NAME,
+      </if>
+      <if test="educationCountryName != null" >
+        EDUCATION_COUNTRY_NAME,
+      </if>
+      <if test="professionId != null" >
+        PROFESSION_ID,
+      </if>
+      <if test="professionName != null" >
+        PROFESSION_NAME,
+      </if>
+      <if test="subject != null" >
+        SUBJECT,
+      </if>
+      <if test="position != null" >
+        POSITION,
+      </if>
+      <if test="trank != null" >
+        TRANK,
+      </if>
+      <if test="departmentId != null" >
+        DEPARTMENT_ID,
+      </if>
+      <if test="departmentName != null" >
+        DEPARTMENT_NAME,
+      </if>
+      <if test="bianzhi != null" >
+        BIANZHI,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="workType != null" >
+        WORK_TYPE,
+      </if>
+      <if test="teachType != null" >
+        TEACH_TYPE,
+      </if>
+      <if test="paty != null" >
+        PATY,
+      </if>
+      <if test="patyTime != null" >
+        PATY_TIME,
+      </if>
+      <if test="workTime != null" >
+        WORK_TIME,
+      </if>
+      <if test="lastSchool != null" >
+        LAST_SCHOOL,
+      </if>
+      <if test="lastTime != null" >
+        LAST_TIME,
+      </if>
+      <if test="tprofessionName != null" >
+        TPROFESSION_NAME,
+      </if>
+      <if test="tsubject != null" >
+        TSUBJECT,
+      </if>
+      <if test="promoteTime != null" >
+        PROMOTE_TIME,
+      </if>
+      <if test="goAbroad != null" >
+        GO_ABROAD,
+      </if>
+      <if test="goSchool != null" >
+        GO_SCHOOL,
+      </if>
+      <if test="goTime != null" >
+        GO_TIME,
+      </if>
+      <if test="backTime != null" >
+        BACK_TIME,
+      </if>
+      <if test="outTime != null" >
+        OUT_TIME,
+      </if>
+      <if test="goType != null" >
+        GO_TYPE,
+      </if>
+      <if test="feducation != null" >
+        FEDUCATION,
+      </if>
+      <if test="fdegree != null" >
+        FDEGREE,
+      </if>
+      <if test="schoolid != null" >
+        SCHOOLID,
+      </if>
+      <if test="cname != null" >
+        CNAME,
+      </if>
+      <if test="rname != null" >
+        RNAME,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="insertVersion != null" >
+        insert_version,
+      </if>
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="insertTime != null" >
+        insert_time,
+      </if>
+      <if test="dataStatus != null" >
+        DATA_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="teacherId != null" >
+        #{teacherId,jdbcType=NVARCHAR},
+      </if>
+      <if test="teacherNum != null" >
+        #{teacherNum,jdbcType=NVARCHAR},
+      </if>
+      <if test="teacherName != null" >
+        #{teacherName,jdbcType=NVARCHAR},
+      </if>
+      <if test="genderName != null" >
+        #{genderName,jdbcType=NVARCHAR},
+      </if>
+      <if test="birthdayTime != null" >
+        #{birthdayTime,jdbcType=NVARCHAR},
+      </if>
+      <if test="politicalName != null" >
+        #{politicalName,jdbcType=NVARCHAR},
+      </if>
+      <if test="nativePlace != null" >
+        #{nativePlace,jdbcType=NVARCHAR},
+      </if>
+      <if test="countryName != null" >
+        #{countryName,jdbcType=NVARCHAR},
+      </if>
+      <if test="nationName != null" >
+        #{nationName,jdbcType=NVARCHAR},
+      </if>
+      <if test="joinTime != null" >
+        #{joinTime,jdbcType=NVARCHAR},
+      </if>
+      <if test="educationId != null" >
+        #{educationId,jdbcType=INTEGER},
+      </if>
+      <if test="educationName != null" >
+        #{educationName,jdbcType=NVARCHAR},
+      </if>
+      <if test="degreeId != null" >
+        #{degreeId,jdbcType=INTEGER},
+      </if>
+      <if test="degreeName != null" >
+        #{degreeName,jdbcType=NVARCHAR},
+      </if>
+      <if test="educationCountryName != null" >
+        #{educationCountryName,jdbcType=NVARCHAR},
+      </if>
+      <if test="professionId != null" >
+        #{professionId,jdbcType=NVARCHAR},
+      </if>
+      <if test="professionName != null" >
+        #{professionName,jdbcType=NVARCHAR},
+      </if>
+      <if test="subject != null" >
+        #{subject,jdbcType=NVARCHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=NVARCHAR},
+      </if>
+      <if test="trank != null" >
+        #{trank,jdbcType=NVARCHAR},
+      </if>
+      <if test="departmentId != null" >
+        #{departmentId,jdbcType=NVARCHAR},
+      </if>
+      <if test="departmentName != null" >
+        #{departmentName,jdbcType=NVARCHAR},
+      </if>
+      <if test="bianzhi != null" >
+        #{bianzhi,jdbcType=NVARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=NVARCHAR},
+      </if>
+      <if test="workType != null" >
+        #{workType,jdbcType=NVARCHAR},
+      </if>
+      <if test="teachType != null" >
+        #{teachType,jdbcType=NVARCHAR},
+      </if>
+      <if test="paty != null" >
+        #{paty,jdbcType=NVARCHAR},
+      </if>
+      <if test="patyTime != null" >
+        #{patyTime,jdbcType=NVARCHAR},
+      </if>
+      <if test="workTime != null" >
+        #{workTime,jdbcType=NVARCHAR},
+      </if>
+      <if test="lastSchool != null" >
+        #{lastSchool,jdbcType=NVARCHAR},
+      </if>
+      <if test="lastTime != null" >
+        #{lastTime,jdbcType=NVARCHAR},
+      </if>
+      <if test="tprofessionName != null" >
+        #{tprofessionName,jdbcType=NVARCHAR},
+      </if>
+      <if test="tsubject != null" >
+        #{tsubject,jdbcType=NVARCHAR},
+      </if>
+      <if test="promoteTime != null" >
+        #{promoteTime,jdbcType=NVARCHAR},
+      </if>
+      <if test="goAbroad != null" >
+        #{goAbroad,jdbcType=NVARCHAR},
+      </if>
+      <if test="goSchool != null" >
+        #{goSchool,jdbcType=NVARCHAR},
+      </if>
+      <if test="goTime != null" >
+        #{goTime,jdbcType=NVARCHAR},
+      </if>
+      <if test="backTime != null" >
+        #{backTime,jdbcType=NVARCHAR},
+      </if>
+      <if test="outTime != null" >
+        #{outTime,jdbcType=NVARCHAR},
+      </if>
+      <if test="goType != null" >
+        #{goType,jdbcType=NVARCHAR},
+      </if>
+      <if test="feducation != null" >
+        #{feducation,jdbcType=NVARCHAR},
+      </if>
+      <if test="fdegree != null" >
+        #{fdegree,jdbcType=NVARCHAR},
+      </if>
+      <if test="schoolid != null" >
+        #{schoolid,jdbcType=NVARCHAR},
+      </if>
+      <if test="cname != null" >
+        #{cname,jdbcType=NVARCHAR},
+      </if>
+      <if test="rname != null" >
+        #{rname,jdbcType=NVARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="insertVersion != null" >
+        #{insertVersion,jdbcType=NVARCHAR},
+      </if>
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dataStatus != null" >
+        #{dataStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="getYears" resultType="java.util.Map">
+  select insert_version from ODS_T_TEACH group by insert_version
+  </select>
+    <select id="getOrgs" resultType="java.util.Map">
+select DEPARTMENT_ID,DEPARTMENT_NAME from ODS_T_TEACH group by DEPARTMENT_ID,DEPARTMENT_NAME
+  </select>
+</mapper>

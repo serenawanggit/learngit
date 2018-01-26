@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsAccessSiteCheckReportMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.assess.AsAccessSiteCheckReport" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="access_spcialty_id" property="accessSpcialtyId" jdbcType="INTEGER" />
+    <result column="node_name" property="nodeName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="audit.model.assess.AsAccessSiteCheckReport" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, access_spcialty_id, node_name
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from AS_ACCESS_SITE_CHECK_REPORT
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from AS_ACCESS_SITE_CHECK_REPORT
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.assess.AsAccessSiteCheckReport" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ACCESS_SITE_CHECK_REPORT (id, access_spcialty_id, node_name, 
+      content)
+    values (#{id,jdbcType=INTEGER}, #{accessSpcialtyId,jdbcType=INTEGER}, #{nodeName,jdbcType=VARCHAR}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.assess.AsAccessSiteCheckReport" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ACCESS_SITE_CHECK_REPORT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="accessSpcialtyId != null" >
+        access_spcialty_id,
+      </if>
+      <if test="nodeName != null" >
+        node_name,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="accessSpcialtyId != null" >
+        #{accessSpcialtyId,jdbcType=INTEGER},
+      </if>
+      <if test="nodeName != null" >
+        #{nodeName,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.assess.AsAccessSiteCheckReport" >
+    update AS_ACCESS_SITE_CHECK_REPORT
+    <set >
+      <if test="accessSpcialtyId != null" >
+        access_spcialty_id = #{accessSpcialtyId,jdbcType=INTEGER},
+      </if>
+      <if test="nodeName != null" >
+        node_name = #{nodeName,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="audit.model.assess.AsAccessSiteCheckReport" >
+    update AS_ACCESS_SITE_CHECK_REPORT
+    set access_spcialty_id = #{accessSpcialtyId,jdbcType=INTEGER},
+      node_name = #{nodeName,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.assess.AsAccessSiteCheckReport" >
+    update AS_ACCESS_SITE_CHECK_REPORT
+    set access_spcialty_id = #{accessSpcialtyId,jdbcType=INTEGER},
+      node_name = #{nodeName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 我是分割线 -->
+  <select id="selectByAccessSpecialtyId" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+      select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from AS_ACCESS_SITE_CHECK_REPORT
+    where access_spcialty_id = #{accessSpcialtyId,jdbcType=INTEGER}
+  </select>
+</mapper>

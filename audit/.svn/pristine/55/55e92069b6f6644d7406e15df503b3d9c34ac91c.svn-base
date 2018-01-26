@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.OdsTTeachTaskMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.ods.OdsTTeachTask" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="SYEAR" property="syear" jdbcType="VARCHAR" />
+    <result column="academe_id" property="academeId" jdbcType="VARCHAR" />
+    <result column="additional_user_id" property="additionalUserId" jdbcType="INTEGER" />
+    <result column="additional_template_id" property="additionalTemplateId" jdbcType="INTEGER" />
+    <result column="org_check_user_id" property="orgCheckUserId" jdbcType="INTEGER" />
+    <result column="col_check_user_id" property="colCheckUserId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, SYEAR, academe_id, additional_user_id, additional_template_id, org_check_user_id, 
+    col_check_user_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ODS_T_TEACH_TASK
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ODS_T_TEACH_TASK
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.ods.OdsTTeachTask" useGeneratedKeys="true" keyProperty="Id">
+    insert into ODS_T_TEACH_TASK (Id, SYEAR, academe_id, 
+      additional_user_id, additional_template_id, 
+      org_check_user_id, col_check_user_id)
+    values (#{id,jdbcType=INTEGER}, #{syear,jdbcType=VARCHAR}, #{academeId,jdbcType=VARCHAR}, 
+      #{additionalUserId,jdbcType=INTEGER}, #{additionalTemplateId,jdbcType=INTEGER}, 
+      #{orgCheckUserId,jdbcType=INTEGER}, #{colCheckUserId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.ods.OdsTTeachTask" useGeneratedKeys="true" keyProperty="Id">
+    insert into ODS_T_TEACH_TASK
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="syear != null" >
+        SYEAR,
+      </if>
+      <if test="academeId != null" >
+        academe_id,
+      </if>
+      <if test="additionalUserId != null" >
+        additional_user_id,
+      </if>
+      <if test="additionalTemplateId != null" >
+        additional_template_id,
+      </if>
+      <if test="orgCheckUserId != null" >
+        org_check_user_id,
+      </if>
+      <if test="colCheckUserId != null" >
+        col_check_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="syear != null" >
+        #{syear,jdbcType=VARCHAR},
+      </if>
+      <if test="academeId != null" >
+        #{academeId,jdbcType=VARCHAR},
+      </if>
+      <if test="additionalUserId != null" >
+        #{additionalUserId,jdbcType=INTEGER},
+      </if>
+      <if test="additionalTemplateId != null" >
+        #{additionalTemplateId,jdbcType=INTEGER},
+      </if>
+      <if test="orgCheckUserId != null" >
+        #{orgCheckUserId,jdbcType=INTEGER},
+      </if>
+      <if test="colCheckUserId != null" >
+        #{colCheckUserId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.ods.OdsTTeachTask" >
+    update ODS_T_TEACH_TASK
+    <set >
+      <if test="syear != null and syear !=''" >
+        SYEAR = #{syear,jdbcType=VARCHAR},
+      </if>
+      <if test="academeId != null and academeId !=''" >
+        academe_id = #{academeId,jdbcType=VARCHAR},
+      </if>
+      <if test="additionalUserId != null" >
+        additional_user_id = #{additionalUserId,jdbcType=INTEGER},
+      </if>
+      <if test="additionalTemplateId != null" >
+        additional_template_id = #{additionalTemplateId,jdbcType=INTEGER},
+      </if>
+      <if test="orgCheckUserId != null" >
+        org_check_user_id = #{orgCheckUserId,jdbcType=INTEGER},
+      </if>
+      <if test="colCheckUserId != null" >
+        col_check_user_id = #{colCheckUserId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.ods.OdsTTeachTask" >
+    update ODS_T_TEACH_TASK
+    set SYEAR = #{syear,jdbcType=VARCHAR},
+      academe_id = #{academeId,jdbcType=VARCHAR},
+      additional_user_id = #{additionalUserId,jdbcType=INTEGER},
+      additional_template_id = #{additionalTemplateId,jdbcType=INTEGER},
+      org_check_user_id = #{orgCheckUserId,jdbcType=INTEGER},
+      col_check_user_id = #{colCheckUserId,jdbcType=INTEGER}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  
+    <!-- 我是分割线 -->
+    <select id="selectCountByQuery" parameterType="audit.model.ods.OdsTTeachTask" resultType="java.lang.Integer">
+select count(*)
+from ODS_T_TEACH_TASK ott 
+left join organization org on org.code = ott.academe_id
+left join userinfo u1 on u1.id = ott.additional_user_id
+left join userinfo u2 on u2.id = ott.org_check_user_id
+left join userinfo u3 on u3.id = ott.col_check_user_id
+<include refid="sql_where_query"></include>
+  </select>
+  
+  <sql id="sql_where_query">
+  	<where>
+		<if test="data.syear != null and data.syear !=''" >
+        and SYEAR = #{data.syear,jdbcType=VARCHAR}
+      </if>
+      <if test="data.academeId != null and data.academeId !=''" >
+        and academe_id = #{data.academeId,jdbcType=VARCHAR}
+      </if>
+  	</where>
+  </sql>
+  
+  <select id="selectByQuery" parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT * FROM(
+    SELECT TOP (#{endIndex,jdbcType=INTEGER}) ROW_NUMBER() OVER(ORDER BY ott.ID ASC) AS ROWID,
+    ott.Id,ott.SYEAR,org.name,u1.showname as additional_user,u2.showname as org_check_user,
+u3.showname as col_check_user,temp.standard_templatename as tempName
+from ODS_T_TEACH_TASK ott 
+left join organization org on org.code = ott.academe_id
+left join ODS_T_TEACH_TEMPLATENAME temp on temp.Id = ott.additional_template_id
+left join userinfo u1 on u1.id = ott.additional_user_id
+left join userinfo u2 on u2.id = ott.org_check_user_id
+left join userinfo u3 on u3.id = ott.col_check_user_id
+<include refid="sql_where_query"></include>) AS TEMP1 
+	 where ROWID > #{startIndex,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByYearAndOrg" parameterType="java.util.Map" resultMap="BaseResultMap">
+      select 
+    <include refid="Base_Column_List" />
+    from ODS_T_TEACH_TASK
+    where SYEAR = #{syear,jdbcType=VARCHAR} and academe_id = #{academeId,jdbcType=VARCHAR}
+  </select>
+  
+    
+   <select id="selectByAddUserid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ODS_T_TEACH_TASK
+    where additional_user_id = #{0}
+  </select>
+  
+  <select id="findByOrgCheckUserId" resultMap="BaseResultMap" >
+     select * from ODS_T_TEACH_TASK where org_check_user_id =#{0}
+  </select>
+  
+    <select id="findByColCheckUserId" resultMap="BaseResultMap" >
+      select * from ODS_T_TEACH_TASK where col_check_user_id =#{0}
+    </select>
+</mapper>

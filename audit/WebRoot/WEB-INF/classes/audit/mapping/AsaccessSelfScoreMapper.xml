@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsaccessSelfScoreMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.assess.AsaccessSelfScore" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="OPINION_ID" property="opinionId" jdbcType="INTEGER" />
+    <result column="ACCESS_SELF_SCORE" property="accessSelfScore" jdbcType="VARCHAR" />
+    <result column="ACCESS_SELF_ID" property="accessSelfId" jdbcType="INTEGER" />
+    <result column="ACCESS_ELABORATED" property="accessElaborated" jdbcType="INTEGER" />
+    <result column="SCORE_OPINION_ID" property="scoreOpinionId" jdbcType="INTEGER" />
+  </resultMap>
+  <insert id="insertSelfScore" parameterType="audit.model.assess.AsaccessSelfScore" >
+     insert into AS_ACCESS_SELF_SCORE values(
+     #{0,jdbcType=INTEGER},
+     #{1,jdbcType=VARCHAR},
+     #{2,jdbcType=INTEGER},
+     #{3,jdbcType=INTEGER},
+     #{4,jdbcType=INTEGER});
+  </insert>
+   <update id="updateSelfScore" parameterType="audit.model.assess.AsaccessSelfScore">
+       update AS_ACCESS_SELF_SCORE set ACCESS_SELF_SCORE=#{0},ACCESS_ELABORATED=#{1} 
+          where OPINION_ID=#{2} and SCORE_OPINION_ID=#{3}
+     	
+   </update>
+   <select id="findAllUserByComment" resultType="java.util.Map">
+      select distinct a.user_id , a.user_type,a.user_name, b.specialty_id,b.specialty_name ,b.default_standart_id from AS_ACCESS_USER  a
+	     left join  AS_ACCESS_SPECIALTY b on a.user_group_id= b.user_group_id
+	     left join AS_ACCESS_INFO c on c.id=b.access_id
+         where b.specialty_id=#{0} and user_type=2 and c.access_year=#{1}
+   </select>
+</mapper>

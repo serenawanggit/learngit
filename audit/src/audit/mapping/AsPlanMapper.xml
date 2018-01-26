@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsPlanMapper">
+	<resultMap id="BaseResultMap" type="audit.model.AsPlan">
+		<id column="pid" property="id" jdbcType="INTEGER" />
+		<result column="mid" property="mid" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="no" property="no" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="isrelate" property="isrelate" jdbcType="INTEGER"/>
+		<result column="scid" property="scid" jdbcType="INTEGER" />
+		<!-- 支撑材料 -->
+		<collection property="supportfiles" javaType="java.util.ArrayList" column="pid" ofType="audit.model.Support_File">    
+           <id column="sid" property="id" jdbcType="INTEGER" />
+		   <result column="filename" property="filename" jdbcType="VARCHAR" />
+		   <result column="dir" property="dir" jdbcType="VARCHAR" />
+		   <result column="uploader" property="uploader" jdbcType="INTEGER" />
+		   <result column="uploadername" property="uploadername" jdbcType="VARCHAR" />
+		   <result column="uploadtime" property="uploadtime" jdbcType="TIMESTAMP" />
+		   <result column="flag" property="flag" jdbcType="INTEGER" />
+		   <result column="status" property="status" jdbcType="INTEGER" />
+		   <result column="pid" property="pid" jdbcType="INTEGER"/>
+        </collection>  
+        <!-- 考察重点 -->
+        <collection property="inspectpoints" column="pid" javaType="java.util.ArrayList" ofType="audit.model.AsPinspectpoint">    
+           <id column="iid" property="id" jdbcType="INTEGER" />
+		   <result column="title" property="title" jdbcType="VARCHAR" />
+		   <result column="icontent" property="icontent" jdbcType="VARCHAR" />
+		   <result column="pid" property="pid" jdbcType="INTEGER"/>
+        </collection>  
+        <!-- 关联项目 -->
+        <collection property="relevanceItem" column="pid" javaType="java.util.ArrayList" ofType="audit.model.AsPRelevanceItem">    
+           <id column="rid" property="rid" jdbcType="INTEGER" />
+		   <result column="pid" property="pid" jdbcType="INTEGER"/>
+		   <result column="rpid" property="rpid" jdbcType="INTEGER"/>
+		   <result column="rvid" property="rvid" jdbcType="INTEGER"/>
+		   
+		   <result column="rpname" property="rpname" jdbcType="VARCHAR"/>
+		   <result column="rvqname" property="rvqname" jdbcType="VARCHAR"/>
+        </collection>
+        <!-- 观测指标 -->
+        <collection property="viewQuota" column="pid" javaType="java.util.ArrayList" ofType="audit.model.AsPViewQuota">    
+           <id column="vid" property="vid" jdbcType="INTEGER" />
+		   <result column="pid" property="pid" jdbcType="INTEGER"/>
+		   <result column="qid" property="qid" jdbcType="INTEGER"/>
+		   <result column="qname" property="qname" jdbcType="VARCHAR"/>
+		   <result column="qcategory" property="qcategory" jdbcType="VARCHAR"/>
+		   <result column="qtype" property="qtype" jdbcType="VARCHAR"/>
+        </collection>
+	</resultMap>
+	
+	<!-- 查询所有数据 -->
+	<select id="selectAllPlan" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		SELECT P.PID,P.NAME,P.NO,P.CONTENT,P.DESCRIPTION,P.ISRELATE,
+		S.SID,S.FILENAME,S.DIR,S.UPLOADER,S.UPLOADERNAME,S.UPLOADTIME,S.FLAG,S.STATUS,S.PID,I.IID,I.TITLE,I.CONTENT,I.PID 
+		FROM AS_P_PLAN P 
+		LEFT JOIN AS_P_SUPPORTFILE S ON S.PID = P.PID  
+		LEFT JOIN AS_P_INSPECTPOINT I ON I.PID = P.PID 
+	</select>
+	
+	<!-- 查询所有数据,没有关联的 -->
+	<select id="selectAllPlanNogl" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		SELECT pid,name,no,content,description,isrelate FROM AS_P_PLAN where mid = #{mid}
+	</select>
+	
+	<!-- 查询某个计划 -->
+	<select id="selectAllPlanByPid" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		SELECT * 
+		FROM AS_P_PLAN P 
+		WHERE P.PID = #{id}   
+	</select>
+	
+	<!-- 查询所有的计划根据菜单mid -->
+	<select id="selectAllPlanByMid" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		
+		SELECT P.PID,P.NAME,P.NO,P.CONTENT,P.DESCRIPTION,P.ISRELATE,
+		S.SID,S.FILENAME,S.DIR,S.UPLOADER,S.UPLOADERNAME,S.UPLOADTIME,S.FLAG,S.STATUS,
+		I.IID,I.TITLE,I.iCONTENT,
+		r.rid,r.rpid,r.rvid,
+		(select (zp.no+'  '+zp.name) from AS_P_PLAN zp where zp.pid=r.rpid) rpname,
+		(select zv.QNAME as rvqname from AS_P_VIEWQUOTA zv where zv.VID=r.rvid) rvqname,
+		v.vid,v.QID,v.QNAME,v.QCATEGORY,v.QTYPE
+		FROM AS_P_PLAN P 
+		LEFT JOIN AS_P_SUPPORTFILE S ON S.PID = P.PID 
+		LEFT JOIN AS_P_INSPECTPOINT I ON I.PID = P.PID 
+		left join AS_P_relevance_item r on r.pid = p.pid 
+		left join AS_P_VIEWQUOTA v on v.pid = p.pid 
+		WHERE P.MID = #{mid} 
+		order by p.no asc
+		
+	</select>
+	
+	<!-- 更新计划内容 -->
+	<update id="updateByPrimaryKey" parameterType="audit.model.AsPlan">
+		update AS_P_PLAN
+		set content = #{content,jdbcType=VARCHAR},
+		mid = #{mid,jdbcType=INTEGER},
+		name = #{name,jdbcType=VARCHAR},
+		no = #{no,jdbcType=VARCHAR},
+		description = #{description,jdbcType=VARCHAR},
+		isrelate = #{isrelate,jdbcType=INTEGER},
+		scid= #{scid,jdbcType=INTEGER} 
+		where pid = #{id,jdbcType=INTEGER}
+	</update>
+	 
+	<!-- 查询关联项目 -->
+	<select id="selectGLXMByMid" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		 select v.vid,v.QID,v.QNAME,v.QCATEGORY,v.QTYPE,pr.rpid,pr.pid,p.no,p.name 
+		 from AS_P_VIEWQUOTA v,as_p_plan p ,
+		 (SELECT r.rid,r.pid,r.rpid,r.rvid FROM AS_P_relevance_item r 
+		 WHERE r.pid in (select zp.pid from AS_P_PLAN zp where zp.mid= #{mid}) )as pr 
+		 where v.VID=pr.rvid and pr.rpid=p.pid
+
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insertPlan" parameterType="audit.model.AsPlan">
+		insert into AS_P_PLAN(mid,name,no,content,description,isrelate,scid) 
+		values(#{mid,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},
+		#{no,jdbcType=VARCHAR},#{content,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR},#{isrelate,jdbcType=INTEGER},
+		#{scid,jdbcType=INTEGER})
+	</insert>
+	
+	<!-- 查询 no(编号) 最大的-->
+	<select id="findMaxNo" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		select MAX(no) no from AS_P_PLAN 
+	</select>
+	
+	<!-- 删除方案 -->
+	<delete id="deleteByPid" parameterType="java.lang.Integer">
+		delete from AS_P_PLAN
+		where pid = #{pid,jdbcType=INTEGER}
+		
+		delete from AS_P_SUPPORTFILE
+		where pid = #{pid,jdbcType=INTEGER}
+		
+		delete from AS_P_VIEWQUOTA
+		where pid = #{pid,jdbcType=INTEGER}
+		
+		delete from AS_P_INSPECTPOINT
+		where pid = #{pid,jdbcType=INTEGER}
+		
+		delete from AS_P_relevance_item
+		where pid = #{pid,jdbcType=INTEGER} or rpid = #{pid,jdbcType=INTEGER}
+	</delete>
+	
+</mapper>

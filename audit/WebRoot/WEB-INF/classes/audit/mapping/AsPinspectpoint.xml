@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsPinspectpointMapper">
+	<resultMap id="BaseResultMap" type="audit.model.AsPinspectpoint">
+		<id column="iid" property="id" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="pid" property="pid" jdbcType="INTEGER"/>
+	</resultMap>
+	
+	<!-- 查询所有数据 -->
+	<select id="selectAll_data" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		SELECT * FROM AS_P_INSPECTPOINT
+	</select>
+	
+	<!-- 查询单个考察重点 -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		iid,title,icontent,pid
+		from AS_P_INSPECTPOINT
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<!-- 插入 -->
+	<insert id="insert" parameterType="audit.model.AsPinspectpoint">
+		insert into AS_P_INSPECTPOINT (title,icontent,pid)values (#{title,jdbcType=VARCHAR},#{icontent,jdbcType=VARCHAR},
+			#{pid,jdbcType=INTEGER})
+	</insert>
+	
+	<!-- 根据方案id查询考察重点 -->
+	<select id="findListByPid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select 
+		iid,title,icontent,pid
+		from AS_P_INSPECTPOINT
+		where pid = #{pid}
+	</select>
+	
+	<!-- 删除多个考察重点 -->
+	<delete id="delKczds" parameterType="java.util.List">
+		delete from AS_P_INSPECTPOINT 
+		where iid in 
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+		  #{item}  
+		</foreach>   
+	</delete>
+	
+</mapper>

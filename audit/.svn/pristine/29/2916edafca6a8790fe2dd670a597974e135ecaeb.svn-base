@@ -1,0 +1,31 @@
+#academy_radar_chart{width:800px; height:360px; margin: auto; }
+#evaluationRankingChart{width:1000px; height:450px; margin: auto;}
+
+#speciality_radar_chart{width:650px; height:360px; margin: auto;}
+#speciality_sort_chart{width:870px; height:360px; margin: auto}
+
+.zhankai_fuhao{font-weight:bold; font-size:16px; margin-left: 20px; cursor: pointer; width:10px;}
+
+.td_01{width:65%; text-align: left;}
+.td_02{width:30%; text-align: right;  padding-right: 5%;}
+
+.bj_table{float: left; border:1px solid red; }
+
+.float_left{float: left;}
+
+.shuju_box{ float: left; width:100%;}
+.shuju_head{float: left; width:100%;}
+.shuju_body{ display: block;float: left;width:100%; display: none;}
+.fenlei_title{margin-bottom: 10px;}
+
+.li_tips2{ overflow: auto; height: 365px;}
+
+.shuju_body ul li{margin: 0px; padding: 0px; border: 0px; width:23%; float: left;margin: 0 1% 1% 1%;}
+.shuju_body ul li dl{float: left;width:96%; height:210px;BACKGROUND-COLOR: transparent; overflow-y:auto; SCROLLBAR-FACE-COLOR: EAECEC; SCROLLBAR-HIGHLIGHT-COLOR: EAECEC; SCROLLBAR-SHADOW-COLOR: BLACK; SCROLLBAR-3DLIGHT-COLOR: EAECEC; SCROLLBAR-ARROW-COLOR: EAECEC; SCROLLBAR-TRACK-COLOR: FFFFFF; SCROLLBAR-DARKSHADOW-COLOR: EAECEC}
+.shuju_body ul li dl dt{float: left; width:63%;line-height: 30px;padding-left:1%; }
+.shuju_body ul li dl dd{float: left; width:30%;line-height: 30px;padding-right:6%; text-align: right;}
+
+.xy_top .title span{color:#4A9AD2;cursor:pointer;}
+td{border:solid #c3c3c3; border-width:0px 1px 1px 0px; padding:10px 0px;height:20px}
+table{border:solid #add9c0; border-width:1px 0px 0px 1px;}
+

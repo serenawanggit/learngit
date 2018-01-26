@@ -1,0 +1,51 @@
+@charset "utf-8";
+/*专家网评——专家网评样式表*/
+/*-----------头部div------------*/
+.main-top-li{
+	float: left;
+	width: 250px;
+	height: 50px;
+	font-size: 20px;
+	letter-spacing: 2px;
+	line-height: 50px;
+	margin-left: 90px;
+}
+.main-top-li span{
+	margin-left: 5px;
+	font-size: 21px;
+}
+/*-------------主体div-------------*/
+.main-bottom{
+	width: 104em;
+	min-width: 24em;
+	margin: 1.6em auto;
+}
+/*---主体表格---*/
+.main-bottom table{
+	width:100%;
+	margin: 0 auto;
+	 border-spacing: 0;
+	background-color: #FFFFFF;
+	border:1px solid #BEBEBE;
+	border-radius: 10px; 
+}
+.main-bottom  tr td{
+	border:1px solid #BEBEBE;
+	text-align:center;
+	vertical-align:middle;
+	border-collapse:collapse;
+	font-size: 14px;
+	font-weight: 200;
+}
+.main-bottom th{
+	width: 20%;
+	height:38px;
+	font-size: 16px;
+	border:1px solid #BEBEBE;
+	font-weight: 500;
+	background-color: #DEDEDE;
+}
+.main-bottom td{
+	width: 20%;
+	height:38px;
+}

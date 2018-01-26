@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsAccessStatusMapper" >
+ <resultMap id="StandardInfoMap" type="audit.model.assess.AsAccessInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+ </resultMap>
+ <resultMap id="EstimationModel" type="audit.model.assess.AsAccessStatusEstimationModel">
+      <result column="id1" property="id1" jdbcType="INTEGER" />
+      <result column="id2" property="id2" jdbcType="INTEGER" />
+      <result column="id3" property="id3" jdbcType="INTEGER" />
+      <result column="name1" property="name1" jdbcType="VARCHAR" />
+      <result column="name2" property="name2" jdbcType="VARCHAR" />
+      <result column="name3" property="name3" jdbcType="VARCHAR" /> 
+      <result column="score1" property="score1" jdbcType="INTEGER" />
+      <result column="score2" property="score2" jdbcType="INTEGER" />
+      <result column="score3" property="score3" jdbcType="INTEGER" />   
+ </resultMap>
+  <select id="getSumEstimationData" resultMap="StandardInfoMap" >
+    SELECT id,name FROM	 AS_ACCESS_STANDARD_INFO
+  </select>
+
+      <!-- 该sql不对，应该为查询固定用户，固定评估指标的相关评估分值数据 -->
+  <select id="getSumMingXiData" resultType="java.util.Map">
+  select sp.id as access_specialty_id,
+     sp.specialty_name as sname,sp.academy_name as oname,r.standard_detail_id,r.score,asd.parent_id
+     from AS_ACCESS_SPECIALTY sp 
+     inner join AS_ACCESS_INFO ai on sp.access_id = ai.id
+     and access_year=#{year jdbcType=INTEGER}
+     inner join AS_ACCESS_SITE_CHECK_RECORD r on sp.id = r.access_specialty_id
+     inner join AS_ACCESS_STANDARD_DETAIL asd on r.standard_detail_id = asd.id
+     WHERE sp.default_standart_id=#{estimationId jdbcType=INTEGER} and participate_type=3
+      order by access_specialty_id asc,standard_detail_id asc
+  </select>
+
+  <select id="getSumEstimationModel" resultMap="EstimationModel">
+    select a.id as id1,a.name as name1,a.score as score1, b.id as id2,b.name as name2,b.score as score2, c.id as id3,c.name as name3,c.score as score3  from AS_ACCESS_STANDARD_DETAIL a
+			  left join AS_ACCESS_STANDARD_DETAIL b on a.id=b.parent_id
+			    left join AS_ACCESS_STANDARD_DETAIL c on b.id=c.parent_id
+			 where  a.PARENT_ID=0  and a.standard_id=#{estimationId jdbcType=INTEGER}
+			 order by id1 asc
+  </select>
+  <select id="getStatusEstimationData" resultType="java.util.Map">
+  select s.id,s.academy_name,s.specialty_id, s.specialty_name,s.user_group_id,convert(nvarchar(10),s.start_datetime,120) as start_datetime ,s.participate_type,
+(select top(1) u.user_name from AS_ACCESS_USER u where user_type=1 and u.user_group_id=s.user_group_id) as username,
+  (select top(1) u.user_name from AS_ACCESS_USER u where u.user_type=2 and u.user_group_id=s.user_group_id) as name2,
+(select top(1) u.user_name from AS_ACCESS_USER u where u.user_type=3 and u.user_group_id=s.user_group_id) as name3
+from AS_ACCESS_SPECIALTY s 
+where access_id=(select id from AS_ACCESS_INFO where access_year=#{year jdbcType=INTEGER})
+ order by specialty_id asc,participate_type asc
+  </select>
+  <select id="getYearData"  resultType="java.util.Map">
+  select id, access_year from AS_ACCESS_INFO order by access_year desc
+  </select>
+  <select id="getAnalysisAvgData"  resultType="java.util.Map">
+  select a.id as id1,a.name as name1,a.score as score1,ISNULL((select r.score  from AS_ACCESS_SELF_EVALUTION_RECORD r where standard_id=#{estimationID jdbcType=INTEGER} and access_specialty_id=#{specialityID jdbcType=INTEGER} and r.detail_id= c.id ),0)as score
+  from AS_ACCESS_STANDARD_DETAIL a left join AS_ACCESS_STANDARD_DETAIL b on a.id=b.parent_id	 left join AS_ACCESS_STANDARD_DETAIL c on b.id=c.parent_id
+	 where  a.PARENT_ID=0  and a.standard_id=#{estimationID jdbcType=INTEGER}
+  </select>
+  <select id="getSpecialityData" resultType="java.util.Map">
+  select id,specialty_id,specialty_name from AS_ACCESS_SPECIALTY 
+  WHERE access_id=(SELECT id FROM AS_ACCESS_INFO WHERE access_year=#{year jdbcType=INTEGER})
+  </select>
+</mapper>

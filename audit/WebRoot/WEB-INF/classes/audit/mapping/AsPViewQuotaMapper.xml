@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsPViewQuotaMapper">
+	<resultMap id="BaseResultMap" type="audit.model.AsPViewQuota">
+        <id column="vid" property="vid" jdbcType="INTEGER" />
+		<result column="qid" property="qid" jdbcType="VARCHAR" />
+		<result column="qname" property="qname" jdbcType="VARCHAR" />
+		<result column="qcategory" property="qcategory" jdbcType="VARCHAR" />
+		<result column="qtype" property="qtype" jdbcType="VARCHAR" />
+		<result column="pid" property="pid" jdbcType="INTEGER" />
+		
+		<result column="rpname" property="rpname" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- 插入 -->
+	<insert id="insertViewQuota" parameterType="audit.model.AsPViewQuota">
+		insert into AS_P_VIEWQUOTA(QID,QNAME,QCATEGORY,QTYPE,PID) 
+		values(#{qid,jdbcType=VARCHAR},#{qname,jdbcType=VARCHAR},
+		#{qcategory,jdbcType=VARCHAR},#{qtype,jdbcType=VARCHAR},
+		#{pid,jdbcType=INTEGER})
+	</insert>
+	
+	<!-- 根据方案ID查询观测指标 -->
+	<select id="findViewQuotaByPid" useCache="false" flushCache="false" resultMap="BaseResultMap">
+		select vid,QID,QNAME,QCATEGORY,QTYPE,PID 
+		from AS_P_VIEWQUOTA where PID=#{pid}
+	</select>
+	
+	<!-- 删除 -->
+	<delete id="deleteByVid" parameterType="java.lang.Integer">
+		delete from AS_P_VIEWQUOTA
+		where vid = #{vid,jdbcType=INTEGER}
+		
+		delete from AS_P_relevance_item
+		where rvid = #{vid,jdbcType=INTEGER}
+	</delete>
+	
+	<!-- 用来定义可重用的sql代码段 -->
+	<sql id="Base_Column_VList">
+	    v.vid,v.QID,v.QNAME,v.QCATEGORY,v.QTYPE,v.PID 
+		,(p.no+'  '+p.name) rpname
+	</sql>
+	
+	<!-- 分页查询 观测指标项 -->
+	<select id="findPageViewQuota" resultMap="BaseResultMap">
+		select top 10 
+		<include refid="Base_Column_VList" />
+		from AS_P_VIEWQUOTA v
+		left join AS_P_PLAN p on p.pid=v.PID
+		where v.QNAME like '%'+ #{parameter1} +'%' 
+		and v.VID not in(
+			select top ${pagestar} v2.VID from AS_P_VIEWQUOTA v2 
+			where v2.QNAME like '%'+ #{parameter1} +'%'
+		)
+	</select>
+	
+	<!-- 根据条件查询count数据条数 -->
+	<select id="findCount" parameterType="java.lang.String" resultType="INTEGER">
+		select count(*)  
+		from AS_P_VIEWQUOTA v
+		left join AS_P_PLAN p on p.pid=v.PID
+		where v.QNAME like '%${_parameter}%'
+	</select>
+</mapper>

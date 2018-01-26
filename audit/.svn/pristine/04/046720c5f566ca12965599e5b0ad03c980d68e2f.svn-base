@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="audit.dao.AsAccessInfoMapper" >
+  <resultMap id="BaseResultMap" type="audit.model.assess.AsAccessInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="access_year" property="accessYear" jdbcType="VARCHAR" />
+    <result column="start_datetime" property="startDatetime" jdbcType="TIMESTAMP" />
+    <result column="end_datetime" property="endDatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, access_year, start_datetime, end_datetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from AS_ACCESS_INFO
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from AS_ACCESS_INFO
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="audit.model.assess.AsAccessInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ACCESS_INFO (id, name, access_year, 
+      start_datetime, end_datetime)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{accessYear,jdbcType=VARCHAR}, 
+      #{startDatetime,jdbcType=TIMESTAMP}, #{endDatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="audit.model.assess.AsAccessInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into AS_ACCESS_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="accessYear != null" >
+        access_year,
+      </if>
+      <if test="startDatetime != null" >
+        start_datetime,
+      </if>
+      <if test="endDatetime != null" >
+        end_datetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="accessYear != null" >
+        #{accessYear,jdbcType=VARCHAR},
+      </if>
+      <if test="startDatetime != null" >
+        #{startDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDatetime != null" >
+        #{endDatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="audit.model.assess.AsAccessInfo" >
+    update AS_ACCESS_INFO
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="accessYear != null" >
+        access_year = #{accessYear,jdbcType=VARCHAR},
+      </if>
+      <if test="startDatetime != null" >
+        start_datetime = #{startDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDatetime != null" >
+        end_datetime = #{endDatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="audit.model.assess.AsAccessInfo" >
+    update AS_ACCESS_INFO
+    set name = #{name,jdbcType=VARCHAR},
+      access_year = #{accessYear,jdbcType=VARCHAR},
+      start_datetime = #{startDatetime,jdbcType=TIMESTAMP},
+      end_datetime = #{endDatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 2015年5月14日 13:20:11 分割   LLP -->
+  <resultMap id="BaseResultMapTack" type="audit.model.assess.tack.AsAssessinfoTack" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="access_year" property="accessYear" jdbcType="VARCHAR" />
+    <result column="start_datetime" property="startDatetime" jdbcType="TIMESTAMP" />
+    <result column="end_datetime" property="endDatetime" jdbcType="TIMESTAMP" />
+    <result column="ziping" property="ziping" jdbcType="INTEGER" />
+    <result column="wangping" property="wangping" jdbcType="INTEGER" />
+    <result column="kaocha" property="kaocha" jdbcType="INTEGER" />
+    <result column="zipingWC" property="zipingWC" jdbcType="INTEGER" />
+    <result column="wangpingWC" property="wangpingWC" jdbcType="INTEGER" />
+    <result column="kaochaWC" property="kaochaWC" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <!-- 专业评估首页 初始化 【 获取参与专业 数量】 Participate in professional number -->
+  <select id="searchchPinByYear" parameterType="java.lang.String" resultMap="BaseResultMap">
+ 	 select	* from AS_ACCESS_INFO where access_year=#{assessYear}
+  </select>
+  <select id="searchPipn" parameterType="Map" resultMap="BaseResultMapTack">
+  	select DISTINCT zypg.*,(select COUNT(*) from AS_ACCESS_SPECIALTY as pgzy  where pgzy.participate_type=1 and pgzy.access_id=#{accessId}) as ziping,
+		(select COUNT(*) from AS_ACCESS_SPECIALTY as pgzy  where pgzy.participate_type=2 and pgzy.access_id=#{accessId}) as wangping,
+		(select COUNT(*) from AS_ACCESS_SPECIALTY as pgzy  where pgzy.participate_type=3 and pgzy.access_id=#{accessId}) as kaocha,
+		(select COUNT(*) from AS_ACCESS_SPECIALTY as pgzy  where pgzy.participate_type=1 and pgzy.access_id=#{accessId} and pgzy.is_complete=1) as zipingWC,   
+	    (select COUNT(*) from AS_ACCESS_SPECIALTY as pgzy  where pgzy.participate_type=2 and pgzy.access_id=#{accessId} and pgzy.is_complete=1) as wangpingWC,   
+	    (select COUNT(*) from AS_ACCESS_SPECIALTY as pgzy  where pgzy.participate_type=3 and pgzy.access_id=#{accessId} and pgzy.is_complete=1) as kaochaWC 
+	from AS_ACCESS_INFO as zypg 
+	left join AS_ACCESS_SPECIALTY aas
+	on aas.access_id= zypg.id where zypg.access_year=#{assessYear}
+  </select>
+  
+  <select id="getAllAccessByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  select access_year,access_id,ai.name,ai.id from AS_ACCESS_INFO ai
+	inner join AS_ACCESS_SPECIALTY as ap on ai.id = ap.access_id
+	inner join AS_ACCESS_USER_GROUP aug on aug.id = ap.user_group_id
+	inner join AS_ACCESS_USER au on au.user_group_id = aug.id
+	where au.user_id=#{userId} group by access_year,access_id,ai.name,ai.id 
+  </select>
+  <!-- 查询所有年份 LLP -->
+  <select id="getAllYear"  resultMap="BaseResultMap">
+  	select access_year from AS_ACCESS_INFO order by access_year desc
+  </select>
+</mapper>
